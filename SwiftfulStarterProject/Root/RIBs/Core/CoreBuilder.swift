@@ -7,18 +7,4 @@ struct CoreBuilder: Builder {
     func build() -> AnyView {
         appView().any()
     }
-    
-    func appView() -> some View {
-        AppView(
-            presenter: AppPresenter(
-                interactor: interactor
-            ),
-            tabbarView: {
-                Text("HI")
-            },
-            onboardingView: {
-                Text("Bye")
-            }
-        )
-    }
 }
