@@ -56,24 +56,6 @@ struct AppView<TabbarView: View, OnboardingView: View>: View {
     }
 }
 
-extension CoreBuilder {
-    
-    func appView() -> some View {
-        AppView(
-            presenter: AppPresenter(
-                interactor: interactor
-            ),
-            tabbarView: {
-                Text("HI")
-            },
-            onboardingView: {
-                Text("Bye")
-            }
-        )
-    }
-
-}
-
 #Preview("AppView - Tabbar") {
     let container = DevPreview.shared.container()
     container.register(AppState.self, service: AppState(showTabBar: true))
@@ -91,4 +73,22 @@ extension CoreBuilder {
 
     return builder.appView()
         .previewEnvironment()
+}
+
+extension CoreBuilder {
+    
+    func appView() -> some View {
+        AppView(
+            presenter: AppPresenter(
+                interactor: interactor
+            ),
+            tabbarView: {
+                Text("HI")
+            },
+            onboardingView: {
+                Text("Bye")
+            }
+        )
+    }
+
 }
