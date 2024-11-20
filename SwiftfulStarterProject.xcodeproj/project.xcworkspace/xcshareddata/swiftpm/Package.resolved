@@ -1,0 +1,312 @@
+{
+  "originHash" : "c174d722afcedb7983c4f58b051c0f6aab43912def55700f7b16ae7555de7f16",
+  "pins" : [
+    {
+      "identity" : "abseil-cpp-binary",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/abseil-cpp-binary.git",
+      "state" : {
+        "revision" : "194a6706acbd25e4ef639bcaddea16e8758a3e27",
+        "version" : "1.2024011602.0"
+      }
+    },
+    {
+      "identity" : "app-check",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/app-check.git",
+      "state" : {
+        "revision" : "61b85103a1aeed8218f17c794687781505fbbef5",
+        "version" : "11.2.0"
+      }
+    },
+    {
+      "identity" : "appauth-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/openid/AppAuth-iOS.git",
+      "state" : {
+        "revision" : "c89ed571ae140f8eb1142735e6e23d7bb8c34cb2",
+        "version" : "1.7.5"
+      }
+    },
+    {
+      "identity" : "firebase-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/firebase/firebase-ios-sdk.git",
+      "state" : {
+        "revision" : "dbdfdc44bee8b8e4eaa5ec27eb12b9338f3f2bc1",
+        "version" : "11.5.0"
+      }
+    },
+    {
+      "identity" : "googleappmeasurement",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/GoogleAppMeasurement.git",
+      "state" : {
+        "revision" : "4f234bcbdae841d7015258fbbf8e7743a39b8200",
+        "version" : "11.4.0"
+      }
+    },
+    {
+      "identity" : "googledatatransport",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/GoogleDataTransport.git",
+      "state" : {
+        "revision" : "617af071af9aa1d6a091d59a202910ac482128f9",
+        "version" : "10.1.0"
+      }
+    },
+    {
+      "identity" : "googlesignin-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/GoogleSignIn-iOS.git",
+      "state" : {
+        "revision" : "65fb3f1aa6ffbfdc79c4e22178a55cd91561f5e9",
+        "version" : "8.0.0"
+      }
+    },
+    {
+      "identity" : "googleutilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/GoogleUtilities.git",
+      "state" : {
+        "revision" : "53156c7ec267db846e6b64c9f4c4e31ba4cf75eb",
+        "version" : "8.0.2"
+      }
+    },
+    {
+      "identity" : "grpc-binary",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/grpc-binary.git",
+      "state" : {
+        "revision" : "f56d8fc3162de9a498377c7b6cea43431f4f5083",
+        "version" : "1.65.1"
+      }
+    },
+    {
+      "identity" : "gtm-session-fetcher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/gtm-session-fetcher.git",
+      "state" : {
+        "revision" : "a2ab612cb980066ee56d90d60d8462992c07f24b",
+        "version" : "3.5.0"
+      }
+    },
+    {
+      "identity" : "gtmappauth",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/GTMAppAuth.git",
+      "state" : {
+        "revision" : "5d7d66f647400952b1758b230e019b07c0b4b22a",
+        "version" : "4.1.1"
+      }
+    },
+    {
+      "identity" : "identifiablebystring",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/IdentifiableByString.git",
+      "state" : {
+        "revision" : "7f4a2fc12758def66e070e772d13db95e1f3afa8",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "interop-ios-for-google-sdks",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/interop-ios-for-google-sdks.git",
+      "state" : {
+        "revision" : "2d12673670417654f08f5f90fdd62926dc3a2648",
+        "version" : "100.0.0"
+      }
+    },
+    {
+      "identity" : "leveldb",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/firebase/leveldb.git",
+      "state" : {
+        "revision" : "a0bc79961d7be727d258d33d5a6b2f1023270ba1",
+        "version" : "1.22.5"
+      }
+    },
+    {
+      "identity" : "mixpanel-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mixpanel/mixpanel-swift.git",
+      "state" : {
+        "revision" : "48d6668ceaaefc338f94e2b084c3cf77b90182f8",
+        "version" : "4.3.0"
+      }
+    },
+    {
+      "identity" : "nanopb",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/firebase/nanopb.git",
+      "state" : {
+        "revision" : "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
+        "version" : "2.30910.0"
+      }
+    },
+    {
+      "identity" : "promises",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/promises.git",
+      "state" : {
+        "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
+        "version" : "2.4.0"
+      }
+    },
+    {
+      "identity" : "purchases-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RevenueCat/purchases-ios.git",
+      "state" : {
+        "revision" : "7b2855bbe96980952c9ebe686df1ead1b38f1f11",
+        "version" : "5.9.0"
+      }
+    },
+    {
+      "identity" : "signinappleasync",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SignInAppleAsync.git",
+      "state" : {
+        "revision" : "ae49d56efb61e6a05a8a79b957235f7d14abe359",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "signingoogleasync",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SignInGoogleAsync.git",
+      "state" : {
+        "revision" : "d7ddd03c74d66e6914fa5a07eaff9f91fb436de5",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swift-protobuf",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-protobuf.git",
+      "state" : {
+        "revision" : "ebc7251dd5b37f627c93698e4374084d98409633",
+        "version" : "1.28.2"
+      }
+    },
+    {
+      "identity" : "swiftfulauthenticating",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulAuthenticating",
+      "state" : {
+        "revision" : "89dbbcd872eb8a080969e516ea4ee5922ed93603",
+        "version" : "1.0.9"
+      }
+    },
+    {
+      "identity" : "swiftfulauthenticatingfirebase",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulAuthenticatingFirebase",
+      "state" : {
+        "revision" : "2401fae49ad0608b9294f27c89b94c21888a41ea",
+        "version" : "1.0.6"
+      }
+    },
+    {
+      "identity" : "swiftfulfirestore",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulFirestore",
+      "state" : {
+        "revision" : "ee5e50d0d20141d9e70ee6141e4c4a39a3145f99",
+        "version" : "11.0.1"
+      }
+    },
+    {
+      "identity" : "swiftfullogging",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulLogging.git",
+      "state" : {
+        "revision" : "f3c9190003ff23b9dc74dc2e4cf3d95c47ef263b",
+        "version" : "1.1.2"
+      }
+    },
+    {
+      "identity" : "swiftfulloggingfirebaseanalytics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulLoggingFirebaseAnalytics",
+      "state" : {
+        "revision" : "ddfd71c66285e4f4a7d2efeef99c79f141504760",
+        "version" : "1.1.3"
+      }
+    },
+    {
+      "identity" : "swiftfulloggingfirebasecrashlytics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulLoggingFirebaseCrashlytics.git",
+      "state" : {
+        "revision" : "59127d5f5e6e508fce49b37a315e52e8a4473385",
+        "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "swiftfulloggingmixpanel",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulLoggingMixpanel",
+      "state" : {
+        "revision" : "ee3aac2ee1d69963e14f8db3a48c96e20abbc5fa",
+        "version" : "1.1.2"
+      }
+    },
+    {
+      "identity" : "swiftfulpurchasing",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulPurchasing",
+      "state" : {
+        "revision" : "106276f84fa17fff0958edebca7a1b8839fa3f9c",
+        "version" : "1.0.6"
+      }
+    },
+    {
+      "identity" : "swiftfulpurchasingrevenuecat",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulPurchasingRevenueCat",
+      "state" : {
+        "revision" : "271643f2174543a4d7a84889c9e402c66dbf9fde",
+        "version" : "1.0.2"
+      }
+    },
+    {
+      "identity" : "swiftfulrecursiveui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulRecursiveUI.git",
+      "state" : {
+        "revision" : "3d2d5ac6efe70874fb5ffb2f8e1d5ccd457f4366",
+        "version" : "1.0.2"
+      }
+    },
+    {
+      "identity" : "swiftfulrouting",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulRouting",
+      "state" : {
+        "revision" : "bf0a8b4628b0e24d60f090b382c15b96329ab92c",
+        "version" : "5.3.6"
+      }
+    },
+    {
+      "identity" : "swiftfului",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulUI",
+      "state" : {
+        "revision" : "7e6e2d1c29d05e1519f2f5a2ce6012fe4e4dfa19",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "swiftfulutilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulUtilities",
+      "state" : {
+        "revision" : "7f0397ce766e0e8d6855f145e3887169b98817b5",
+        "version" : "1.1.5"
+      }
+    }
+  ],
+  "version" : 3
+}

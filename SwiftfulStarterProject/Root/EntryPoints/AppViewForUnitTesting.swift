@@ -1,17 +1,15 @@
 //
-//  SwiftfulStarterProjectApp.swift
+//  AppViewForUnitTesting.swift
 //  SwiftfulStarterProject
 //
 //  Created by Nick Sarno on 11/19/24.
 //
-
 import SwiftUI
 
-@main
-struct SwiftfulStarterProjectApp: App {
+struct AppViewForUnitTesting: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Text("Testing!")
         }
     }
 }
