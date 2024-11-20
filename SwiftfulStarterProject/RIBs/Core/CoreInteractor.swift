@@ -162,7 +162,7 @@ struct CoreInteractor {
     }
     
     func deleteAccount() async throws {
-        let uid = try authManager.getAuthId()
+        let _ = try authManager.getAuthId()
         try await userManager.deleteCurrentUser()
         try await authManager.deleteAccount()
         try await purchaseManager.logOut()

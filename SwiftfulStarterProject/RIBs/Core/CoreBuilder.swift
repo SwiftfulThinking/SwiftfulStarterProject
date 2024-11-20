@@ -5,6 +5,20 @@ struct CoreBuilder: Builder {
     let interactor: CoreInteractor
     
     func build() -> AnyView {
-        Text("").any()
+        appView().any()
+    }
+    
+    func appView() -> some View {
+        AppView(
+            presenter: AppPresenter(
+                interactor: interactor
+            ),
+            tabbarView: {
+                Text("HI")
+            },
+            onboardingView: {
+                Text("Bye")
+            }
+        )
     }
 }

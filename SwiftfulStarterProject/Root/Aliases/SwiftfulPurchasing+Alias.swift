@@ -12,6 +12,8 @@ typealias PurchaseProfileAttributes = SwiftfulPurchasing.PurchaseProfileAttribut
 typealias PurchasedEntitlement = SwiftfulPurchasing.PurchasedEntitlement
 typealias AnyProduct = SwiftfulPurchasing.AnyProduct
 typealias MockPurchaseService = SwiftfulPurchasing.MockPurchaseService
+typealias StoreKitPurchaseService = SwiftfulPurchasing.StoreKitPurchaseService
+typealias RevenueCatPurchaseService = SwiftfulPurchasingRevenueCat.RevenueCatPurchaseService
 
 extension PurchaseLogType {
     
