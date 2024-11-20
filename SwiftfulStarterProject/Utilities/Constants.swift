@@ -25,11 +25,12 @@ struct Constants {
         #endif
     }
 
+    @MainActor
     static var firebaseAppClientId: String? {
         #if MOCK
         return nil
         #else
-        return FirebaseApp.app()?.options.clientID
+        return FirebaseAuthService.clientId
         #endif
     }
 

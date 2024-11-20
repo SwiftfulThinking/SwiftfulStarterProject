@@ -1,5 +1,5 @@
 {
-  "originHash" : "c174d722afcedb7983c4f58b051c0f6aab43912def55700f7b16ae7555de7f16",
+  "originHash" : "4619ac7f087042ffa64f1acd9f688cfa291614452d0edb206a8ea16f9b4de9cf",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -204,8 +204,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulAuthenticatingFirebase",
       "state" : {
-        "revision" : "2401fae49ad0608b9294f27c89b94c21888a41ea",
-        "version" : "1.0.6"
+        "revision" : "0d21a188f572dc0c8d41d3b5f5c2e5d663daa5e1",
+        "version" : "1.0.7"
       }
     },
     {

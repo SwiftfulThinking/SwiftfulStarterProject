@@ -57,21 +57,20 @@ struct AppView<TabbarView: View, OnboardingView: View>: View {
 }
 
 #Preview("AppView - Tabbar") {
-    Text("HI")
-//    let container = DevPreview.shared.container()
-//    container.register(AppState.self, service: AppState(showTabBar: true))
-//    let builder = CoreBuilder(interactor: CoreInteractor(container: container))
-//    
-//    return builder.appView()
-//        .previewEnvironment()
+    let container = DevPreview.shared.container()
+    container.register(AppState.self, service: AppState(showTabBar: true))
+    let builder = CoreBuilder(interactor: CoreInteractor(container: container))
+    
+    return builder.appView()
+        .previewEnvironment()
 }
-//#Preview("AppView - Onboarding") {
-//    let container = DevPreview.shared.container()
-//    container.register(UserManager.self, service: UserManager(services: MockUserServices(user: nil)))
-//    container.register(AuthManager.self, service: AuthManager(service: MockAuthService(user: nil)))
-//    container.register(AppState.self, service: AppState(showTabBar: false))
-//    let builder = CoreBuilder(interactor: CoreInteractor(container: container))
-//
-//    return builder.appView()
-//        .previewEnvironment()
-//}
+#Preview("AppView - Onboarding") {
+    let container = DevPreview.shared.container()
+    container.register(UserManager.self, service: UserManager(services: MockUserServices(user: nil)))
+    container.register(AuthManager.self, service: AuthManager(service: MockAuthService(user: nil)))
+    container.register(AppState.self, service: AppState(showTabBar: false))
+    let builder = CoreBuilder(interactor: CoreInteractor(container: container))
+
+    return builder.appView()
+        .previewEnvironment()
+}
