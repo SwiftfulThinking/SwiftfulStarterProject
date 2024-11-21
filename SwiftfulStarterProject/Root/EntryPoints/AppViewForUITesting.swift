@@ -20,7 +20,7 @@ struct AppViewForUITesting: View {
 
     var body: some View {
         if processInfoContains("STARTSCREEN_[ADDSCREENNAME]") {
-            RouterView { router in
+            RouterView { _ in
                 Text("Screen")
             }
         } else {

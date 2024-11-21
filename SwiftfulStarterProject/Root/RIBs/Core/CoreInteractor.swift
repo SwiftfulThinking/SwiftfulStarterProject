@@ -162,7 +162,7 @@ struct CoreInteractor: GlobalInteractor {
     }
     
     func deleteAccount() async throws {
-        let _ = try authManager.getAuthId()
+        _ = try authManager.getAuthId()
         try await userManager.deleteCurrentUser()
         try await authManager.deleteAccount()
         try await purchaseManager.logOut()

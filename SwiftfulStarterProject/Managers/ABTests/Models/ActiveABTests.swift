@@ -27,7 +27,7 @@ struct ActiveABTests: Codable {
     var eventParameters: [String: Any] {
         let dict: [String: Any?] = [
             "test\(CodingKeys.boolTest.rawValue)": boolTest,
-            "test\(CodingKeys.enumTest.rawValue)": enumTest.rawValue,
+            "test\(CodingKeys.enumTest.rawValue)": enumTest.rawValue
         ]
         return dict.compactMapValues({ $0 })
     }

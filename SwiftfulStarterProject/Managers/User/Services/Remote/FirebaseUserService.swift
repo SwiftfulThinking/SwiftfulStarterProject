@@ -25,7 +25,7 @@ struct FirebaseUserService: RemoteUserService {
     
     func markOnboardingCompleted(userId: String) async throws {
         try await collection.document(userId).updateData([
-            UserModel.CodingKeys.didCompleteOnboarding.rawValue: true,
+            UserModel.CodingKeys.didCompleteOnboarding.rawValue: true
         ])
     }
     

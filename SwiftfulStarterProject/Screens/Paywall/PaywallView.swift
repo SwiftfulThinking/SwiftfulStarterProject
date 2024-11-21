@@ -22,7 +22,7 @@ struct PaywallView: View {
     var body: some View {
         ZStack {
             storeKitPaywall
-            //customPaywall
+            // customPaywall
         }
         .task {
             await presenter.onLoadProducts()

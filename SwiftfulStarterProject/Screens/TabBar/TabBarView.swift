@@ -38,15 +38,15 @@ extension CoreBuilder {
     func tabbarView() -> some View {
         TabBarView(
             tabs: [
-                TabBarScreen(title: "Explore", systemImage: "eyes", screen: {
+                TabBarScreen(title: "Alpha", systemImage: "house.fill", screen: {
                     RouterView { _ in
-                        Text("Screen1")
+                        Text("Alpha")
                     }
                     .any()
                 }),
-                TabBarScreen(title: "Chats", systemImage: "bubble.left.and.bubble.right.fill", screen: {
+                TabBarScreen(title: "Beta", systemImage: "heart.fill", screen: {
                     RouterView { _ in
-                        Text("Screen2")
+                        Text("Beta")
                     }
                     .any()
                 }),
