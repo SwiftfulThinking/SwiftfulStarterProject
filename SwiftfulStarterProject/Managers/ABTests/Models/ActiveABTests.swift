@@ -63,7 +63,7 @@ extension ActiveABTests {
     var asNSObjectDictionary: [String: NSObject]? {
         [
             CodingKeys.boolTest.rawValue: boolTest as NSObject,
-            CodingKeys.enumTest.rawValue: enumTest.rawValue as NSObject,
+            CodingKeys.enumTest.rawValue: enumTest.rawValue as NSObject
         ]
     }
 }
