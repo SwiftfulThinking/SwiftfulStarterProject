@@ -5,6 +5,7 @@
 //  Created by Nick Sarno on 11/9/24.
 //
 import SwiftUI
+import SwiftfulUtilities
 
 @Observable
 @MainActor
@@ -30,8 +31,8 @@ class AppPresenter {
 
     func showATTPromptIfNeeded() async {
         #if !DEBUG
-//        let status = await AppTrackingTransparencyHelper.requestTrackingAuthorization()
-//        interactor.trackEvent(event: Event.attStatus(dict: status.eventParameters))
+        let status = await AppTrackingTransparencyHelper.requestTrackingAuthorization()
+        interactor.trackEvent(event: Event.attStatus(dict: status.eventParameters))
         #endif
     }
     
