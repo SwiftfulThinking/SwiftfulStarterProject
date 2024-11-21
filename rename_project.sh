@@ -16,51 +16,55 @@ if [ -d "../$NEW_PARENT_DIR" ]; then
     exit 1
 fi
 
-# Step 1: Copy the entire parent directory
-echo "Copying parent directory..."
-cp -R "../$OLD_PARENT_DIR" "../$NEW_PARENT_DIR"
+# Step 1: Copy the entire parent directory, excluding hidden files (like .git)
+echo "Copying parent directory (excluding hidden files)..."
+rsync -av --exclude=".git" "../$OLD_PARENT_DIR/" "../$NEW_PARENT_DIR/"
 
-# Step 2: Remove the original Git history
-echo "Removing source control from the new project..."
-rm -rf "../$NEW_PARENT_DIR/.git"
-
-# Step 3: Reinitialize a new Git repository
-echo "Reinitializing a new Git repository..."
+# Step 2: Navigate to the new directory
 cd "../$NEW_PARENT_DIR"
-rm -rf .git  # Remove any remnants of the old repository
+
+# Step 3: Fully reinitialize the Git repository
+echo "Reinitializing a fresh Git repository..."
+rm -rf .git  # Ensure no remnants of the old Git repository exist
 git init > /dev/null 2>&1
+
+# Step 4: Stage all files for the initial commit
+echo "Staging all files for the new repository..."
 git add --all > /dev/null 2>&1
+
+# Step 5: Commit the files
+echo "Creating the initial commit..."
 git commit -m "Initial commit for $NEW_PARENT_DIR" > /dev/null 2>&1
 
-# Step 4: Rename directories
+# Step 6: Rename directories
 echo "Renaming directories..."
 find . -type d -name "*$OLD_PARENT_DIR*" | while read dir; do
     new_dir=$(echo "$dir" | sed "s/$OLD_PARENT_DIR/$NEW_PARENT_DIR/g")
     mv "$dir" "$new_dir"
 done
 
-# Step 5: Rename files
+# Step 7: Rename files
 echo "Renaming files..."
 find . -type f -name "*$OLD_PARENT_DIR*" | while read file; do
     new_file=$(echo "$file" | sed "s/$OLD_PARENT_DIR/$NEW_PARENT_DIR/g")
     mv "$file" "$new_file"
 done
 
-# Step 6: Replace content inside all files
+# Step 8: Replace content inside all files
 echo "Replacing content inside files..."
 export LC_CTYPE=C
 grep -rl "$OLD_PARENT_DIR" . | while read file; do
     sed -i "" "s/$OLD_PARENT_DIR/$NEW_PARENT_DIR/g" "$file"
 done
 
-# Step 7: Rename .entitlements files explicitly
+# Step 9: Rename .entitlements files explicitly
 echo "Renaming .entitlements files..."
 find . -name "*.entitlements" | while read file; do
     new_file=$(echo "$file" | sed "s/$OLD_PARENT_DIR/$NEW_PARENT_DIR/g")
     mv "$file" "$new_file"
 done
 
-# Step 8: Update Bundle Display Name and Bundle Identifier in Info.plist
+# Step 10: Update Bundle Display Name and Bundle Identifier in Info.plist
 echo "Updating Bundle Display Name and Bundle Identifier..."
 INFO_PLIST_FILES=$(find . -name "Info.plist")
 for plist in $INFO_PLIST_FILES; do
@@ -70,7 +74,7 @@ for plist in $INFO_PLIST_FILES; do
     /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.example.$NEW_PARENT_DIR" "$plist" 2>/dev/null
 done
 
-# Step 9: Update Bundle Display Name in Build Settings
+# Step 11: Update Bundle Display Name in Build Settings
 echo "Updating Bundle Display Name in Build Settings..."
 PROJECT_FILE="./$NEW_PARENT_DIR.xcodeproj/project.pbxproj"
 if [ -f "$PROJECT_FILE" ]; then
