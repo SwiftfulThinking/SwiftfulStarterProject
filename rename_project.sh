@@ -16,27 +16,30 @@ if [ -d "../$NEW_PARENT_DIR" ]; then
     exit 1
 fi
 
-# Step 1: Create the new project directory and copy files
-echo "Creating a fresh copy of the project..."
-mkdir "../$NEW_PARENT_DIR"
-cd "../$OLD_PARENT_DIR"
-tar --exclude=".git" -cf - . | (cd "../$NEW_PARENT_DIR" && tar -xf -)
+# Step 1: Copy the entire parent directory, excluding hidden files (like .git)
+echo "Copying parent directory (excluding hidden files)..."
+rsync -av --exclude=".git" "../$OLD_PARENT_DIR/" "../$NEW_PARENT_DIR/"
 
 # Step 2: Navigate to the new directory
 cd "../$NEW_PARENT_DIR"
 
-# Step 3: Remove any remnants of a Git repository
-echo "Cleaning up any existing Git repository..."
-rm -rf .git
-
-# Step 4: Initialize a fresh Git repository
-echo "Initializing a new Git repository..."
+# Step 3: Fully reinitialize the Git repository
+echo "Reinitializing a fresh Git repository..."
+rm -rf .git  # Ensure no remnants of the old Git repository exist
 git init > /dev/null 2>&1
 
-# Step 5: Stage all files and create the initial commit
-echo "Staging all files and creating an initial commit..."
+# Step 4: Stage all files and create the initial commit
+echo "Staging all files..."
 git add --all > /dev/null 2>&1
+
+echo "Creating the initial commit..."
 git commit -m "Initial commit for $NEW_PARENT_DIR" > /dev/null 2>&1
+
+# Step 5: Force fix the Git index
+echo "Force rebuilding Git index..."
+rm -f .git/index          # Remove the current index
+git add --all > /dev/null 2>&1  # Rebuild the index by restaging all files
+git commit --amend --no-edit > /dev/null 2>&1  # Amend the commit with the rebuilt index
 
 # Step 6: Rename directories
 echo "Renaming directories..."
@@ -88,4 +91,4 @@ else
     echo "Error: Could not find project.pbxproj file at $PROJECT_FILE"
 fi
 
-echo "New project created as $NEW_PARENT_DIR with a fresh Git repository!"
+echo "New project created as $NEW_PARENT_DIR with a fresh and fixed Git repository!"
