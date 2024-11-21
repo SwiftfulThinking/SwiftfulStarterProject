@@ -16,24 +16,26 @@ if [ -d "../$NEW_PARENT_DIR" ]; then
     exit 1
 fi
 
-# Step 1: Copy the entire parent directory, excluding hidden files (like .git)
-echo "Copying parent directory (excluding hidden files)..."
-rsync -av --exclude=".git" "../$OLD_PARENT_DIR/" "../$NEW_PARENT_DIR/"
+# Step 1: Create the new project directory and copy files
+echo "Creating a fresh copy of the project..."
+mkdir "../$NEW_PARENT_DIR"
+cd "../$OLD_PARENT_DIR"
+tar --exclude=".git" -cf - . | (cd "../$NEW_PARENT_DIR" && tar -xf -)
 
 # Step 2: Navigate to the new directory
 cd "../$NEW_PARENT_DIR"
 
-# Step 3: Fully reinitialize the Git repository
-echo "Reinitializing a fresh Git repository..."
-rm -rf .git  # Ensure no remnants of the old Git repository exist
+# Step 3: Remove any remnants of a Git repository
+echo "Cleaning up any existing Git repository..."
+rm -rf .git
+
+# Step 4: Initialize a fresh Git repository
+echo "Initializing a new Git repository..."
 git init > /dev/null 2>&1
 
-# Step 4: Stage all files for the initial commit
-echo "Staging all files for the new repository..."
+# Step 5: Stage all files and create the initial commit
+echo "Staging all files and creating an initial commit..."
 git add --all > /dev/null 2>&1
-
-# Step 5: Commit the files
-echo "Creating the initial commit..."
 git commit -m "Initial commit for $NEW_PARENT_DIR" > /dev/null 2>&1
 
 # Step 6: Rename directories
