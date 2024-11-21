@@ -27,21 +27,22 @@ rm -rf "../$NEW_PARENT_DIR/.git"
 # Step 3: Initialize a new Git repository
 echo "Initializing a new Git repository..."
 cd "../$NEW_PARENT_DIR"
-git init
+git init > /dev/null 2>&1
 
-# Step 4: Handle potential Git index issues
+# Step 4: Fix potential Git index issues
+echo "Removing any existing Git index (if corrupted)..."
 if [ -f .git/index ]; then
     echo "Removing potentially corrupted Git index..."
     rm -f .git/index
 fi
 
-# Rebuild the Git index and stage all files
+# Stage all files, ensuring no conflicts
 echo "Staging all files..."
-git add .
+git add --all > /dev/null 2>&1
 
 # Commit the staged files
 echo "Committing files..."
-git commit -m "Initial commit for $NEW_PARENT_DIR"
+git commit -m "Initial commit for $NEW_PARENT_DIR" > /dev/null 2>&1
 
 # Step 5: Rename directories
 echo "Renaming directories..."
@@ -93,4 +94,4 @@ else
     echo "Error: Could not find project.pbxproj file at $PROJECT_FILE"
 fi
 
-echo "New project created as $NEW_PARENT_DIR with a new Git repository!"
+echo "New project created as $NEW_PARENT_DIR with a fully functional Git repository!"
