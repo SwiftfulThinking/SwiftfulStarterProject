@@ -17,7 +17,7 @@ struct CoreInteractor {
         self.abTestManager = container.resolve(ABTestManager.self)!
         self.purchaseManager = container.resolve(PurchaseManager.self)!
         self.appState = container.resolve(AppState.self)!
-        self.pushManager = PushManager(logManager: logManager)
+        self.pushManager = container.resolve(PushManager.self)!
     }
     
     // MARK: AppState
@@ -59,6 +59,10 @@ struct CoreInteractor {
     
     var currentUser: UserModel? {
         userManager.currentUser
+    }
+    
+    func markOnboardingCompleteForCurrentUser() async throws {
+        try await userManager.markOnboardingCompleteForCurrentUser()
     }
 
     // MARK: LogManager

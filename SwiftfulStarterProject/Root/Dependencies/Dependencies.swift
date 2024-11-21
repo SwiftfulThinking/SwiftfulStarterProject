@@ -18,6 +18,7 @@ struct Dependencies {
         let purchaseManager: PurchaseManager
         let appState: AppState
         let logManager: LogManager
+        let pushManager: PushManager
 
         switch config {
         case .mock(isSignedIn: let isSignedIn):
@@ -68,7 +69,8 @@ struct Dependencies {
             )
             appState = AppState()
         }
-                
+        pushManager = PushManager(logManager: logManager)
+        
         let container = DependencyContainer()
         container.register(AuthManager.self, service: authManager)
         container.register(UserManager.self, service: userManager)
@@ -76,6 +78,7 @@ struct Dependencies {
         container.register(ABTestManager.self, service: abTestManager)
         container.register(PurchaseManager.self, service: purchaseManager)
         container.register(AppState.self, service: appState)
+        container.register(PushManager.self, service: pushManager)
         self.container = container
     }
 }
@@ -99,6 +102,7 @@ class DevPreview {
         container.register(ABTestManager.self, service: abTestManager)
         container.register(PurchaseManager.self, service: purchaseManager)
         container.register(AppState.self, service: appState)
+        container.register(PushManager.self, service: pushManager)
         return container
     }
     
@@ -108,7 +112,8 @@ class DevPreview {
     let abTestManager: ABTestManager
     let purchaseManager: PurchaseManager
     let appState: AppState
-    
+    let pushManager: PushManager
+
     init(isSignedIn: Bool = true) {
         self.authManager = AuthManager(service: MockAuthService(user: isSignedIn ? .mock() : nil))
         self.userManager = UserManager(services: MockUserServices(user: isSignedIn ? .mock : nil))
@@ -116,6 +121,7 @@ class DevPreview {
         self.abTestManager = ABTestManager(service: MockABTestService())
         self.purchaseManager = PurchaseManager(service: MockPurchaseService())
         self.appState = AppState()
+        self.pushManager = PushManager()
     }
 
 }

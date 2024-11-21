@@ -83,10 +83,10 @@ extension CoreBuilder {
                 interactor: interactor
             ),
             tabbarView: {
-                Text("HI")
+                tabbarView()
             },
             onboardingView: {
-                Text("Bye")
+                welcomeView()
             }
         )
     }
