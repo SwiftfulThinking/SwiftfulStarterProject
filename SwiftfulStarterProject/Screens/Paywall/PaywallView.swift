@@ -7,18 +7,31 @@
 
 import SwiftUI
 
+struct PaywallDelegate {
+    
+    var eventParameters: [String: Any]? {
+        nil
+    }
+}
+
 struct PaywallView: View {
     
     @State var presenter: PaywallPresenter
+    let delegate: PaywallDelegate
 
     var body: some View {
         ZStack {
             storeKitPaywall
             //customPaywall
         }
-        .screenAppearAnalytics(name: "Paywall")
         .task {
             await presenter.onLoadProducts()
+        }
+        .onAppear {
+            presenter.onViewAppear(delegate: delegate)
+        }
+        .onDisappear {
+            presenter.onViewDisappear(delegate: delegate)
         }
     }
     
@@ -61,18 +74,17 @@ struct PaywallView: View {
     return RouterView { router in
         builder.paywallView(router: router)
     }
-    .previewEnvironment()
 }
-
 
 extension CoreBuilder {
     
-    func paywallView(router: Router) -> some View {
+    func paywallView(router: Router, delegate: PaywallDelegate = PaywallDelegate()) -> some View {
         PaywallView(
             presenter: PaywallPresenter(
                 interactor: interactor,
                 router: CoreRouter(router: router, builder: self)
-            )
+            ),
+            delegate: delegate
         )
     }
 
@@ -80,9 +92,9 @@ extension CoreBuilder {
 
 extension CoreRouter {
     
-    func showPaywallView() {
+    func showPaywallView(delegate: PaywallDelegate = PaywallDelegate()) {
         router.showScreen(.sheet) { router in
-            builder.paywallView(router: router)
+            builder.paywallView(router: router, delegate: delegate)
         }
     }
 

@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct ProfileDelegate {
-    
+    var eventParameters: [String: Any]? {
+        nil
+    }
 }
 
 struct ProfileView: View {
@@ -19,7 +21,12 @@ struct ProfileView: View {
                 settingsButton
             }
         }
-        .screenAppearAnalytics(name: "ProfileView")
+        .onAppear {
+            presenter.onViewAppear(delegate: delegate)
+        }
+        .onDisappear {
+            presenter.onViewDisappear(delegate: delegate)
+        }
     }
     
     private var settingsButton: some View {
@@ -40,7 +47,6 @@ struct ProfileView: View {
     return RouterView { router in
         builder.profileView(router: router, delegate: delegate)
     }
-    .previewEnvironment()
 }
 
 extension CoreBuilder {

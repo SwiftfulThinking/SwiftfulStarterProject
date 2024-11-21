@@ -23,9 +23,14 @@ struct DevSettingsView: View {
                 backButtonView
             }
         }
-        .screenAppearAnalytics(name: "DevSettings")
         .onFirstAppear {
             presenter.loadABTests()
+        }
+        .onAppear {
+            presenter.onViewAppear()
+        }
+        .onDisappear {
+            presenter.onViewDisappear()
         }
     }
     
@@ -110,7 +115,6 @@ struct DevSettingsView: View {
     return RouterView { router in
         builder.devSettingsView(router: router)
     }
-    .previewEnvironment()
 }
 
 extension CoreBuilder {

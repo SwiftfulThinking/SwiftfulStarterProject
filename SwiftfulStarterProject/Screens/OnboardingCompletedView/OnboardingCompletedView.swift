@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct OnboardingCompletedDelegate {
-    
+    var eventParameters: [String: Any]? {
+        nil
+    }
 }
 
 struct OnboardingCompletedView: View {
@@ -40,7 +42,12 @@ struct OnboardingCompletedView: View {
         })
         .padding(24)
         .toolbar(.hidden, for: .navigationBar)
-        .screenAppearAnalytics(name: "OnboardingCompletedView")
+        .onAppear {
+            presenter.onViewAppear(delegate: delegate)
+        }
+        .onDisappear {
+            presenter.onViewDisappear(delegate: delegate)
+        }
     }
     
 }
@@ -55,7 +62,6 @@ struct OnboardingCompletedView: View {
             delegate: OnboardingCompletedDelegate()
         )
     }
-    .previewEnvironment()
 }
 
 extension CoreBuilder {

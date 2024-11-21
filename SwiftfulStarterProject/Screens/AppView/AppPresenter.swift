@@ -19,6 +19,14 @@ class AppPresenter {
     init(interactor: AppViewInteractor) {
         self.interactor = interactor
     }
+    
+    func onViewAppear() {
+        interactor.trackScreenEvent(event: Event.onAppear)
+    }
+    
+    func onViewDisappear() {
+        interactor.trackEvent(event: Event.onDisappear)
+    }
 
     func showATTPromptIfNeeded() async {
         #if !DEBUG
@@ -58,8 +66,14 @@ class AppPresenter {
             }
         }
     }
+    
+}
+
+extension AppPresenter {
 
     enum Event: LoggableEvent {
+        case onAppear
+        case onDisappear
         case existingAuthStart
         case existingAuthFail(error: Error)
         case anonAuthStart
@@ -69,6 +83,8 @@ class AppPresenter {
 
         var eventName: String {
             switch self {
+            case .onAppear:             return "AppView_Appear"
+            case .onDisappear:          return "AppView_Disappear"
             case .existingAuthStart:    return "AppView_ExistingAuth_Start"
             case .existingAuthFail:     return "AppView_ExistingAuth_Fail"
             case .anonAuthStart:        return "AppView_AnonAuth_Start"

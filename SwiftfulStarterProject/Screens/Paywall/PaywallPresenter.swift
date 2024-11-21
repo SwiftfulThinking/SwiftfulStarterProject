@@ -22,6 +22,14 @@ class PaywallPresenter {
         self.router = router
     }
     
+    func onViewAppear(delegate: PaywallDelegate) {
+        interactor.trackScreenEvent(event: Event.onAppear(delegate: delegate))
+    }
+    
+    func onViewDisappear(delegate: PaywallDelegate) {
+        interactor.trackEvent(event: Event.onDisappear(delegate: delegate))
+    }
+    
     func onLoadProducts() async {
         do {
             products = try await interactor.getProducts(productIds: productIds)
@@ -95,7 +103,13 @@ class PaywallPresenter {
         }
     }
     
+}
+
+extension PaywallPresenter {
+    
     enum Event: LoggableEvent {
+        case onAppear(delegate: PaywallDelegate)
+        case onDisappear(delegate: PaywallDelegate)
         case purchaseStart(product: AnyProduct)
         case purchaseSuccess(product: AnyProduct)
         case purchasePending(product: AnyProduct)
@@ -108,6 +122,8 @@ class PaywallPresenter {
 
         var eventName: String {
             switch self {
+            case .onAppear:               return "Paywall_Appear"
+            case .onDisappear:            return "Paywall_Disappear"
             case .purchaseStart:          return "Paywall_Purchase_Start"
             case .purchaseSuccess:        return "Paywall_Purchase_Success"
             case .purchasePending:        return "Paywall_Purchase_Pending"
@@ -122,6 +138,8 @@ class PaywallPresenter {
         
         var parameters: [String: Any]? {
             switch self {
+            case .onAppear(delegate: let delegate), .onDisappear(delegate: let delegate):
+                return delegate.eventParameters
             case .purchaseStart(product: let product), .purchaseSuccess(product: let product), .purchasePending(product: let product), .purchaseCancelled(product: let product), .purchaseUnknown(product: let product):
                 return product.eventParameters
             case .purchaseFail(error: let error):

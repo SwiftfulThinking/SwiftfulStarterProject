@@ -53,6 +53,12 @@ struct AppView<TabbarView: View, OnboardingView: View>: View {
                 }
             }
         )
+        .onAppear {
+            presenter.onViewAppear()
+        }
+        .onDisappear {
+            presenter.onViewDisappear()
+        }
     }
 }
 
@@ -62,7 +68,6 @@ struct AppView<TabbarView: View, OnboardingView: View>: View {
     let builder = CoreBuilder(interactor: CoreInteractor(container: container))
     
     return builder.appView()
-        .previewEnvironment()
 }
 #Preview("AppView - Onboarding") {
     let container = DevPreview.shared.container()
@@ -72,7 +77,6 @@ struct AppView<TabbarView: View, OnboardingView: View>: View {
     let builder = CoreBuilder(interactor: CoreInteractor(container: container))
 
     return builder.appView()
-        .previewEnvironment()
 }
 
 extension CoreBuilder {
@@ -86,7 +90,7 @@ extension CoreBuilder {
                 tabbarView()
             },
             onboardingView: {
-                welcomeView()
+                onboardingFlow()
             }
         )
     }

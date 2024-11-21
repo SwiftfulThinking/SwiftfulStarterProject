@@ -1,7 +1,7 @@
 import SwiftUI
 
 @MainActor
-struct CoreInteractor {
+struct CoreInteractor: GlobalInteractor {
     private let authManager: AuthManager
     private let userManager: UserManager
     private let logManager: LogManager
@@ -103,10 +103,6 @@ struct CoreInteractor {
     
     func canRequestAuthorization() async -> Bool {
         await pushManager.canRequestAuthorization()
-    }
-    
-    func schedulePushNotificationsForTheNextWeek() {
-        pushManager.schedulePushNotificationsForTheNextWeek()
     }
 
     // MARK: ABTestManager

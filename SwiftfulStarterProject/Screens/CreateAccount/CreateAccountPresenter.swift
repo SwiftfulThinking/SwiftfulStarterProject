@@ -18,6 +18,14 @@ class CreateAccountPresenter {
         self.router = router
     }
     
+    func onViewAppear(delegate: CreateAccountDelegate) {
+        interactor.trackScreenEvent(event: Event.onAppear(delegate: delegate))
+    }
+    
+    func onViewDisappear(delegate: CreateAccountDelegate) {
+        interactor.trackEvent(event: Event.onDisappear(delegate: delegate))
+    }
+    
     func onSignInApplePressed(delegate: CreateAccountDelegate) {
         interactor.trackEvent(event: Event.appleAuthStart)
         
@@ -36,8 +44,14 @@ class CreateAccountPresenter {
             }
         }
     }
+
+}
+
+extension CreateAccountPresenter {
     
     enum Event: LoggableEvent {
+        case onAppear(delegate: CreateAccountDelegate)
+        case onDisappear(delegate: CreateAccountDelegate)
         case appleAuthStart
         case appleAuthSuccess(user: UserAuthInfo, isNewUser: Bool)
         case appleAuthLoginSuccess(user: UserAuthInfo, isNewUser: Bool)
@@ -45,6 +59,8 @@ class CreateAccountPresenter {
 
         var eventName: String {
             switch self {
+            case .onAppear:                return "CreateAccountView_Appear"
+            case .onDisappear:             return "CreateAccountView_Disappear"
             case .appleAuthStart:          return "CreateAccountView_AppleAuth_Start"
             case .appleAuthSuccess:        return "CreateAccountView_AppleAuth_Success"
             case .appleAuthLoginSuccess:   return "CreateAccountView_AppleAuth_LoginSuccess"
@@ -75,5 +91,5 @@ class CreateAccountPresenter {
             }
         }
     }
-
+    
 }

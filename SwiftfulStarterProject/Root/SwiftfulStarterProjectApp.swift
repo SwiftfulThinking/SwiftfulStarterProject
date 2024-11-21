@@ -33,7 +33,6 @@ struct SwiftfulStarterProjectApp: App {
                     delegate.builder.build()
                 }
             }
-            .environment(delegate.dependencies.container.resolve(LogManager.self)!)
         }
     }
 }

@@ -6,8 +6,7 @@
 //
 
 @MainActor
-protocol OnboardingCompletedInteractor {
-    func trackEvent(event: LoggableEvent)
+protocol OnboardingCompletedInteractor: GlobalInteractor {
     func markOnboardingCompleteForCurrentUser() async throws
     func updateAppState(showTabBarView: Bool)
 }

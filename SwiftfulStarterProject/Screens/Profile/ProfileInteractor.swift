@@ -1,8 +1,8 @@
 import SwiftUI
 
 @MainActor
-protocol ProfileInteractor {
-    func trackEvent(event: LoggableEvent)
+protocol ProfileInteractor: GlobalInteractor {
+    
 }
 
 extension CoreInteractor: ProfileInteractor { }

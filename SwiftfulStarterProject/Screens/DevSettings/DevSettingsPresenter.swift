@@ -34,6 +34,14 @@ class DevSettingsPresenter {
         self.router = router
     }
     
+    func onViewAppear() {
+        interactor.trackScreenEvent(event: Event.onAppear)
+    }
+    
+    func onViewDisappear() {
+        interactor.trackEvent(event: Event.onDisappear)
+    }
+    
     func loadABTests() {
         boolTest = interactor.activeTests.boolTest
         enumTest = interactor.activeTests.enumTest
@@ -82,4 +90,34 @@ class DevSettingsPresenter {
         router.dismissScreen()
     }
 
+}
+
+extension DevSettingsPresenter {
+    
+    enum Event: LoggableEvent {
+        case onAppear
+        case onDisappear
+
+        var eventName: String {
+            switch self {
+            case .onAppear:             return "TestView_Appear"
+            case .onDisappear:          return "TestView_Disappear"
+            }
+        }
+        
+        var parameters: [String: Any]? {
+            switch self {
+            default:
+                return nil
+            }
+        }
+        
+        var type: LogType {
+            switch self {
+            default:
+                return .analytic
+            }
+        }
+    }
+    
 }

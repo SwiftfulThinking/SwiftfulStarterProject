@@ -6,9 +6,16 @@
 //
 import SwiftUI
 
+struct WelcomeDelegate {
+    var eventParameters: [String: Any]? {
+        nil
+    }
+}
+
 struct WelcomeView: View {
     
     @State var presenter: WelcomePresenter
+    let delegate: WelcomeDelegate
 
     var body: some View {
         VStack(spacing: 8) {
@@ -23,7 +30,12 @@ struct WelcomeView: View {
             
             policyLinks
         }
-        .screenAppearAnalytics(name: "WelcomeView")
+        .onAppear {
+            presenter.onViewAppear(delegate: delegate)
+        }
+        .onDisappear {
+            presenter.onViewDisappear(delegate: delegate)
+        }
     }
     
     private var titleSection: some View {
@@ -90,21 +102,25 @@ struct WelcomeView: View {
     let container = DevPreview.shared.container()
     let builder = CoreBuilder(interactor: CoreInteractor(container: container))
     
-    return builder.welcomeView()
-        .previewEnvironment()
+    return builder.onboardingFlow()
 }
 
 extension CoreBuilder {
     
-    func welcomeView() -> some View {
+    func onboardingFlow() -> some View {
         RouterView { router in
-            WelcomeView(
-                presenter: WelcomePresenter(
-                    interactor: interactor,
-                    router: CoreRouter(router: router, builder: self)
-                )
-            )
+            welcomeView(router: router)
         }
+    }
+    
+    private func welcomeView(router: Router, delegate: WelcomeDelegate = WelcomeDelegate()) -> some View {
+        WelcomeView(
+            presenter: WelcomePresenter(
+                interactor: interactor,
+                router: CoreRouter(router: router, builder: self)
+            ),
+            delegate: delegate
+        )
     }
 
 }

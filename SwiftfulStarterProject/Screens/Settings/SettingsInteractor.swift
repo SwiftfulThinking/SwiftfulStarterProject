@@ -6,10 +6,9 @@
 //
 
 @MainActor
-protocol SettingsInteractor {
+protocol SettingsInteractor: GlobalInteractor {
     var auth: UserAuthInfo? { get }
     
-    func trackEvent(event: LoggableEvent)
     func signOut() async throws
     func deleteAccount() async throws
     func updateAppState(showTabBarView: Bool)

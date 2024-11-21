@@ -11,6 +11,13 @@ struct CreateAccountDelegate {
     var title: String = "Create Account?"
     var subtitle: String = "Don't lose your data! Connect to an SSO provider to save your account."
     var onDidSignIn: ((_ isNewUser: Bool) -> Void)?
+    
+    var eventParameters: [String: Any]? {
+        [
+            "delegate_title": title,
+            "delegate_subtitle": subtitle
+        ]
+    }
 }
 
 struct CreateAccountView: View {
@@ -49,7 +56,12 @@ struct CreateAccountView: View {
         }
         .padding(16)
         .padding(.top, 40)
-        .screenAppearAnalytics(name: "CreateAccountView")
+        .onAppear {
+            presenter.onViewAppear(delegate: delegate)
+        }
+        .onDisappear {
+            presenter.onViewDisappear(delegate: delegate)
+        }
     }
     
 }
@@ -87,5 +99,4 @@ extension CoreRouter {
             .frame(maxHeight: 400)
             .frame(maxHeight: .infinity, alignment: .bottom)
     }
-    .previewEnvironment()
 }

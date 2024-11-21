@@ -20,9 +20,11 @@ struct SettingsView: View {
         .minimumScaleFactor(0.4)
         .navigationTitle("Settings")
         .onAppear {
-            presenter.setAnonymousAccountStatus()
+            presenter.onViewAppear()
         }
-        .screenAppearAnalytics(name: "SettingsView")
+        .onDisappear {
+            presenter.onViewDisappear()
+        }
     }
     
     private var accountSection: some View {
@@ -142,7 +144,6 @@ fileprivate extension View {
     return RouterView { router in
         builder.settingsView(router: router)
     }
-    .previewEnvironment()
 }
 #Preview("Anonymous") {
     let container = DevPreview.shared.container()
@@ -153,7 +154,6 @@ fileprivate extension View {
     return RouterView { router in
         builder.settingsView(router: router)
     }
-    .previewEnvironment()
 }
 #Preview("Not anonymous") {
     let container = DevPreview.shared.container()
@@ -164,7 +164,6 @@ fileprivate extension View {
     return RouterView { router in
         builder.settingsView(router: router)
     }
-    .previewEnvironment()
 }
 
 extension CoreBuilder {

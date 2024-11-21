@@ -39,13 +39,13 @@ extension CoreBuilder {
         TabBarView(
             tabs: [
                 TabBarScreen(title: "Explore", systemImage: "eyes", screen: {
-                    RouterView { router in
+                    RouterView { _ in
                         Text("Screen1")
                     }
                     .any()
                 }),
                 TabBarScreen(title: "Chats", systemImage: "bubble.left.and.bubble.right.fill", screen: {
-                    RouterView { router in
+                    RouterView { _ in
                         Text("Screen2")
                     }
                     .any()
@@ -74,7 +74,6 @@ extension CoreBuilder {
             Color.green.any()
         })
     ])
-    .previewEnvironment()
 }
 
 #Preview("Real tabs") {
@@ -82,5 +81,4 @@ extension CoreBuilder {
     let builder = CoreBuilder(interactor: CoreInteractor(container: container))
     
     return builder.tabbarView()
-        .previewEnvironment()
 }

@@ -22,6 +22,15 @@ class SettingsPresenter {
         self.router = router
     }
     
+    func onViewAppear() {
+        interactor.trackScreenEvent(event: Event.onAppear)
+        setAnonymousAccountStatus()
+    }
+    
+    func onViewDisappear() {
+        interactor.trackEvent(event: Event.onDisappear)
+    }
+    
     func setAnonymousAccountStatus() {
         isAnonymousUser = interactor.auth?.isAnonymous == true
     }
@@ -100,7 +109,13 @@ class SettingsPresenter {
         })
     }
 
+}
+
+extension SettingsPresenter {
+    
     enum Event: LoggableEvent {
+        case onAppear
+        case onDisappear
         case signOutStart
         case signOutSuccess
         case signOutFail(error: Error)
@@ -113,6 +128,8 @@ class SettingsPresenter {
 
         var eventName: String {
             switch self {
+            case .onAppear:                     return "SettingsView_Appear"
+            case .onDisappear:                  return "SettingsView_Disappear"
             case .signOutStart:                 return "SettingsView_SignOut_Start"
             case .signOutSuccess:               return "SettingsView_SignOut_Success"
             case .signOutFail:                  return "SettingsView_SignOut_Fail"
@@ -143,5 +160,6 @@ class SettingsPresenter {
             }
         }
     }
+
 
 }

@@ -6,8 +6,7 @@
 //
 
 @MainActor
-protocol WelcomeInteractor {
-    func trackEvent(event: LoggableEvent)
+protocol WelcomeInteractor: GlobalInteractor {
     func updateAppState(showTabBarView: Bool)
 }
 
