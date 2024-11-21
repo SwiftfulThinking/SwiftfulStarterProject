@@ -8,7 +8,7 @@ import SwiftUI
 
 @MainActor
 protocol GlobalRouter {
-    var router: Router { get }
+    var router: AnyRouter { get }
 }
 
 extension GlobalRouter {
@@ -21,7 +21,7 @@ extension GlobalRouter {
         router.dismissModal()
     }
     
-    func showAlert(_ option: AlertType, title: String, subtitle: String?, buttons: (@Sendable () -> AnyView)?) {
+    func showAlert(_ option: DialogOption, title: String, subtitle: String?, buttons: (@Sendable () -> AnyView)?) {
         router.showAlert(option, title: title, subtitle: subtitle, alert: {
             buttons?()
         })

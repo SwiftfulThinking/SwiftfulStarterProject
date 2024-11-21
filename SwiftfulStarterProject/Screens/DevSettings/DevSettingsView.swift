@@ -119,7 +119,7 @@ struct DevSettingsView: View {
 
 extension CoreBuilder {
     
-    func devSettingsView(router: Router) -> some View {
+    func devSettingsView(router: AnyRouter) -> some View {
         DevSettingsView(
             presenter: DevSettingsPresenter(
                 interactor: interactor,

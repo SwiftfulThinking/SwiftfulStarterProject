@@ -12,7 +12,7 @@ protocol SettingsRouter {
     func dismissScreen()
     
     func showAlert(error: Error)
-    func showAlert(_ option: AlertType, title: String, subtitle: String?, buttons: (@Sendable () -> AnyView)?)
+    func showAlert(_ option: DialogOption, title: String, subtitle: String?, buttons: (@Sendable () -> AnyView)?)
     
     func dismissModal()
 }

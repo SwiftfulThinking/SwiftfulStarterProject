@@ -68,7 +68,7 @@ struct CreateAccountView: View {
 
 extension CoreBuilder {
     
-    func createAccountView(router: Router, delegate: CreateAccountDelegate = CreateAccountDelegate()) -> some View {
+    func createAccountView(router: AnyRouter, delegate: CreateAccountDelegate = CreateAccountDelegate()) -> some View {
         CreateAccountView(
             presenter: CreateAccountPresenter(
                 interactor: interactor,

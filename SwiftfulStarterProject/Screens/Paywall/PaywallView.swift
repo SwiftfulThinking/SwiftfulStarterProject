@@ -78,7 +78,7 @@ struct PaywallView: View {
 
 extension CoreBuilder {
     
-    func paywallView(router: Router, delegate: PaywallDelegate = PaywallDelegate()) -> some View {
+    func paywallView(router: AnyRouter, delegate: PaywallDelegate = PaywallDelegate()) -> some View {
         PaywallView(
             presenter: PaywallPresenter(
                 interactor: interactor,

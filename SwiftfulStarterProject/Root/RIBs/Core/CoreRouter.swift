@@ -2,7 +2,7 @@ import SwiftUI
 
 @MainActor
 struct CoreRouter: GlobalRouter {
-    let router: Router
+    let router: AnyRouter
     let builder: CoreBuilder
     
 }

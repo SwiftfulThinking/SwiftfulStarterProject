@@ -25,7 +25,7 @@ struct TestView: View {
 
 extension CoreBuilder {
     
-    func testView(router: Router, delegate: TestDelegate) -> some View {
+    func testView(router: AnyRouter, delegate: TestDelegate) -> some View {
         TestView(
             presenter: TestPresenter(
                 interactor: interactor,

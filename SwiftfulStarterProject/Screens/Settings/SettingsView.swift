@@ -168,7 +168,7 @@ fileprivate extension View {
 
 extension CoreBuilder {
     
-    func settingsView(router: Router) -> some View {
+    func settingsView(router: AnyRouter) -> some View {
         SettingsView(
             presenter: SettingsPresenter(
                 interactor: interactor,

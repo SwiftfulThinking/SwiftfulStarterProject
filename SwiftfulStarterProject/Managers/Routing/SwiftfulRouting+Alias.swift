@@ -8,5 +8,5 @@ import SwiftUI
 import SwiftfulRouting
 
 typealias RouterView = SwiftfulRouting.RouterView
-typealias Router = SwiftfulRouting.AnyRouter
-typealias AlertType = SwiftfulRouting.DialogOption
+typealias AnyRouter = SwiftfulRouting.AnyRouter
+typealias DialogOption = SwiftfulRouting.DialogOption

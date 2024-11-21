@@ -66,7 +66,7 @@ struct OnboardingCompletedView: View {
 
 extension CoreBuilder {
     
-    func onboardingCompletedView(router: Router, delegate: OnboardingCompletedDelegate) -> some View {
+    func onboardingCompletedView(router: AnyRouter, delegate: OnboardingCompletedDelegate) -> some View {
         OnboardingCompletedView(
             presenter: OnboardingCompletedPresenter(
                 interactor: interactor,

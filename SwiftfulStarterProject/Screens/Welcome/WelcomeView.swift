@@ -113,7 +113,7 @@ extension CoreBuilder {
         }
     }
     
-    private func welcomeView(router: Router, delegate: WelcomeDelegate = WelcomeDelegate()) -> some View {
+    private func welcomeView(router: AnyRouter, delegate: WelcomeDelegate = WelcomeDelegate()) -> some View {
         WelcomeView(
             presenter: WelcomePresenter(
                 interactor: interactor,

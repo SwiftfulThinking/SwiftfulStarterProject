@@ -51,7 +51,7 @@ struct ProfileView: View {
 
 extension CoreBuilder {
     
-    func profileView(router: Router, delegate: ProfileDelegate = ProfileDelegate()) -> some View {
+    func profileView(router: AnyRouter, delegate: ProfileDelegate = ProfileDelegate()) -> some View {
         ProfileView(
             presenter: ProfilePresenter(
                 interactor: interactor,
