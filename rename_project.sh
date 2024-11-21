@@ -16,9 +16,9 @@ if [ -d "../$NEW_PARENT_DIR" ]; then
     exit 1
 fi
 
-# Step 1: Copy the entire parent directory, excluding hidden files (like .git)
-echo "Copying parent directory (excluding hidden files)..."
-rsync -av --exclude=".git" "../$OLD_PARENT_DIR/" "../$NEW_PARENT_DIR/"
+# Step 1: Copy the entire parent directory, excluding hidden files (like .git) and the script itself
+echo "Copying parent directory (excluding hidden files and rename_project.sh)..."
+rsync -av --exclude=".git" --exclude="rename_project.sh" "../$OLD_PARENT_DIR/" "../$NEW_PARENT_DIR/"
 
 # Step 2: Navigate to the new directory
 cd "../$NEW_PARENT_DIR"
@@ -73,7 +73,11 @@ else
     echo "Error: Could not find project.pbxproj file at $PROJECT_FILE"
 fi
 
-# Step 9: Reinitialize Git at the very end
+# Step 9: Replace README.md with a new one
+echo "Replacing README.md with a new one..."
+echo "# $NEW_PARENT_DIR" > README.md
+
+# Step 10: Reinitialize Git at the very end
 echo "Resetting Git to fix any index issues..."
 rm -rf .git  # Remove the existing Git repository
 git init      # Reinitialize a fresh Git repository
