@@ -1,0 +1,14 @@
+line_length:
+  warning: 300  # Set a warning when lines exceed 300 characters
+type_body_length:
+  warning: 500  # Set a warning when a type body exceeds 500 lines
+file_length:
+  warning: 750  # Set a warning when a file exceeds 750 lines
+
+disabled_rules:
+  - trailing_whitespace
+
+excluded:
+  - .git
+  - Pods
+  - Carthage
