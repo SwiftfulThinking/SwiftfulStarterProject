@@ -20,35 +20,39 @@ fi
 echo "Copying parent directory..."
 cp -R "../$OLD_PARENT_DIR" "../$NEW_PARENT_DIR"
 
-# Step 2: Rename directories first
+# Step 2: Remove source control from the new project
+echo "Removing source control..."
+rm -rf "../$NEW_PARENT_DIR/.git"
+
+# Step 3: Rename directories first
 echo "Renaming directories..."
 find "../$NEW_PARENT_DIR" -type d -name "*$OLD_PARENT_DIR*" | while read dir; do
     new_dir=$(echo "$dir" | sed "s/$OLD_PARENT_DIR/$NEW_PARENT_DIR/g")
     mv "$dir" "$new_dir"
 done
 
-# Step 3: Rename files (after directories)
+# Step 4: Rename files (after directories)
 echo "Renaming files..."
 find "../$NEW_PARENT_DIR" -type f -name "*$OLD_PARENT_DIR*" | while read file; do
     new_file=$(echo "$file" | sed "s/$OLD_PARENT_DIR/$NEW_PARENT_DIR/g")
     mv "$file" "$new_file"
 done
 
-# Step 4: Replace content inside all files
+# Step 5: Replace content inside all files
 echo "Replacing content inside files..."
 export LC_CTYPE=C
 grep -rl "$OLD_PARENT_DIR" "../$NEW_PARENT_DIR" | while read file; do
     sed -i "" "s/$OLD_PARENT_DIR/$NEW_PARENT_DIR/g" "$file"
 done
 
-# Step 5: Rename .entitlements files explicitly
+# Step 6: Rename .entitlements files explicitly
 echo "Renaming .entitlements files..."
 find "../$NEW_PARENT_DIR" -name "*.entitlements" | while read file; do
     new_file=$(echo "$file" | sed "s/$OLD_PARENT_DIR/$NEW_PARENT_DIR/g")
     mv "$file" "$new_file"
 done
 
-# Step 6: Update Bundle Display Name and Bundle Identifier in Info.plist
+# Step 7: Update Bundle Display Name and Bundle Identifier in Info.plist
 echo "Updating Bundle Display Name and Bundle Identifier..."
 INFO_PLIST_FILES=$(find "../$NEW_PARENT_DIR" -name "Info.plist")
 for plist in $INFO_PLIST_FILES; do
@@ -58,7 +62,7 @@ for plist in $INFO_PLIST_FILES; do
     /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.example.$NEW_PARENT_DIR" "$plist" 2>/dev/null
 done
 
-# Step 7: Update Bundle Display Name in Build Settings
+# Step 8: Update Bundle Display Name in Build Settings
 echo "Updating Bundle Display Name in Build Settings..."
 PROJECT_FILE="../$NEW_PARENT_DIR/$NEW_PARENT_DIR.xcodeproj/project.pbxproj"
 if [ -f "$PROJECT_FILE" ]; then
