@@ -52,7 +52,7 @@ extension CoreBuilder {
                 }),
                 TabBarScreen(title: "Profile", systemImage: "person.fill", screen: {
                     RouterView { router in
-                        Text("Screen3")
+                        profileView(router: router, delegate: ProfileDelegate())
                     }
                     .any()
                 })
