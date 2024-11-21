@@ -23,53 +23,35 @@ rsync -av --exclude=".git" "../$OLD_PARENT_DIR/" "../$NEW_PARENT_DIR/"
 # Step 2: Navigate to the new directory
 cd "../$NEW_PARENT_DIR"
 
-# Step 3: Fully reinitialize the Git repository
-echo "Reinitializing a fresh Git repository..."
-rm -rf .git  # Ensure no remnants of the old Git repository exist
-git init > /dev/null 2>&1
-
-# Step 4: Stage all files and create the initial commit
-echo "Staging all files..."
-git add --all > /dev/null 2>&1
-
-echo "Creating the initial commit..."
-git commit -m "Initial commit for $NEW_PARENT_DIR" > /dev/null 2>&1
-
-# Step 5: Force fix the Git index
-echo "Force rebuilding Git index..."
-rm -f .git/index          # Remove the current index
-git add --all > /dev/null 2>&1  # Rebuild the index by restaging all files
-git commit --amend --no-edit > /dev/null 2>&1  # Amend the commit with the rebuilt index
-
-# Step 6: Rename directories
+# Step 3: Rename directories
 echo "Renaming directories..."
 find . -type d -name "*$OLD_PARENT_DIR*" | while read dir; do
     new_dir=$(echo "$dir" | sed "s/$OLD_PARENT_DIR/$NEW_PARENT_DIR/g")
     mv "$dir" "$new_dir"
 done
 
-# Step 7: Rename files
+# Step 4: Rename files
 echo "Renaming files..."
 find . -type f -name "*$OLD_PARENT_DIR*" | while read file; do
     new_file=$(echo "$file" | sed "s/$OLD_PARENT_DIR/$NEW_PARENT_DIR/g")
     mv "$file" "$new_file"
 done
 
-# Step 8: Replace content inside all files
+# Step 5: Replace content inside all files
 echo "Replacing content inside files..."
 export LC_CTYPE=C
 grep -rl "$OLD_PARENT_DIR" . | while read file; do
     sed -i "" "s/$OLD_PARENT_DIR/$NEW_PARENT_DIR/g" "$file"
 done
 
-# Step 9: Rename .entitlements files explicitly
+# Step 6: Rename .entitlements files explicitly
 echo "Renaming .entitlements files..."
 find . -name "*.entitlements" | while read file; do
     new_file=$(echo "$file" | sed "s/$OLD_PARENT_DIR/$NEW_PARENT_DIR/g")
     mv "$file" "$new_file"
 done
 
-# Step 10: Update Bundle Display Name and Bundle Identifier in Info.plist
+# Step 7: Update Bundle Display Name and Bundle Identifier in Info.plist
 echo "Updating Bundle Display Name and Bundle Identifier..."
 INFO_PLIST_FILES=$(find . -name "Info.plist")
 for plist in $INFO_PLIST_FILES; do
@@ -79,7 +61,7 @@ for plist in $INFO_PLIST_FILES; do
     /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.example.$NEW_PARENT_DIR" "$plist" 2>/dev/null
 done
 
-# Step 11: Update Bundle Display Name in Build Settings
+# Step 8: Update Bundle Display Name in Build Settings
 echo "Updating Bundle Display Name in Build Settings..."
 PROJECT_FILE="./$NEW_PARENT_DIR.xcodeproj/project.pbxproj"
 if [ -f "$PROJECT_FILE" ]; then
@@ -91,4 +73,11 @@ else
     echo "Error: Could not find project.pbxproj file at $PROJECT_FILE"
 fi
 
-echo "New project created as $NEW_PARENT_DIR with a fresh and fixed Git repository!"
+# Step 9: Reinitialize Git at the very end
+echo "Resetting Git to fix any index issues..."
+rm -rf .git  # Remove the existing Git repository
+git init      # Reinitialize a fresh Git repository
+git add .     # Add all files to the staging area
+git commit -m "Fresh Git repository for the new project"  # Create an initial commit
+
+echo "New project created as $NEW_PARENT_DIR with a fresh Git repository!"
