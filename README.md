@@ -2,7 +2,7 @@
 
 🚀 Learn how to build and use this package: https://www.swiftful-thinking.com/architecture
 
-# Starter Project
+# Starter Project 🌹
 
 Starter project for SwiftUI apps using VIPER architecture. 
 
