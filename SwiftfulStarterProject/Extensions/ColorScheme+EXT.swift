@@ -2,7 +2,7 @@
 //  ColorScheme+EXT.swift
 //  SwiftfulStarterProject
 //
-//  Created by Nick Sarno on 11/20/24.
+//  
 //
 import SwiftUI
 

@@ -1,8 +1,8 @@
 //
 //  ButtonViewModifiers.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 10/8/24.
+//  
 //
 
 import SwiftUI

@@ -2,7 +2,7 @@
 //  GlobalInteractor.swift
 //  SwiftfulStarterProject
 //
-//  Created by Nick Sarno on 11/21/24.
+//  
 //
 @MainActor
 protocol GlobalInteractor {

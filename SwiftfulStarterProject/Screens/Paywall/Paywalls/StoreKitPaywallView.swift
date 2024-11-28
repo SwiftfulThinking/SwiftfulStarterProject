@@ -1,8 +1,8 @@
 //
 //  StoreKitPaywallView.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 11/1/24.
+//  
 //
 import SwiftUI
 import StoreKit

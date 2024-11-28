@@ -1,8 +1,8 @@
 //
 //  UserModel.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 10/9/24.
+//  
 //
 import Foundation
 import SwiftUI
@@ -92,10 +92,11 @@ struct UserModel: Codable {
             "user_\(CodingKeys.email.rawValue)": email,
             "user_\(CodingKeys.isAnonymous.rawValue)": isAnonymous,
             "user_\(CodingKeys.authProviders.rawValue)": authProviders?.sorted().joined(separator: ", "),
-            "user_\(CodingKeys.displayName.rawValue)": displayName,
-            "user_\(CodingKeys.firstName.rawValue)": firstName,
-            "user_\(CodingKeys.lastName.rawValue)": lastName,
-            "user_name_calculated": nameCalculated,
+            "user_\(CodingKeys.displayName.rawValue)": displayNameCalculated,
+            "user_\(CodingKeys.firstName.rawValue)": firstNameCalculated,
+            "user_\(CodingKeys.lastName.rawValue)": lastNameCalculated,
+            "user_common_name_calc": commonNameCalculated,
+            "user_full_name_calc": fullNameCalculated,
             "user_\(CodingKeys.phoneNumber.rawValue)": phoneNumber,
             "user_\(CodingKeys.photoURL.rawValue)": photoURL,
             "user_\(CodingKeys.creationDate.rawValue)": creationDate,
@@ -106,18 +107,39 @@ struct UserModel: Codable {
         return dict.compactMapValues({ $0 })
     }
     
-    var nameCalculated: String? {
-        if let displayName {
-            return displayName
-        }
-        
-        if let firstName, let lastName {
-            return firstName + " " + lastName
-        } else if let firstName {
-            return firstName
-        }
-        
+    var firstNameCalculated: String? {
+        guard let firstName, !firstName.isEmpty else { return nil }
+        return firstName
+    }
+    
+    var lastNameCalculated: String? {
+        guard let lastName, !lastName.isEmpty else { return nil }
         return lastName
+    }
+    
+    var displayNameCalculated: String? {
+        guard let displayName, !displayName.isEmpty else { return nil }
+        return displayName
+    }
+    
+    var fullNameCalculated: String? {
+        if let firstNameCalculated, let lastNameCalculated {
+            return firstNameCalculated + " " + lastNameCalculated
+        } else if let firstNameCalculated {
+            return firstNameCalculated
+        } else if let lastNameCalculated {
+            return lastNameCalculated
+        }
+        return nil
+    }
+    
+    var commonNameCalculated: String? {
+        if let displayNameCalculated {
+            return displayNameCalculated
+        } else if let fullNameCalculated {
+            return fullNameCalculated
+        }
+        return nil
     }
     
     mutating func markDidCompleteOnboarding() {

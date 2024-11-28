@@ -1,8 +1,8 @@
 //
 //  OnboardingCompletedPresenter.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 11/9/24.
+//  
 //
 import SwiftUI
 
@@ -34,7 +34,7 @@ class OnboardingCompletedPresenter {
         
         Task {
             do {
-                try await interactor.markOnboardingCompleteForCurrentUser()
+                try await interactor.saveOnboardingComplete()
                 interactor.trackEvent(event: Event.finishSuccess)
 
                 // dismiss screen

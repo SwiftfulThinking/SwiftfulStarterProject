@@ -1,8 +1,8 @@
 //
 //  RemoteUserService.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 10/15/24.
+//  
 //
 
 @MainActor

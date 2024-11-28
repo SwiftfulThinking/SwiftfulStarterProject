@@ -1,8 +1,8 @@
 //
 //  Binding+EXT.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 10/11/24.
+//  
 //
 import SwiftUI
 import Foundation

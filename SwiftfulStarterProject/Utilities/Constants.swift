@@ -2,7 +2,7 @@
 //  Constants.swift
 //  SwiftfulStarterProject
 //
-//  Created by Nick Sarno on 11/19/24.
+//  
 //
 struct Constants {
     static let randomImage = "https://picsum.photos/600/600"

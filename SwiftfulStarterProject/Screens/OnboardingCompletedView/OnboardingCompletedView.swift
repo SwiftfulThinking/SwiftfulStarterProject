@@ -1,8 +1,8 @@
 //
 //  OnboardingCompletedView.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 10/6/24.
+//  
 //
 
 import SwiftUI

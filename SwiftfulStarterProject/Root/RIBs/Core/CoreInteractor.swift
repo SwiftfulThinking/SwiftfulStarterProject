@@ -61,8 +61,8 @@ struct CoreInteractor: GlobalInteractor {
         userManager.currentUser
     }
     
-    func markOnboardingCompleteForCurrentUser() async throws {
-        try await userManager.markOnboardingCompleteForCurrentUser()
+    func saveOnboardingComplete() async throws {
+        try await userManager.saveOnboardingCompleteForCurrentUser()
     }
 
     // MARK: LogManager
@@ -97,11 +97,11 @@ struct CoreInteractor: GlobalInteractor {
 
     // MARK: PushManager
     
-    func requestAuthorization() async throws -> Bool {
+    func requestPushAuthorization() async throws -> Bool {
         try await pushManager.requestAuthorization()
     }
     
-    func canRequestAuthorization() async -> Bool {
+    func canRequestPushAuthorization() async -> Bool {
         await pushManager.canRequestAuthorization()
     }
 

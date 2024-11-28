@@ -1,8 +1,8 @@
 //
 //  SettingsView.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 10/6/24.
+//  
 //
 import SwiftUI
 
@@ -109,7 +109,7 @@ struct SettingsView: View {
         } header: {
             Text("Application")
         } footer: {
-            Text("Created by Swiftful Thinking.\nLearn more at www.swiftful-thinking.com.")
+            Text("2024 Developer, LLC")
                 .baselineOffset(6)
         }
     }

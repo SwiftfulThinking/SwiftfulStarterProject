@@ -1,8 +1,8 @@
 //
 //  FirebaseUserService.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 10/15/24.
+//  
 //
 import FirebaseFirestore
 import SwiftfulFirestore

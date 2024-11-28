@@ -2,7 +2,7 @@
 //  SwiftfulStarterProjectUnitTests.swift
 //  SwiftfulStarterProjectUnitTests
 //
-//  Created by Nick Sarno on 11/20/24.
+//  
 //
 
 import Testing

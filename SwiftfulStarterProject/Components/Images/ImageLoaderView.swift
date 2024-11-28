@@ -1,8 +1,8 @@
 //
 //  ImageLoaderView.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 10/6/24.
+//  
 //
 
 import SwiftUI
@@ -25,7 +25,7 @@ struct ImageLoaderView: View {
                     .allowsHitTesting(false)
             )
             .clipped()
-            .ifSatisfiedCondition(forceTransitionAnimation) { content in
+            .ifSatisfiesCondition(forceTransitionAnimation) { content in
                 content
                     .drawingGroup()
             }

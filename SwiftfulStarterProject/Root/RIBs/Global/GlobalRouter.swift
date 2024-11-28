@@ -2,7 +2,7 @@
 //  GlobalRouter.swift
 //  SwiftfulStarterProject
 //
-//  Created by Nick Sarno on 11/21/24.
+//  
 //
 import SwiftUI
 
@@ -27,8 +27,8 @@ extension GlobalRouter {
         })
     }
     
-    func showSimpleAlert(title: String, subtitle: String?) {
-        router.showAlert(.alert, title: title, subtitle: subtitle, alert: { })
+    func showSimpleAlert(text: String) {
+        router.showBasicAlert(text: text)
     }
     
     func showAlert(error: Error) {

@@ -2,7 +2,7 @@
 //  View+EXT.swift
 //  SwiftfulStarterProject
 //
-//  Created by Nick Sarno on 11/19/24.
+//  
 //
 import SwiftUI
 
@@ -23,7 +23,7 @@ extension View {
     }
 
     @ViewBuilder
-    func ifSatisfiedCondition(_ condition: Bool, transform: (Self) -> some View) -> some View {
+    func ifSatisfiesCondition(_ condition: Bool, transform: (Self) -> some View) -> some View {
         if condition {
             transform(self)
         } else {

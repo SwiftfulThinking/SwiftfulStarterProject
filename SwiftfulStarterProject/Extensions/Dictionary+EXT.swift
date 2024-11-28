@@ -1,8 +1,8 @@
 //
 //  Dictionary+EXT.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 10/22/24.
+//  
 //
 import Foundation
 

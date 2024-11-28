@@ -1,8 +1,8 @@
 //
 //  OnFirstAppearViewModifier.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 10/27/24.
+//  
 //
 import SwiftUI
 

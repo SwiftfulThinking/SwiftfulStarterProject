@@ -1,8 +1,8 @@
 //
 //  Collection+EXT.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 10/16/24.
+//  
 //
 
 extension Collection {

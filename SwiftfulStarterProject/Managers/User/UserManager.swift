@@ -1,8 +1,8 @@
 //
 //  UserManager.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 10/14/24.
+//  
 //
 import SwiftUI
 
@@ -69,7 +69,7 @@ class UserManager {
         }
     }
     
-    func markOnboardingCompleteForCurrentUser() async throws {
+    func saveOnboardingCompleteForCurrentUser() async throws {
         let uid = try currentUserId()
         try await remote.markOnboardingCompleted(userId: uid)
     }

@@ -1,8 +1,8 @@
 //
 //  AppPresenter.swift
-//  AIChatCourse
+//  
 //
-//  Created by Nick Sarno on 11/9/24.
+//  
 //
 import SwiftUI
 import SwiftfulUtilities
