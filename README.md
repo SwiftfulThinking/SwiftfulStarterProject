@@ -1,4 +1,21 @@
-Starter Project for VIPER/RIBs in SwiftUI using Swiftful dependencies.
+❤️ This package is provided for free. Tips appreciated: https://www.buymeacoffee.com/nicksarno
+
+🚀 Learn how to build and use this package: https://www.swiftful-thinking.com/architecture
+
+# Starter Project
+
+Starter project for SwiftUI apps using VIPER architecture. 
+
+Project contains:
+- Onboarding -> Tabbar Flow
+- Sign in & sign out
+- Paywall template
+- In-app purchases
+- User authentication
+- User management
+- Routing logic
+- Logging, analytics, crashlytics
+- AB tests
 
 ## Steps to create a new project:
 
