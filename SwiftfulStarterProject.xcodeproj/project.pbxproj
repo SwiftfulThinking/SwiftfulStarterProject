@@ -48,6 +48,16 @@
 		028F9B532CECF2C2009B9F48 /* SwiftfulStarterProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftfulStarterProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		028743182D336F3800C2C3E1 /* Exceptions for "SwiftfulStarterProject" folder in "SwiftfulStarterProject" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 028F9B522CECF2C2009B9F48 /* SwiftfulStarterProject */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		022958302CEE7FEF00765488 /* SwiftfulStarterProjectUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -61,6 +71,9 @@
 		};
 		028F9B552CECF2C2009B9F48 /* SwiftfulStarterProject */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				028743182D336F3800C2C3E1 /* Exceptions for "SwiftfulStarterProject" folder in "SwiftfulStarterProject" target */,
+			);
 			path = SwiftfulStarterProject;
 			sourceTree = "<group>";
 		};
@@ -467,7 +480,8 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "StarterProject - Mock";
+				INFOPLIST_FILE = SwiftfulStarterProject/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "StarterProject - Dev";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -752,6 +766,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SwiftfulStarterProject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "StarterProject - Dev";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -796,7 +811,8 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = StarterProject;
+				INFOPLIST_FILE = SwiftfulStarterProject/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "StarterProject - Dev";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
