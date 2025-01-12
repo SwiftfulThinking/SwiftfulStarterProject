@@ -15,7 +15,7 @@ class UserManager {
     private let logManager: LogManager?
     
     private(set) var currentUser: UserModel?
-    private var currentUserListener: ListenerRegistration?
+    private var currentUserListenerTask: Task<Void, Error>?
 
     init(services: UserServices, logManager: LogManager? = nil) {
         self.remote = services.remote
@@ -36,14 +36,12 @@ class UserManager {
     }
     
     private func addCurrentUserListener(userId: String) {
-        currentUserListener?.remove()
         logManager?.trackEvent(event: Event.remoteListenerStart)
 
-        Task {
+        currentUserListenerTask?.cancel()
+        currentUserListenerTask = Task {
             do {
-                for try await value in remote.streamUser(userId: userId, onListenerConfigured: { listener in
-                    self.currentUserListener = listener
-                }) {
+                for try await value in remote.streamUser(userId: userId) {
                     self.currentUser = value
                     logManager?.trackEvent(event: Event.remoteListenerSuccess(user: value))
                     logManager?.addUserProperties(dict: value.eventParameters, isHighPriority: true)
@@ -99,8 +97,8 @@ class UserManager {
     }
     
     func signOut() {
-        currentUserListener?.remove()
-        currentUserListener = nil
+        currentUserListenerTask?.cancel()
+        currentUserListenerTask = nil
         currentUser = nil
         logManager?.trackEvent(event: Event.signOut)
     }

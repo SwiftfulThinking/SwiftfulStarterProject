@@ -15,6 +15,6 @@ protocol RemoteUserService: Sendable {
     func saveUserEmail(userId: String, email: String) async throws
     func saveUserProfileImage(userId: String, image: UIImage) async throws
     func markOnboardingCompleted(userId: String) async throws
-    func streamUser(userId: String, onListenerConfigured: @escaping (ListenerRegistration) -> Void) -> AsyncThrowingStream<UserModel, Error>
+    func streamUser(userId: String) -> AsyncThrowingStream<UserModel, Error>
     func deleteUser(userId: String) async throws
 }

@@ -213,8 +213,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulAuthenticating",
       "state" : {
-        "revision" : "89dbbcd872eb8a080969e516ea4ee5922ed93603",
-        "version" : "1.0.9"
+        "revision" : "50b14144c4a239ac59b748d6a6ece53ec943318a",
+        "version" : "1.0.10"
       }
     },
     {
@@ -222,8 +222,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulAuthenticatingFirebase",
       "state" : {
-        "revision" : "0d21a188f572dc0c8d41d3b5f5c2e5d663daa5e1",
-        "version" : "1.0.7"
+        "revision" : "967cf67cc6eaae2c3484302c4be03d7a75005e76",
+        "version" : "1.0.8"
       }
     },
     {
@@ -231,8 +231,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulFirestore",
       "state" : {
-        "revision" : "ee5e50d0d20141d9e70ee6141e4c4a39a3145f99",
-        "version" : "11.0.1"
+        "revision" : "7fc9e1d74f655d7ae7d5f29016b89cfc83703622",
+        "version" : "11.0.2"
       }
     },
     {

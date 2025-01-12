@@ -53,7 +53,7 @@ class MockUserService: RemoteUserService {
         self.currentUser = currentUser
     }
     
-    func streamUser(userId: String, onListenerConfigured: @escaping (any ListenerRegistration) -> Void) -> AsyncThrowingStream<UserModel, any Error> {
+    func streamUser(userId: String) -> AsyncThrowingStream<UserModel, any Error> {
         AsyncThrowingStream { continuation in
             if let currentUser {
                 continuation.yield(currentUser)
