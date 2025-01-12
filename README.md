@@ -142,7 +142,7 @@ The below diagram shows 5 VIPER screens set within 1 RIB.
 
 ### Where to go from here?
 
-Thanks for reading! This starter project is provided for **free** from Swiftful Thinking. If you want to learn use architecture and 10x your dev time, I highly suggest taking [SwiftUI Advanced Architecture course](https://www.swiftful-thinking.com/offers/REyNLwwH)! 
+Thanks for reading! This starter project is provided for **free** from Swiftful Thinking. If you want to learn how to use this architecture and 10x your development speed, I highly suggest taking [SwiftUI Advanced Architecture course](https://www.swiftful-thinking.com/offers/REyNLwwH)! 
 
 The starter project includes the following dependencies, which can be easily removed or swapped as needed:
 
