@@ -6,8 +6,12 @@
 //
 import Foundation
 import SwiftUI
+import IdentifiableByString
 
-struct UserModel: Codable {
+struct UserModel: StringIdentifiable, Codable {
+    var id: String {
+        userId
+    }
     
     // These values come from user's Auth info
     let userId: String
