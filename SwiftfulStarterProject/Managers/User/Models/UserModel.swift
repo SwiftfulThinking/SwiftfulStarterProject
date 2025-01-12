@@ -9,6 +9,7 @@ import SwiftUI
 
 struct UserModel: Codable {
     
+    // These values come from user's Auth info
     let userId: String
     let email: String?
     let isAnonymous: Bool?
@@ -21,6 +22,11 @@ struct UserModel: Codable {
     let creationDate: Date?
     let creationVersion: String?
     let lastSignInDate: Date?
+    
+    // These values can be added by the user
+    let submittedEmail: String?
+    let submittedName: String?
+    let submittedProfileImage: String?
     let fcmToken: String?
     private(set) var didCompleteOnboarding: Bool?
     
@@ -37,6 +43,9 @@ struct UserModel: Codable {
         creationDate: Date? = nil,
         creationVersion: String? = nil,
         lastSignInDate: Date? = nil,
+        submittedEmail: String? = nil,
+        submittedName: String? = nil,
+        submittedProfileImage: String? = nil,
         fcmToken: String? = nil,
         didCompleteOnboarding: Bool? = nil
     ) {
@@ -52,6 +61,9 @@ struct UserModel: Codable {
         self.creationDate = creationDate
         self.creationVersion = creationVersion
         self.lastSignInDate = lastSignInDate
+        self.submittedName = submittedName
+        self.submittedEmail = submittedEmail
+        self.submittedProfileImage = submittedProfileImage
         self.fcmToken = fcmToken
         self.didCompleteOnboarding = didCompleteOnboarding
     }
@@ -86,6 +98,9 @@ struct UserModel: Codable {
         case creationDate = "creation_date"
         case creationVersion = "creation_version"
         case lastSignInDate = "last_sign_in_date"
+        case submittedName = "submitted_name"
+        case submittedEmail = "submitted_email"
+        case submittedProfileImage = "submitted_profile_image"
         case fcmToken = "fcm_token"
         case didCompleteOnboarding = "did_complete_onboarding"
     }
@@ -106,27 +121,34 @@ struct UserModel: Codable {
             "user_\(CodingKeys.creationDate.rawValue)": creationDate,
             "user_\(CodingKeys.creationVersion.rawValue)": creationVersion,
             "user_\(CodingKeys.lastSignInDate.rawValue)": lastSignInDate,
+            "user_\(CodingKeys.submittedName.rawValue)": submittedName,
+            "user_\(CodingKeys.submittedEmail.rawValue)": submittedEmail,
+            "user_\(CodingKeys.submittedProfileImage.rawValue)": submittedProfileImage,
             "user_has_\(CodingKeys.fcmToken.rawValue)": (fcmToken?.count ?? 0) > 0,
             "user_\(CodingKeys.didCompleteOnboarding.rawValue)": didCompleteOnboarding
         ]
         return dict.compactMapValues({ $0 })
     }
     
+    /// First name, per user's Auth info
     var firstNameCalculated: String? {
         guard let firstName, !firstName.isEmpty else { return nil }
         return firstName
     }
     
+    /// Last name, per user's Auth info
     var lastNameCalculated: String? {
         guard let lastName, !lastName.isEmpty else { return nil }
         return lastName
     }
     
+    /// Display name, per user's Auth info
     var displayNameCalculated: String? {
         guard let displayName, !displayName.isEmpty else { return nil }
         return displayName
     }
     
+    /// Full name, per user's Auth info
     var fullNameCalculated: String? {
         if let firstNameCalculated, let lastNameCalculated {
             return firstNameCalculated + " " + lastNameCalculated
@@ -138,11 +160,40 @@ struct UserModel: Codable {
         return nil
     }
     
+    /// User's name that the user may have added manually
+    var submittedNameCalculated: String? {
+        guard let submittedName, !submittedName.isEmpty else { return nil }
+        return submittedName
+    }
+    
+    /// Try to get the "best" common name for the user (ie. their preferred first name). Use this most of the time.
     var commonNameCalculated: String? {
-        if let displayNameCalculated {
+        if let submittedNameCalculated {
+            return submittedNameCalculated
+        } else if let displayNameCalculated {
             return displayNameCalculated
-        } else if let fullNameCalculated {
-            return fullNameCalculated
+        } else if let firstNameCalculated {
+            return firstNameCalculated
+        }
+        return nil
+    }
+    
+    /// Try to get submitted profile image, otherwise user image from user's auth (if available).
+    var profileImageNameCalculated: String? {
+        if let submittedProfileImage {
+            return submittedProfileImage
+        } else if let photoURL {
+            return photoURL
+        }
+        return nil
+    }
+    
+    /// Try to get submitted email, otherwise user email from user's auth (if available).
+    var emailCalculated: String? {
+        if let submittedEmail {
+            return submittedEmail
+        } else if let email {
+            return email
         }
         return nil
     }

@@ -5,6 +5,7 @@
 //  
 //
 import SwiftUI
+import UIKit
 
 @MainActor
 class MockUserService: RemoteUserService {
@@ -20,6 +21,18 @@ class MockUserService: RemoteUserService {
     }
     
     func saveUserFCMToken(userId: String, token: String) async throws {
+        
+    }
+    
+    func saveUserName(userId: String, name: String) async throws {
+        
+    }
+    
+    func saveUserEmail(userId: String, email: String) async throws {
+        
+    }
+    
+    func saveUserProfileImage(userId: String, image: UIImage) async throws {
         
     }
     
