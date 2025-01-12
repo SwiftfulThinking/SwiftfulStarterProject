@@ -19,6 +19,10 @@ struct FirebaseUserService: RemoteUserService {
         Firestore.firestore().collection("users")
     }
     
+    func getUser(userId: String) async throws -> UserModel {
+        try await collection.getDocument(id: userId)
+    }
+    
     func saveUser(user: UserModel) async throws {
         try collection.document(user.userId).setData(from: user, merge: true)
     }

@@ -69,6 +69,10 @@ class UserManager {
         }
     }
     
+    func getUser(userId: String) async throws -> UserModel {
+        try await remote.getUser(userId: userId)
+    }
+    
     func saveOnboardingCompleteForCurrentUser() async throws {
         let uid = try currentUserId()
         try await remote.markOnboardingCompleted(userId: uid)

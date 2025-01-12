@@ -61,6 +61,10 @@ struct CoreInteractor: GlobalInteractor {
         userManager.currentUser
     }
     
+    func getUser(userId: String) async throws -> UserModel {
+        try await userManager.getUser(userId: userId)
+    }
+    
     func saveOnboardingComplete() async throws {
         try await userManager.saveOnboardingCompleteForCurrentUser()
     }

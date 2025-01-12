@@ -8,6 +8,7 @@ import UIKit
 
 @MainActor
 protocol RemoteUserService: Sendable {
+    func getUser(userId: String) async throws -> UserModel
     func saveUser(user: UserModel) async throws
     func saveUserFCMToken(userId: String, token: String) async throws
     func saveUserName(userId: String, name: String) async throws

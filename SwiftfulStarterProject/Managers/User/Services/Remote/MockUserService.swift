@@ -16,6 +16,14 @@ class MockUserService: RemoteUserService {
         self.currentUser = user
     }
     
+    func getUser(userId: String) async throws -> UserModel {
+        guard let user = UserModel.mocks.first(where: { $0.userId == userId }) else {
+            throw URLError(.badURL)
+        }
+        
+        return user
+    }
+    
     func saveUser(user: UserModel) async throws {
         currentUser = user
     }
