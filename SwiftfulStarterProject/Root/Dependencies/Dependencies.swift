@@ -20,6 +20,7 @@ struct Dependencies {
         let logManager: LogManager
         let pushManager: PushManager
         let hapticManager: HapticManager
+        let soundEffectManager: SoundEffectManager
 
         switch config {
         case .mock(isSignedIn: let isSignedIn):
@@ -74,6 +75,7 @@ struct Dependencies {
             appState = AppState()
         }
         pushManager = PushManager(logManager: logManager)
+        soundEffectManager = SoundEffectManager(logger: logManager)
         
         let container = DependencyContainer()
         container.register(AuthManager.self, service: authManager)
@@ -84,6 +86,7 @@ struct Dependencies {
         container.register(AppState.self, service: appState)
         container.register(PushManager.self, service: pushManager)
         container.register(HapticManager.self, service: hapticManager)
+        container.register(SoundEffectManager.self, service: soundEffectManager)
         self.container = container
     }
 }

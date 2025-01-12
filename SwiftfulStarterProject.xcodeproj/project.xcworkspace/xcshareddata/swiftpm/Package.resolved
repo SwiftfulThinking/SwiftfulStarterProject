@@ -1,5 +1,5 @@
 {
-  "originHash" : "945b0a8e271f9343b73858dbd877c85b7e835f4d76a7153a443d1d4c008a305c",
+  "originHash" : "46c0b75654369079c01dcac0e9b332e522e23a05a33fb0b43891788feefad7f5",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -314,6 +314,15 @@
       "state" : {
         "revision" : "bf0a8b4628b0e24d60f090b382c15b96329ab92c",
         "version" : "5.3.6"
+      }
+    },
+    {
+      "identity" : "swiftfulsoundeffects",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulSoundEffects.git",
+      "state" : {
+        "revision" : "00f8d6c9954c0adf099a32578af6b54a3ea10dd8",
+        "version" : "1.0.0"
       }
     },
     {

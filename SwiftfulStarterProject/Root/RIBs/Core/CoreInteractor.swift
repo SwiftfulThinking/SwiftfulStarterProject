@@ -10,6 +10,7 @@ struct CoreInteractor: GlobalInteractor {
     private let appState: AppState
     private let pushManager: PushManager
     private let hapticManager: HapticManager
+    private let soundEffectManager: SoundEffectManager
 
     init(container: DependencyContainer) {
         self.authManager = container.resolve(AuthManager.self)!
@@ -20,6 +21,7 @@ struct CoreInteractor: GlobalInteractor {
         self.appState = container.resolve(AppState.self)!
         self.pushManager = container.resolve(PushManager.self)!
         self.hapticManager = container.resolve(HapticManager.self)!
+        self.soundEffectManager = container.resolve(SoundEffectManager.self)!
     }
     
     // MARK: AppState
@@ -180,6 +182,26 @@ struct CoreInteractor: GlobalInteractor {
     func tearDownHaptic(option: HapticOption) {
         Task {
             await hapticManager.tearDown(option: option)
+        }
+    }
+    
+    // MARK: Sound Effects
+    
+    func prepareSoundEffect(sound: SoundEffectFile, simultaneousPlayers: Int = 1) {
+        Task {
+            await soundEffectManager.prepare(url: sound.url, simultaneousPlayers: simultaneousPlayers, volume: 1)
+        }
+    }
+    
+    func tearDownSoundEffect(sound: SoundEffectFile) {
+        Task {
+            await soundEffectManager.tearDown(url: sound.url)
+        }
+    }
+    
+    func playSoundEffect(sound: SoundEffectFile) {
+        Task {
+            await soundEffectManager.play(url: sound.url)
         }
     }
     

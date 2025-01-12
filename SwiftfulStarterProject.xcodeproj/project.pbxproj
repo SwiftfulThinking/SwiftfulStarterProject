@@ -11,6 +11,7 @@
 		0287431A2D3376BD00C2C3E1 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 028743192D3376BD00C2C3E1 /* FirebaseMessaging */; };
 		0287443F2D33874E00C2C3E1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0287443E2D33874E00C2C3E1 /* FirebaseStorage */; };
 		028744422D3396FC00C2C3E1 /* SwiftfulHaptics in Frameworks */ = {isa = PBXBuildFile; productRef = 028744412D3396FC00C2C3E1 /* SwiftfulHaptics */; };
+		028744482D33A58F00C2C3E1 /* SwiftfulSoundEffects in Frameworks */ = {isa = PBXBuildFile; productRef = 028744472D33A58F00C2C3E1 /* SwiftfulSoundEffects */; };
 		028F9B862CECF666009B9F48 /* SwiftfulUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9B852CECF666009B9F48 /* SwiftfulUtilities */; };
 		028F9BB62CED10E1009B9F48 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9BB52CED10E1009B9F48 /* SwiftfulRouting */; };
 		028F9BC52CED14CA009B9F48 /* SwiftfulLogging in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9BC42CED14CA009B9F48 /* SwiftfulLogging */; };
@@ -106,6 +107,7 @@
 				028F9C142CED2525009B9F48 /* FirebaseFirestore in Frameworks */,
 				028F9BCE2CED152A009B9F48 /* SwiftfulLoggingMixpanel in Frameworks */,
 				028F9BDC2CED156D009B9F48 /* SwiftfulAuthenticatingFirebase in Frameworks */,
+				028744482D33A58F00C2C3E1 /* SwiftfulSoundEffects in Frameworks */,
 				0229588C2CEE932F00765488 /* SDWebImageSwiftUI in Frameworks */,
 				028F9B862CECF666009B9F48 /* SwiftfulUtilities in Frameworks */,
 				028F9BD72CED155A009B9F48 /* SwiftfulAuthUI in Frameworks */,
@@ -241,6 +243,7 @@
 				028743192D3376BD00C2C3E1 /* FirebaseMessaging */,
 				0287443E2D33874E00C2C3E1 /* FirebaseStorage */,
 				028744412D3396FC00C2C3E1 /* SwiftfulHaptics */,
+				028744472D33A58F00C2C3E1 /* SwiftfulSoundEffects */,
 			);
 			productName = SwiftfulStarterProject;
 			productReference = 028F9B532CECF2C2009B9F48 /* SwiftfulStarterProject.app */;
@@ -294,6 +297,7 @@
 				028F9C152CED2534009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulFirestore" */,
 				0229588A2CEE932F00765488 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				028744402D3396FC00C2C3E1 /* XCRemoteSwiftPackageReference "SwiftfulHaptics" */,
+				028744462D33A58F00C2C3E1 /* XCRemoteSwiftPackageReference "SwiftfulSoundEffects" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 028F9B542CECF2C2009B9F48 /* Products */;
@@ -912,6 +916,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		028744462D33A58F00C2C3E1 /* XCRemoteSwiftPackageReference "SwiftfulSoundEffects" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulSoundEffects.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		028F9B842CECF666009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulUtilities" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulUtilities";
@@ -1038,6 +1050,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 028744402D3396FC00C2C3E1 /* XCRemoteSwiftPackageReference "SwiftfulHaptics" */;
 			productName = SwiftfulHaptics;
+		};
+		028744472D33A58F00C2C3E1 /* SwiftfulSoundEffects */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 028744462D33A58F00C2C3E1 /* XCRemoteSwiftPackageReference "SwiftfulSoundEffects" */;
+			productName = SwiftfulSoundEffects;
 		};
 		028F9B852CECF666009B9F48 /* SwiftfulUtilities */ = {
 			isa = XCSwiftPackageProductDependency;
