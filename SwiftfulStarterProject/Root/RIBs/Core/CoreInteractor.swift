@@ -217,6 +217,7 @@ struct CoreInteractor: GlobalInteractor {
                 firebaseAppInstanceId: Constants.firebaseAnalyticsAppInstanceID
             )
         )
+        logManager.addUserProperties(dict: Utilities.eventParameters, isHighPriority: false)
     }
     
     func signOut() async throws {
