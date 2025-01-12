@@ -52,9 +52,18 @@ class HomePresenter {
         
         interactor.trackEvent(event: Event.pushNotifSuccess)
         
-        for (key, value) in userInfo {
+        for (_, _) in userInfo {
             // Do something with (key, value)
         }
+    }
+    
+    func onDevSettingsPressed() {
+        #if MOCK || DEV
+        interactor.trackEvent(event: Event.onDevSettings)
+        router.showDevSettingsView()
+        #else
+        interactor.trackEvent(event: Event.onDevSettingsFail)
+        #endif
     }
 }
 
@@ -69,6 +78,8 @@ extension HomePresenter {
         case pushNotifStart
         case pushNotifNoData
         case pushNotifSuccess
+        case onDevSettings
+        case onDevSettingsFail
 
         var eventName: String {
             switch self {
@@ -80,6 +91,8 @@ extension HomePresenter {
             case .pushNotifStart:           return "HomeView_PushNotif_Start"
             case .pushNotifNoData:          return "HomeView_PushNotif_NoItems"
             case .pushNotifSuccess:         return "HomeView_PushNotif_Success"
+            case .onDevSettings:            return "HomeView_DevSettings"
+            case .onDevSettingsFail:        return "HomeView_DevSettings_Fail"
             }
         }
         
@@ -94,6 +107,8 @@ extension HomePresenter {
         
         var type: LogType {
             switch self {
+            case .onDevSettingsFail:
+                return .severe
             default:
                 return .analytic
             }

@@ -12,8 +12,24 @@ struct HomeView: View {
     @State var presenter: HomePresenter
     let delegate: HomeDelegate
     
+    private var showDevSettingsButton: Bool {
+        #if DEV || MOCK
+        return true
+        #else
+        return false
+        #endif
+    }
+
     var body: some View {
         Text("Hello, World!")
+            .navigationTitle("Home")
+            .toolbar(content: {
+                ToolbarItem(placement: .topBarLeading) {
+                    if showDevSettingsButton {
+                        devSettingsButton
+                    }
+                }
+            })
             .onAppear {
                 presenter.onViewAppear(delegate: delegate)
             }
@@ -27,6 +43,21 @@ struct HomeView: View {
                 presenter.handlePushNotificationRecieved(notification: notification)
             }
     }
+    
+    private var devSettingsButton: some View {
+        Text("DEV")
+            .foregroundStyle(.white)
+            .font(.callout)
+            .bold()
+            .padding(.horizontal, 8)
+            .padding(.vertical, 6)
+            .background(Color.accent)
+            .cornerRadius(12)
+            .anyButton(.press) {
+                presenter.onDevSettingsPressed()
+            }
+    }
+
 }
 
 #Preview {
