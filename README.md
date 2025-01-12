@@ -12,7 +12,7 @@ Starter project for SwiftUI apps using VIPER architecture.
   
 A starter project using VIPER/RIBs architecture in SwiftUI. You can learn how this architecture works and how to build this yourself in the [SwiftUI Advanced Architecture course](https://www.swiftful-thinking.com/offers/REyNLwwH). This architecture can help your team build 10x faster, while writing testable code. The VIPER structure creates clear seperation of concerns and removes the guesswork for junior devs.
 
-The data managers are erased to protocol and are dependency agnostic. The starter project is connected to Firebase (among other dependencies) but this can easily be swapped out.
+The data managers are erased to protocols and are dependency agnostic. The starter project is connected to Firebase (among other dependencies) but this can easily be swapped out.
 
 Some pre-built features this project contains:
 - Onboarding flow
