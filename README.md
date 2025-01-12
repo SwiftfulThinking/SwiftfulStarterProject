@@ -62,7 +62,7 @@ If it doesn't work, you may need to make the script file executable by running
 chmod +x rename_project.sh
 ```
 
-#### 4. Your new project folder should appear SwiftfulStarterProject folder.
+#### 4. Your new project folder should appear next to the SwiftfulStarterProject folder.
 
 1. The new project should have all files already renamed.
 2. Manually add your Firebase plist files at /NewProjectName/Supporting Files/GoogleServicePLists
