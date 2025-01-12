@@ -92,7 +92,7 @@ In this architecture, the SwiftUI framework is focused solely on building the UI
 
 We begin building a "Vanilla SwiftUI app". This is a basic SwiftUI implementation where all logic is held in the View. This is the easiest and most convenient way to build SwiftUI applications. Keeping all logic in the View, we can leverage SwiftUI's Environment and many Property Wrappers, such as @AppStorage. However, this leads to the "Massive-View-Controller" problem and severely limits testability. 
 
-We improve the architecture by introducing MVVM. In MVVM, we add an additional layer between the View and the Dependencies (ie. the ViewModel). This allows us to move the business logic from the View into the ViewModel and then write tests for the ViewModel's logic. Although this is great for testability, it is less convenient for the developer, since we can no longer rely on SwiftUI's environment. Instead we need to inject the Dependencies into each ViewModel ourselves.
+We improve the architecture by introducing MVVM. In MVVM, we add an additional layer between the View and the dependencies (ie. the ViewModel). This allows us to move the business logic from the View into the ViewModel and then write tests for the ViewModel's logic. Although this is great for testability, it is less convenient for the developer, since we can no longer rely on SwiftUI's environment. Instead we need to inject the dependencies into each ViewModel ourselves.
 
 If we further architect the application, we can decouple the routing from the View and move that logic into the ViewModel as well. To further improve testability of the ViewModel, we can abstract both the routing dependencies and the data dependencies to protocols. We can rename the ViewModel as Presenter, which now has a Router and an Interactor, completing the VIPER implementation.
 
@@ -134,9 +134,11 @@ The below image shows RIBs structure in an app with 3 RIBs.
 
 ### The Ultimate Architecture
 
-Implementing VIPER + RIBs, brings a complete SwiftUI architecture that can adapt for any team. VIPER enables the business logic in each View to be testable. RIBs enables us to modulate the codebase and reuse Interactor/Router methods within each module.
+Implementing VIPER + RIBs, brings a complete SwiftUI architecture that can adapt for any team. 
+- VIPER enables the business logic for each screen to be testable.
+- RIBs enables us to modulate the codebase while reusing the interactor/router methods within each module.
 
-The below diagram shows 5 VIPER screens set within 1 RIB.
+The below diagram shows an application with 5 VIPER screens set within 1 RIB.
 
 ![143_architecture](https://github.com/user-attachments/assets/a3567b98-e590-41ba-b865-23edb28bcf50)
 
