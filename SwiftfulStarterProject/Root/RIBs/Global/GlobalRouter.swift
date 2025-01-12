@@ -13,12 +13,47 @@ protocol GlobalRouter {
 
 extension GlobalRouter {
     
+    /// Dismiss the current screen
     func dismissScreen() {
         router.dismissScreen()
     }
     
-    func dismissModal() {
-        router.dismissModal()
+    /// Dismiss the closest sheet or fullScreenCover
+    func dismissEnvironment() {
+        router.dismissEnvironment()
+    }
+    
+    /// Dismiss all screens pushed onto the NavStack
+    func dismissScreenStack() {
+        router.dismissScreenStack()
+    }
+    
+    func dismissModal(id: String?) {
+        router.dismissModal(id: id)
+    }
+    
+    func dismissAllModals() {
+        router.dismissAllModals()
+    }
+    
+    func showNextScreen() throws {
+        try router.showNextScreen()
+    }
+    
+    func showNextScreenOrDismissEnvironment() {
+        do {
+            try showNextScreen()
+        } catch {
+            dismissEnvironment()
+        }
+    }
+    
+    func showNextScreenOrDismissScreenStack() {
+        do {
+            try showNextScreen()
+        } catch {
+            dismissScreenStack()
+        }
     }
     
     func showAlert(_ option: DialogOption, title: String, subtitle: String?, buttons: (@Sendable () -> AnyView)?) {
@@ -27,8 +62,8 @@ extension GlobalRouter {
         })
     }
     
-    func showSimpleAlert(text: String) {
-        router.showBasicAlert(text: text)
+    func showSimpleAlert(title: String, subtitle: String?) {
+        router.showAlert(.alert, title: title, subtitle: subtitle, alert: { })
     }
     
     func showAlert(error: Error) {
