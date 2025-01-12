@@ -1,7 +1,7 @@
 import SwiftUI
 
 @MainActor
-protocol ProfileRouter {
+protocol ProfileRouter: GlobalRouter {
     func showSettingsView()
 }
 

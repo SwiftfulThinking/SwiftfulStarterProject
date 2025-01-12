@@ -6,9 +6,8 @@
 //
 
 @MainActor
-protocol PaywallRouter {
-    func dismissScreen()
-    func showAlert(error: Error)
+protocol PaywallRouter: GlobalRouter {
+    
 }
 
 extension CoreRouter: PaywallRouter { }

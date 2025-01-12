@@ -9,6 +9,7 @@ struct CoreInteractor: GlobalInteractor {
     private let purchaseManager: PurchaseManager
     private let appState: AppState
     private let pushManager: PushManager
+    private let hapticManager: HapticManager
 
     init(container: DependencyContainer) {
         self.authManager = container.resolve(AuthManager.self)!
@@ -18,6 +19,7 @@ struct CoreInteractor: GlobalInteractor {
         self.purchaseManager = container.resolve(PurchaseManager.self)!
         self.appState = container.resolve(AppState.self)!
         self.pushManager = container.resolve(PushManager.self)!
+        self.hapticManager = container.resolve(HapticManager.self)!
     }
     
     // MARK: AppState
@@ -160,7 +162,27 @@ struct CoreInteractor: GlobalInteractor {
     func updateProfileAttributes(attributes: PurchaseProfileAttributes) async throws {
         try await purchaseManager.updateProfileAttributes(attributes: attributes)
     }
+    
+    // MARK: Haptics
+    
+    func prepareHaptic(option: HapticOption) {
+        Task {
+            await hapticManager.prepare(option: option)
+        }
+    }
         
+    func playHaptic(option: HapticOption) {
+        Task {
+            await hapticManager.play(option: option)
+        }
+    }
+    
+    func tearDownHaptic(option: HapticOption) {
+        Task {
+            await hapticManager.tearDown(option: option)
+        }
+    }
+    
     // MARK: SHARED
     
     func logIn(user: UserAuthInfo, isNewUser: Bool) async throws {

@@ -6,8 +6,8 @@
 //
 
 @MainActor
-protocol OnboardingCompletedRouter {
-    func showAlert(error: Error)
+protocol OnboardingCompletedRouter: GlobalRouter {
+    
 }
 
 extension CoreRouter: OnboardingCompletedRouter { }

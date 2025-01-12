@@ -19,6 +19,7 @@ struct Dependencies {
         let appState: AppState
         let logManager: LogManager
         let pushManager: PushManager
+        let hapticManager: HapticManager
 
         switch config {
         case .mock(isSignedIn: let isSignedIn):
@@ -38,6 +39,7 @@ struct Dependencies {
             abTestManager = ABTestManager(service: abTestService, logManager: logManager)
             purchaseManager = PurchaseManager(service: MockPurchaseService(), logger: logManager)
             appState = AppState(showTabBar: isSignedIn)
+            hapticManager = HapticManager(logger: logManager)
         case .dev:
             logManager = LogManager(services: [
                 ConsoleService(printParameters: true),
@@ -52,6 +54,7 @@ struct Dependencies {
                 service: RevenueCatPurchaseService(apiKey: Keys.revenueCatAPIKey), // StoreKitPurchaseService(),
                 logger: logManager
             )
+            hapticManager = HapticManager(logger: logManager)
             appState = AppState()
         case .prod:
             logManager = LogManager(services: [
@@ -67,6 +70,7 @@ struct Dependencies {
                 service: RevenueCatPurchaseService(apiKey: Keys.revenueCatAPIKey),
                 logger: logManager
             )
+            hapticManager = HapticManager(logger: logManager)
             appState = AppState()
         }
         pushManager = PushManager(logManager: logManager)
@@ -79,6 +83,7 @@ struct Dependencies {
         container.register(PurchaseManager.self, service: purchaseManager)
         container.register(AppState.self, service: appState)
         container.register(PushManager.self, service: pushManager)
+        container.register(HapticManager.self, service: hapticManager)
         self.container = container
     }
 }

@@ -10,6 +10,7 @@
 		0229588C2CEE932F00765488 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0229588B2CEE932F00765488 /* SDWebImageSwiftUI */; };
 		0287431A2D3376BD00C2C3E1 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 028743192D3376BD00C2C3E1 /* FirebaseMessaging */; };
 		0287443F2D33874E00C2C3E1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0287443E2D33874E00C2C3E1 /* FirebaseStorage */; };
+		028744422D3396FC00C2C3E1 /* SwiftfulHaptics in Frameworks */ = {isa = PBXBuildFile; productRef = 028744412D3396FC00C2C3E1 /* SwiftfulHaptics */; };
 		028F9B862CECF666009B9F48 /* SwiftfulUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9B852CECF666009B9F48 /* SwiftfulUtilities */; };
 		028F9BB62CED10E1009B9F48 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9BB52CED10E1009B9F48 /* SwiftfulRouting */; };
 		028F9BC52CED14CA009B9F48 /* SwiftfulLogging in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9BC42CED14CA009B9F48 /* SwiftfulLogging */; };
@@ -101,6 +102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				028F9BDF2CED1617009B9F48 /* SwiftfulUI in Frameworks */,
+				028744422D3396FC00C2C3E1 /* SwiftfulHaptics in Frameworks */,
 				028F9C142CED2525009B9F48 /* FirebaseFirestore in Frameworks */,
 				028F9BCE2CED152A009B9F48 /* SwiftfulLoggingMixpanel in Frameworks */,
 				028F9BDC2CED156D009B9F48 /* SwiftfulAuthenticatingFirebase in Frameworks */,
@@ -238,6 +240,7 @@
 				0229588B2CEE932F00765488 /* SDWebImageSwiftUI */,
 				028743192D3376BD00C2C3E1 /* FirebaseMessaging */,
 				0287443E2D33874E00C2C3E1 /* FirebaseStorage */,
+				028744412D3396FC00C2C3E1 /* SwiftfulHaptics */,
 			);
 			productName = SwiftfulStarterProject;
 			productReference = 028F9B532CECF2C2009B9F48 /* SwiftfulStarterProject.app */;
@@ -290,6 +293,7 @@
 				028F9C122CED2525009B9F48 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				028F9C152CED2534009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulFirestore" */,
 				0229588A2CEE932F00765488 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				028744402D3396FC00C2C3E1 /* XCRemoteSwiftPackageReference "SwiftfulHaptics" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 028F9B542CECF2C2009B9F48 /* Products */;
@@ -900,6 +904,14 @@
 				minimumVersion = 3.1.3;
 			};
 		};
+		028744402D3396FC00C2C3E1 /* XCRemoteSwiftPackageReference "SwiftfulHaptics" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulHaptics.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		028F9B842CECF666009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulUtilities" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulUtilities";
@@ -1021,6 +1033,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 028F9C122CED2525009B9F48 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		028744412D3396FC00C2C3E1 /* SwiftfulHaptics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 028744402D3396FC00C2C3E1 /* XCRemoteSwiftPackageReference "SwiftfulHaptics" */;
+			productName = SwiftfulHaptics;
 		};
 		028F9B852CECF666009B9F48 /* SwiftfulUtilities */ = {
 			isa = XCSwiftPackageProductDependency;

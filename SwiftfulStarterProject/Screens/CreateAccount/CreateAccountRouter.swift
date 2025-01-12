@@ -5,8 +5,8 @@
 //  
 //
 @MainActor
-protocol CreateAccountRouter {
-    func dismissScreen()
+protocol CreateAccountRouter: GlobalRouter {
+    
 }
 
 extension CoreRouter: CreateAccountRouter { }
