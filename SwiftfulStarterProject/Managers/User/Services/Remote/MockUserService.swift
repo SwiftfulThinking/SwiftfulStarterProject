@@ -19,6 +19,10 @@ class MockUserService: RemoteUserService {
         currentUser = user
     }
     
+    func saveUserFCMToken(userId: String, token: String) async throws {
+        
+    }
+    
     func markOnboardingCompleted(userId: String) async throws {
         guard var currentUser else {
             throw URLError(.unknown)

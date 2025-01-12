@@ -64,6 +64,10 @@ struct CoreInteractor: GlobalInteractor {
     func saveOnboardingComplete() async throws {
         try await userManager.saveOnboardingCompleteForCurrentUser()
     }
+    
+    func saveUserFCMToken(token: String) async throws {
+        try await userManager.saveUserFCMToken(token: token)
+    }
 
     // MARK: LogManager
     

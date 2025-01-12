@@ -38,9 +38,9 @@ extension CoreBuilder {
     func tabbarView() -> some View {
         TabBarView(
             tabs: [
-                TabBarScreen(title: "Alpha", systemImage: "house.fill", screen: {
-                    RouterView { _ in
-                        Text("Alpha")
+                TabBarScreen(title: "Home", systemImage: "house.fill", screen: {
+                    RouterView { router in
+                        homeView(router: router, delegate: HomeDelegate())
                     }
                     .any()
                 }),

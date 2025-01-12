@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0229588C2CEE932F00765488 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0229588B2CEE932F00765488 /* SDWebImageSwiftUI */; };
+		0287431A2D3376BD00C2C3E1 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 028743192D3376BD00C2C3E1 /* FirebaseMessaging */; };
 		028F9B862CECF666009B9F48 /* SwiftfulUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9B852CECF666009B9F48 /* SwiftfulUtilities */; };
 		028F9BB62CED10E1009B9F48 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9BB52CED10E1009B9F48 /* SwiftfulRouting */; };
 		028F9BC52CED14CA009B9F48 /* SwiftfulLogging in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9BC42CED14CA009B9F48 /* SwiftfulLogging */; };
@@ -107,6 +108,7 @@
 				028F9BD72CED155A009B9F48 /* SwiftfulAuthUI in Frameworks */,
 				028F9C172CED2534009B9F48 /* SwiftfulFirestore in Frameworks */,
 				028F9BD12CED1539009B9F48 /* SwiftfulPurchasing in Frameworks */,
+				0287431A2D3376BD00C2C3E1 /* FirebaseMessaging in Frameworks */,
 				028F9BC52CED14CA009B9F48 /* SwiftfulLogging in Frameworks */,
 				028F9C2D2CED2D0D009B9F48 /* FirebaseRemoteConfig in Frameworks */,
 				028F9BB62CED10E1009B9F48 /* SwiftfulRouting in Frameworks */,
@@ -232,6 +234,7 @@
 				028F9C162CED2534009B9F48 /* SwiftfulFirestore */,
 				028F9C2C2CED2D0D009B9F48 /* FirebaseRemoteConfig */,
 				0229588B2CEE932F00765488 /* SDWebImageSwiftUI */,
+				028743192D3376BD00C2C3E1 /* FirebaseMessaging */,
 			);
 			productName = SwiftfulStarterProject;
 			productReference = 028F9B532CECF2C2009B9F48 /* SwiftfulStarterProject.app */;
@@ -1005,6 +1008,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0229588A2CEE932F00765488 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		028743192D3376BD00C2C3E1 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 028F9C122CED2525009B9F48 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		028F9B852CECF666009B9F48 /* SwiftfulUtilities */ = {
 			isa = XCSwiftPackageProductDependency;

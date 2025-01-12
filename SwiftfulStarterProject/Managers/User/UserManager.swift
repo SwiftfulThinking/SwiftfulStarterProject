@@ -74,6 +74,11 @@ class UserManager {
         try await remote.markOnboardingCompleted(userId: uid)
     }
     
+    func saveUserFCMToken(token: String) async throws {
+        let uid = try currentUserId()
+        try await remote.saveUserFCMToken(userId: uid, token: token)
+    }
+    
     func signOut() {
         currentUserListener?.remove()
         currentUserListener = nil

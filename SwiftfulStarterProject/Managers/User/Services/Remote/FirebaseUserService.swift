@@ -23,6 +23,12 @@ struct FirebaseUserService: RemoteUserService {
         try collection.document(user.userId).setData(from: user, merge: true)
     }
     
+    func saveUserFCMToken(userId: String, token: String) async throws {
+        try await collection.updateDocument(id: userId, dict: [
+            UserModel.CodingKeys.fcmToken.rawValue: token
+        ])
+    }
+    
     func markOnboardingCompleted(userId: String) async throws {
         try await collection.document(userId).updateData([
             UserModel.CodingKeys.didCompleteOnboarding.rawValue: true

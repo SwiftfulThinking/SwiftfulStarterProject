@@ -6,6 +6,7 @@
 //
 import SwiftUI
 import SwiftfulUtilities
+import FirebaseMessaging
 
 @Observable
 @MainActor
@@ -60,6 +61,11 @@ class AppPresenter {
                 
                 // Log in
                 try await interactor.logIn(user: result.user, isNewUser: result.isNewUser)
+                
+                // Save push token
+                if let token = try? await Messaging.messaging().token() {
+                    savePushToken(token: token)
+                }
             } catch {
                 interactor.trackEvent(event: Event.anonAuthFail(error: error))
                 try? await Task.sleep(for: .seconds(5))
@@ -68,6 +74,31 @@ class AppPresenter {
         }
     }
     
+    func onFCMTokenRecieved(notification: Notification) {
+        guard let token = NotificationCenter.default.getFCMToken(notification: notification) else {
+            // Token not found in notification
+            interactor.trackEvent(event: Event.fcmFail(error: AppPresenterError.fcmTokenNotFound))
+            return
+        }
+        savePushToken(token: token)
+    }
+    
+    private func savePushToken(token: String) {
+        interactor.trackEvent(event: Event.fcmStart)
+        
+        Task {
+            do {
+                try await interactor.saveUserFCMToken(token: token)
+                interactor.trackEvent(event: Event.fcmSuccess)
+            } catch {
+                interactor.trackEvent(event: Event.fcmFail(error: error))
+            }
+        }
+    }
+    
+    enum AppPresenterError: LocalizedError {
+        case fcmTokenNotFound
+    }
 }
 
 extension AppPresenter {
@@ -81,6 +112,9 @@ extension AppPresenter {
         case anonAuthSuccess
         case anonAuthFail(error: Error)
         case attStatus(dict: [String: Any])
+        case fcmStart
+        case fcmSuccess
+        case fcmFail(error: Error)
 
         var eventName: String {
             switch self {
@@ -92,12 +126,15 @@ extension AppPresenter {
             case .anonAuthSuccess:      return "AppView_AnonAuth_Success"
             case .anonAuthFail:         return "AppView_AnonAuth_Fail"
             case .attStatus:            return "AppView_ATTStatus"
+            case .fcmStart:             return "AppView_FCM_Start"
+            case .fcmSuccess:           return "AppView_FCM_Success"
+            case .fcmFail:              return "AppView_FCM_Fail"
             }
         }
         
         var parameters: [String: Any]? {
             switch self {
-            case .existingAuthFail(error: let error), .anonAuthFail(error: let error):
+            case .existingAuthFail(error: let error), .anonAuthFail(error: let error), .fcmFail(error: let error):
                 return error.eventParameters
             case .attStatus(dict: let dict):
                 return dict
@@ -108,7 +145,7 @@ extension AppPresenter {
         
         var type: LogType {
             switch self {
-            case .existingAuthFail, .anonAuthFail:
+            case .existingAuthFail, .anonAuthFail, .fcmFail:
                 return .severe
             default:
                 return .analytic

@@ -6,6 +6,7 @@
 //
 import Foundation
 import SwiftfulUtilities
+import FirebaseMessaging
 
 @MainActor
 @Observable

@@ -53,6 +53,9 @@ struct AppView<TabbarView: View, OnboardingView: View>: View {
                 }
             }
         )
+        .onNotificationRecieved(name: .fcmToken, action: { notification in
+            presenter.onFCMTokenRecieved(notification: notification)
+        })
         .onAppear {
             presenter.onViewAppear()
         }

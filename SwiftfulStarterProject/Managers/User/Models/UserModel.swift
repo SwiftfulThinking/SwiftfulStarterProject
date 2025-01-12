@@ -21,6 +21,7 @@ struct UserModel: Codable {
     let creationDate: Date?
     let creationVersion: String?
     let lastSignInDate: Date?
+    let fcmToken: String?
     private(set) var didCompleteOnboarding: Bool?
     
     init(
@@ -36,6 +37,7 @@ struct UserModel: Codable {
         creationDate: Date? = nil,
         creationVersion: String? = nil,
         lastSignInDate: Date? = nil,
+        fcmToken: String? = nil,
         didCompleteOnboarding: Bool? = nil
     ) {
         self.userId = userId
@@ -50,6 +52,7 @@ struct UserModel: Codable {
         self.creationDate = creationDate
         self.creationVersion = creationVersion
         self.lastSignInDate = lastSignInDate
+        self.fcmToken = fcmToken
         self.didCompleteOnboarding = didCompleteOnboarding
     }
     
@@ -83,6 +86,7 @@ struct UserModel: Codable {
         case creationDate = "creation_date"
         case creationVersion = "creation_version"
         case lastSignInDate = "last_sign_in_date"
+        case fcmToken = "fcm_token"
         case didCompleteOnboarding = "did_complete_onboarding"
     }
     
@@ -102,6 +106,7 @@ struct UserModel: Codable {
             "user_\(CodingKeys.creationDate.rawValue)": creationDate,
             "user_\(CodingKeys.creationVersion.rawValue)": creationVersion,
             "user_\(CodingKeys.lastSignInDate.rawValue)": lastSignInDate,
+            "user_has_\(CodingKeys.fcmToken.rawValue)": (fcmToken?.count ?? 0) > 0,
             "user_\(CodingKeys.didCompleteOnboarding.rawValue)": didCompleteOnboarding
         ]
         return dict.compactMapValues({ $0 })
