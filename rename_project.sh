@@ -76,6 +76,10 @@ fi
 # Step 9: Replace README.md with a new one
 echo "Replacing README.md with a new one..."
 echo "# $NEW_PARENT_DIR" > README.md
+echo "
+#### 🚀 This project was created from [SwiftfulStarterProject](https://github.com/SwiftfulThinking/SwiftfulStarterProject)!
+
+#### 🚀 Learn how build and use this architecture in the [SwiftUI Advanced Architecture](https://www.swiftful-thinking.com/offers/REyNLwwH) course." >> README.md
 
 # Step 10: Reinitialize Git at the very end
 echo "Resetting Git to fix any index issues..."
