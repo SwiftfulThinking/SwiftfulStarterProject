@@ -52,6 +52,7 @@ class AppPresenter {
         } else {
             // User is not authenticated
             interactor.trackEvent(event: Event.anonAuthStart)
+            interactor.updateAppState(showTabBarView: false)
 
             do {
                 let result = try await interactor.signInAnonymously()

@@ -10,6 +10,7 @@ protocol AppViewInteractor: GlobalInteractor {
     var auth: UserAuthInfo? { get }
     var showTabBar: Bool { get }
     
+    func updateAppState(showTabBarView: Bool)
     func logIn(user: UserAuthInfo, isNewUser: Bool) async throws
     func signInAnonymously() async throws -> (user: UserAuthInfo, isNewUser: Bool)
     func saveUserFCMToken(token: String) async throws
