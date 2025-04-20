@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0210A6CA2DB4DCE40072B2FC /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = 0210A6C92DB4DCE40072B2FC /* SwiftfulRouting */; };
 		0229588C2CEE932F00765488 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0229588B2CEE932F00765488 /* SDWebImageSwiftUI */; };
 		0287431A2D3376BD00C2C3E1 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 028743192D3376BD00C2C3E1 /* FirebaseMessaging */; };
 		0287443F2D33874E00C2C3E1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0287443E2D33874E00C2C3E1 /* FirebaseStorage */; };
 		028744422D3396FC00C2C3E1 /* SwiftfulHaptics in Frameworks */ = {isa = PBXBuildFile; productRef = 028744412D3396FC00C2C3E1 /* SwiftfulHaptics */; };
 		028744482D33A58F00C2C3E1 /* SwiftfulSoundEffects in Frameworks */ = {isa = PBXBuildFile; productRef = 028744472D33A58F00C2C3E1 /* SwiftfulSoundEffects */; };
 		028F9B862CECF666009B9F48 /* SwiftfulUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9B852CECF666009B9F48 /* SwiftfulUtilities */; };
-		028F9BB62CED10E1009B9F48 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9BB52CED10E1009B9F48 /* SwiftfulRouting */; };
 		028F9BC52CED14CA009B9F48 /* SwiftfulLogging in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9BC42CED14CA009B9F48 /* SwiftfulLogging */; };
 		028F9BC82CED1507009B9F48 /* SwiftfulLoggingFirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9BC72CED1507009B9F48 /* SwiftfulLoggingFirebaseCrashlytics */; };
 		028F9BCB2CED1517009B9F48 /* SwiftfulLoggingFirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9BCA2CED1517009B9F48 /* SwiftfulLoggingFirebaseAnalytics */; };
@@ -117,11 +117,11 @@
 				028F9BC52CED14CA009B9F48 /* SwiftfulLogging in Frameworks */,
 				0287443F2D33874E00C2C3E1 /* FirebaseStorage in Frameworks */,
 				028F9C2D2CED2D0D009B9F48 /* FirebaseRemoteConfig in Frameworks */,
-				028F9BB62CED10E1009B9F48 /* SwiftfulRouting in Frameworks */,
 				028F9BCB2CED1517009B9F48 /* SwiftfulLoggingFirebaseAnalytics in Frameworks */,
 				028F9BD42CED1547009B9F48 /* SwiftfulPurchasingRevenueCat in Frameworks */,
 				028F9BD92CED155A009B9F48 /* SwiftfulAuthenticating in Frameworks */,
 				028F9BC82CED1507009B9F48 /* SwiftfulLoggingFirebaseCrashlytics in Frameworks */,
+				0210A6CA2DB4DCE40072B2FC /* SwiftfulRouting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,7 +225,6 @@
 			name = SwiftfulStarterProject;
 			packageProductDependencies = (
 				028F9B852CECF666009B9F48 /* SwiftfulUtilities */,
-				028F9BB52CED10E1009B9F48 /* SwiftfulRouting */,
 				028F9BC42CED14CA009B9F48 /* SwiftfulLogging */,
 				028F9BC72CED1507009B9F48 /* SwiftfulLoggingFirebaseCrashlytics */,
 				028F9BCA2CED1517009B9F48 /* SwiftfulLoggingFirebaseAnalytics */,
@@ -244,6 +243,7 @@
 				0287443E2D33874E00C2C3E1 /* FirebaseStorage */,
 				028744412D3396FC00C2C3E1 /* SwiftfulHaptics */,
 				028744472D33A58F00C2C3E1 /* SwiftfulSoundEffects */,
+				0210A6C92DB4DCE40072B2FC /* SwiftfulRouting */,
 			);
 			productName = SwiftfulStarterProject;
 			productReference = 028F9B532CECF2C2009B9F48 /* SwiftfulStarterProject.app */;
@@ -283,7 +283,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				028F9B842CECF666009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulUtilities" */,
-				028F9BB42CED10E1009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */,
 				028F9BC32CED14CA009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulLogging" */,
 				028F9BC62CED1507009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulLoggingFirebaseCrashlytics" */,
 				028F9BC92CED1517009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulLoggingFirebaseAnalytics" */,
@@ -298,6 +297,7 @@
 				0229588A2CEE932F00765488 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				028744402D3396FC00C2C3E1 /* XCRemoteSwiftPackageReference "SwiftfulHaptics" */,
 				028744462D33A58F00C2C3E1 /* XCRemoteSwiftPackageReference "SwiftfulSoundEffects" */,
+				0210A6C82DB4DCE40072B2FC /* XCRemoteSwiftPackageReference "SwiftfulRouting" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 028F9B542CECF2C2009B9F48 /* Products */;
@@ -900,6 +900,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0210A6C82DB4DCE40072B2FC /* XCRemoteSwiftPackageReference "SwiftfulRouting" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulRouting";
+			requirement = {
+				branch = development;
+				kind = branch;
+			};
+		};
 		0229588A2CEE932F00765488 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
@@ -930,14 +938,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.1.5;
-			};
-		};
-		028F9BB42CED10E1009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulRouting";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.3.6;
 			};
 		};
 		028F9BC32CED14CA009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulLogging" */ = {
@@ -1031,6 +1031,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0210A6C92DB4DCE40072B2FC /* SwiftfulRouting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0210A6C82DB4DCE40072B2FC /* XCRemoteSwiftPackageReference "SwiftfulRouting" */;
+			productName = SwiftfulRouting;
+		};
 		0229588B2CEE932F00765488 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0229588A2CEE932F00765488 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
@@ -1060,11 +1065,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 028F9B842CECF666009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulUtilities" */;
 			productName = SwiftfulUtilities;
-		};
-		028F9BB52CED10E1009B9F48 /* SwiftfulRouting */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 028F9BB42CED10E1009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */;
-			productName = SwiftfulRouting;
 		};
 		028F9BC42CED14CA009B9F48 /* SwiftfulLogging */ = {
 			isa = XCSwiftPackageProductDependency;

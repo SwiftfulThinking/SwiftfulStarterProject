@@ -6,6 +6,7 @@
 //
 import SwiftUI
 import SwiftfulAuthUI
+import SwiftfulRouting
 
 struct CreateAccountDelegate {
     var title: String = "Create Account?"
@@ -83,7 +84,13 @@ extension CoreBuilder {
 extension CoreRouter {
     
     func showCreateAccountView(delegate: CreateAccountDelegate, onDismiss: (() -> Void)? = nil) {
-        router.showResizableSheet(sheetDetents: [.medium], selection: nil, showDragIndicator: false, onDismiss: onDismiss) { router in
+        let config = ResizableSheetConfig(
+            detents: [.medium],
+            selection: nil,
+            dragIndicator: .hidden
+        )
+                
+        router.showScreen(.sheetConfig(config: config)) { _ in
             builder.createAccountView(router: router, delegate: delegate)
         }
     }

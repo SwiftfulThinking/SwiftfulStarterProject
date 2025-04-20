@@ -5,6 +5,7 @@
 //  
 //
 import SwiftUI
+import SwiftfulRouting
 
 @MainActor
 struct Dependencies {
@@ -88,6 +89,8 @@ struct Dependencies {
         container.register(HapticManager.self, service: hapticManager)
         container.register(SoundEffectManager.self, service: soundEffectManager)
         self.container = container
+        
+        SwiftfulRoutingLogger.enableLogging(logger: logManager)
     }
 }
 
