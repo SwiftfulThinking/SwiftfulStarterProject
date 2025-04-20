@@ -14,8 +14,8 @@ class AppPresenter {
     
     private let interactor: AppViewInteractor
     
-    var showTabBar: Bool {
-        interactor.showTabBar
+    var auth: UserAuthInfo? {
+        interactor.auth
     }
     
     init(interactor: AppViewInteractor) {

@@ -39,7 +39,7 @@ class WelcomePresenter {
             // Do nothing, user goes through onboarding
         } else {
             // Push into tabbar view
-            interactor.updateAppState(showTabBarView: true)
+            router.switchToTabbarModule()
         }
     }
     

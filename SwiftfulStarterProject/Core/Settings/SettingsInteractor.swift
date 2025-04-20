@@ -11,7 +11,6 @@ protocol SettingsInteractor: GlobalInteractor {
     
     func signOut() async throws
     func deleteAccount() async throws
-    func updateAppState(showTabBarView: Bool)
 }
 
 extension CoreInteractor: SettingsInteractor { }

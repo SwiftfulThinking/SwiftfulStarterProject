@@ -65,7 +65,7 @@ class SettingsPresenter {
     private func dismissScreen() async {
         router.dismissScreen()
         try? await Task.sleep(for: .seconds(1))
-        interactor.updateAppState(showTabBarView: false)
+        router.switchToOnboardingModule()
     }
         
     func onDeleteAccountPressed() {

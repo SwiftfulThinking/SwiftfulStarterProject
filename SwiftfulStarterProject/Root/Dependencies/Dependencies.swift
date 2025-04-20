@@ -40,7 +40,7 @@ struct Dependencies {
             )
             abTestManager = ABTestManager(service: abTestService, logManager: logManager)
             purchaseManager = PurchaseManager(service: MockPurchaseService(), logger: logManager)
-            appState = AppState(showTabBar: isSignedIn)
+            appState = AppState(startingModuleId: isSignedIn ? Constants.tabbarModuleId : Constants.onboardingModuleId)
             hapticManager = HapticManager(logger: logManager)
         case .dev:
             logManager = LogManager(services: [

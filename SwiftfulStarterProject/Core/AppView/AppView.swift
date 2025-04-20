@@ -7,11 +7,10 @@
 import SwiftUI
 import SwiftfulUI
 
-struct AppView<TabbarView: View, OnboardingView: View>: View {
+struct AppView<Content: View>: View {
 
     @State var presenter: AppPresenter
-    var tabbarView: () -> TabbarView
-    var onboardingView: () -> OnboardingView
+    @ViewBuilder var content: () -> Content
 
     var body: some View {
         RootView(
@@ -28,29 +27,21 @@ struct AppView<TabbarView: View, OnboardingView: View>: View {
                 onApplicationWillTerminate: nil
             ),
             content: {
-                AppViewBuilder(
-                    showTabBar: presenter.showTabBar,
-                    tabbarView: {
-                        tabbarView()
-                    },
-                    onboardingView: {
-                        onboardingView()
+                content()
+                    .task {
+                        await presenter.checkUserStatus()
                     }
-                )
-                .task {
-                    await presenter.checkUserStatus()
-                }
-                .task {
-                    try? await Task.sleep(for: .seconds(2))
-                    await presenter.showATTPromptIfNeeded()
-                }
-                .onChange(of: presenter.showTabBar) { _, showTabBar in
-                    if !showTabBar {
-                        Task {
-                            await presenter.checkUserStatus()
+                    .task {
+                        try? await Task.sleep(for: .seconds(2))
+                        await presenter.showATTPromptIfNeeded()
+                    }
+                    .onChange(of: presenter.auth?.uid) { _, newValue in
+                        if newValue == nil || newValue?.isEmpty == true {
+                            Task {
+                                await presenter.checkUserStatus()
+                            }
                         }
                     }
-                }
             }
         )
         .onNotificationRecieved(name: .fcmToken, action: { notification in
@@ -67,7 +58,6 @@ struct AppView<TabbarView: View, OnboardingView: View>: View {
 
 #Preview("AppView - Tabbar") {
     let container = DevPreview.shared.container()
-    container.register(AppState.self, service: AppState(showTabBar: true))
     let builder = CoreBuilder(interactor: CoreInteractor(container: container))
     
     return builder.appView()
@@ -76,7 +66,6 @@ struct AppView<TabbarView: View, OnboardingView: View>: View {
     let container = DevPreview.shared.container()
     container.register(UserManager.self, service: UserManager(services: MockUserServices(user: nil)))
     container.register(AuthManager.self, service: AuthManager(service: MockAuthService(user: nil)))
-    container.register(AppState.self, service: AppState(showTabBar: false))
     let builder = CoreBuilder(interactor: CoreInteractor(container: container))
 
     return builder.appView()
@@ -89,11 +78,17 @@ extension CoreBuilder {
             presenter: AppPresenter(
                 interactor: interactor
             ),
-            tabbarView: {
-                tabbarView()
-            },
-            onboardingView: {
-                onboardingFlow()
+            content: {
+                switch interactor.startingModuleId {
+                case Constants.tabbarModuleId:
+                    RouterView(id: Constants.tabbarModuleId, addNavigationStack: false, addModuleSupport: true) { _ in
+                        tabbarView()
+                    }
+                default:
+                    RouterView(id: Constants.onboardingModuleId, addNavigationStack: false, addModuleSupport: true) { _ in
+                        onboardingFlow()
+                    }
+                }
             }
         )
     }

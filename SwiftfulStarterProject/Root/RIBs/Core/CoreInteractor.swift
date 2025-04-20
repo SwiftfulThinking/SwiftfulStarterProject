@@ -2,36 +2,32 @@ import SwiftUI
 
 @MainActor
 struct CoreInteractor: GlobalInteractor {
+    private let appState: AppState
     private let authManager: AuthManager
     private let userManager: UserManager
     private let logManager: LogManager
     private let abTestManager: ABTestManager
     private let purchaseManager: PurchaseManager
-    private let appState: AppState
     private let pushManager: PushManager
     private let hapticManager: HapticManager
     private let soundEffectManager: SoundEffectManager
 
     init(container: DependencyContainer) {
+        self.appState = container.resolve(AppState.self)!
         self.authManager = container.resolve(AuthManager.self)!
         self.userManager = container.resolve(UserManager.self)!
         self.logManager = container.resolve(LogManager.self)!
         self.abTestManager = container.resolve(ABTestManager.self)!
         self.purchaseManager = container.resolve(PurchaseManager.self)!
-        self.appState = container.resolve(AppState.self)!
         self.pushManager = container.resolve(PushManager.self)!
         self.hapticManager = container.resolve(HapticManager.self)!
         self.soundEffectManager = container.resolve(SoundEffectManager.self)!
     }
     
-    // MARK: AppState
-        
-    func updateAppState(showTabBarView: Bool) {
-        appState.updateViewState(showTabBarView: showTabBarView)
-    }
+    // MARK: APP STATE
     
-    var showTabBar: Bool {
-        appState.showTabBar
+    var startingModuleId: String {
+        appState.startingModuleId
     }
 
     // MARK: AuthManager

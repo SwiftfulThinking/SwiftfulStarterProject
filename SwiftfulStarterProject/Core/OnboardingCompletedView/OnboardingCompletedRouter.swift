@@ -7,7 +7,7 @@
 
 @MainActor
 protocol OnboardingCompletedRouter: GlobalRouter {
-    
+    func switchToTabbarModule()
 }
 
 extension CoreRouter: OnboardingCompletedRouter { }
