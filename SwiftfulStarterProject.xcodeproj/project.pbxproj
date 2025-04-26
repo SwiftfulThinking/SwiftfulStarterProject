@@ -904,8 +904,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulRouting";
 			requirement = {
-				branch = development;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
 			};
 		};
 		0229588A2CEE932F00765488 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
