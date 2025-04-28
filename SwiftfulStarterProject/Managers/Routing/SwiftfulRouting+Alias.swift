@@ -31,4 +31,8 @@ extension LogManager: @retroactive RoutingLogger {
     public func trackEvent(event: any RoutingLogEvent) {
         trackEvent(eventName: event.eventName, parameters: event.parameters, type: event.type.type)
     }
+    
+    public func trackScreenView(event: any RoutingLogEvent) {
+        trackScreenView(event: AnyLoggableEvent(eventName: event.eventName, parameters: event.parameters, type: event.type.type))
+    }
 }
