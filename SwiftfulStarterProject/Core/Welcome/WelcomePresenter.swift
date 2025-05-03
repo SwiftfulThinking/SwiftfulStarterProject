@@ -39,7 +39,7 @@ class WelcomePresenter {
             // Do nothing, user goes through onboarding
         } else {
             // Push into tabbar view
-            router.switchToTabbarModule()
+            router.switchToCoreModule()
         }
     }
     

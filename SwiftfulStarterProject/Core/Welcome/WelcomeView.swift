@@ -127,13 +127,4 @@ extension CoreBuilder {
 
 extension CoreRouter {
     
-    func switchToOnboardingModule() {
-        router.showModule(.trailing, id: Constants.onboardingModuleId, onDismiss: nil) { _ in
-            builder.onboardingFlow()
-        }
-    }
-}
-
-extension CoreRouter {
-    
 }

@@ -38,7 +38,7 @@ class OnboardingCompletedPresenter {
                 interactor.trackEvent(event: Event.finishSuccess)
 
                 // Show tabbar view
-                router.switchToTabbarModule()
+                router.switchToCoreModule()
             } catch {
                 router.showAlert(error: error)
                 interactor.trackEvent(event: Event.finishFail(error: error))

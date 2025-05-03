@@ -62,16 +62,6 @@ extension CoreBuilder {
 
 }
 
-extension CoreRouter {
-    
-    func switchToTabbarModule() {
-        router.showModule(.trailing, id: Constants.tabbarModuleId, onDismiss: nil) { _ in
-            builder.tabbarView()
-        }
-    }
-    
-}
-
 #Preview("Fake tabs") {
     TabBarView(tabs: [
         TabBarScreen(title: "Explore", systemImage: "eyes", screen: {
