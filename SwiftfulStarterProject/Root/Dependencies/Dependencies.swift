@@ -107,6 +107,8 @@ class DevPreview {
         container.register(PurchaseManager.self, service: purchaseManager)
         container.register(AppState.self, service: appState)
         container.register(PushManager.self, service: pushManager)
+        container.register(SoundEffectManager.self, service: soundEffectManager)
+        container.register(HapticManager.self, service: hapticManager)
         return container
     }
     
@@ -117,6 +119,8 @@ class DevPreview {
     let purchaseManager: PurchaseManager
     let appState: AppState
     let pushManager: PushManager
+    let hapticManager: HapticManager
+    let soundEffectManager: SoundEffectManager
 
     init(isSignedIn: Bool = true) {
         self.authManager = AuthManager(service: MockAuthService(user: isSignedIn ? .mock() : nil))
@@ -126,6 +130,8 @@ class DevPreview {
         self.purchaseManager = PurchaseManager(service: MockPurchaseService())
         self.appState = AppState()
         self.pushManager = PushManager()
+        self.hapticManager = HapticManager()
+        self.soundEffectManager = SoundEffectManager()
     }
 
 }
