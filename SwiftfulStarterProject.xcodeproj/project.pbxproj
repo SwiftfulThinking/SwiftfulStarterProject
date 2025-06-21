@@ -992,16 +992,16 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulAuthenticating";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.9;
+				branch = development;
+				kind = branch;
 			};
 		};
 		028F9BDA2CED156D009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulAuthenticatingFirebase" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulAuthenticatingFirebase";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.6;
+				branch = development;
+				kind = branch;
 			};
 		};
 		028F9BDD2CED1617009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulUI" */ = {

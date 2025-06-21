@@ -78,6 +78,21 @@ class SettingsPresenter {
             buttons: {
                 AnyView(
                     Button("Delete", role: .destructive, action: {
+                        self.showDeleteAccountReauthAlert()
+                    })
+                )
+            }
+        )
+    }
+    
+    private func showDeleteAccountReauthAlert() {
+        router.showAlert(
+            .alert,
+            title: "Reauthentication Required",
+            subtitle: "As a safety precaution in order to delete your account, you must first sign again.",
+            buttons: {
+                AnyView(
+                    Button("Delete", role: .destructive, action: {
                         self.onDeleteAccountConfirmed()
                     })
                 )
