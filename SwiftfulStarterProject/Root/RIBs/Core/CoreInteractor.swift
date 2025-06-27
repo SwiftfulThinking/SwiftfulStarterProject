@@ -235,7 +235,7 @@ struct CoreInteractor: GlobalInteractor {
         }
         
         // Delete auth
-        try await authManager.deleteAccount(option: option) {
+        try await authManager.deleteAccountWithReauthentication(option: option, revokeToken: false) {
             // Delete User profile (Firestore)
             // Note: this must be done within this closure
             // So that it completes before auth is revoked

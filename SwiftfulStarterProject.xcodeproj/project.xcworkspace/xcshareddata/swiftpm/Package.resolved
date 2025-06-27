@@ -186,8 +186,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SignInAppleAsync.git",
       "state" : {
-        "branch" : "development",
-        "revision" : "3a3a74077bc20a042ab4875b0acb1b165a36a603"
+        "revision" : "42242c92cbca2b20d69e808ef13a0bc54326254e",
+        "version" : "1.0.2"
       }
     },
     {
@@ -195,8 +195,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SignInGoogleAsync.git",
       "state" : {
-        "branch" : "development",
-        "revision" : "8974737f42e900cc899816d6c7381a338d471eaf"
+        "revision" : "7ed25f1aee0b96b8b41fed3d8759f1efd8b577a2",
+        "version" : "1.0.1"
       }
     },
     {
@@ -213,8 +213,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulAuthenticating",
       "state" : {
-        "branch" : "development",
-        "revision" : "f8ed9386aa301911d48681bfa1b5b882b3185eea"
+        "revision" : "6a86ba61f87b5b6a74e870dfdb47a49d01a65c4e",
+        "version" : "1.0.12"
       }
     },
     {
@@ -222,8 +222,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulAuthenticatingFirebase",
       "state" : {
-        "branch" : "development",
-        "revision" : "a22f1d7096c25bd7df67ebed889bbc412fb02349"
+        "revision" : "2b04dce4b167a11af85c00b2dc6cc572a9215746",
+        "version" : "1.0.11"
       }
     },
     {
