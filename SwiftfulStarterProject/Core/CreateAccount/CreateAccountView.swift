@@ -41,18 +41,32 @@ struct CreateAccountView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             
-            SignInAppleButtonView(
-                type: .signIn,
-                style: .black,
-                cornerRadius: 10
-            )
-            .frame(height: 55)
-            .frame(maxWidth: 400)
-            .anyButton(.press) {
-                presenter.onSignInApplePressed(delegate: delegate)
+            VStack(spacing: 12) {
+                SignInAppleButtonView(
+                    type: .signIn,
+                    style: .black,
+                    cornerRadius: 10
+                )
+                .frame(height: 55)
+                .frame(maxWidth: 400)
+                .anyButton(.press) {
+                    presenter.onSignInApplePressed(delegate: delegate)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                SignInGoogleButtonView(
+                    type: .signIn,
+                    backgroundColor: .googleRed,
+                    cornerRadius: 10
+                )
+                .frame(height: 55)
+                .frame(maxWidth: 400)
+                .anyButton(.press) {
+                    presenter.onSignInGooglePressed(delegate: delegate)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            
+
             Spacer()
         }
         .padding(16)

@@ -51,6 +51,24 @@ find . -name "*.entitlements" | while read file; do
     mv "$file" "$new_file"
 done
 
+# Step 6.5: Update project.pbxproj with new entitlements file reference
+echo "Updating .pbxproj to reference renamed entitlements file..."
+
+PBXPROJ_FILE=$(find . -name "project.pbxproj")
+ENTITLEMENTS_FILE="$NEW_PARENT_DIR/SupportingFiles/$NEW_PARENT_DIR.entitlements"
+
+if [ -f "$PBXPROJ_FILE" ]; then
+    # Replace any reference to old entitlements filename
+    sed -i "" "s/${OLD_PARENT_DIR}.entitlements/${NEW_PARENT_DIR}.entitlements/g" "$PBXPROJ_FILE"
+
+    # Explicitly update CODE_SIGN_ENTITLEMENTS in all build configurations
+    sed -i "" "s|CODE_SIGN_ENTITLEMENTS = .*;|CODE_SIGN_ENTITLEMENTS = $ENTITLEMENTS_FILE;|g" "$PBXPROJ_FILE"
+
+    echo "Updated CODE_SIGN_ENTITLEMENTS to $ENTITLEMENTS_FILE"
+else
+    echo "❌ Error: project.pbxproj not found"
+fi
+
 # Step 7: Update Bundle Display Name and Bundle Identifier in Info.plist
 echo "Updating Bundle Display Name and Bundle Identifier..."
 INFO_PLIST_FILES=$(find . -name "Info.plist")

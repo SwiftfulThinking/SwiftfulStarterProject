@@ -44,6 +44,25 @@ class CreateAccountPresenter {
             }
         }
     }
+    
+    func onSignInGooglePressed(delegate: CreateAccountDelegate) {
+        interactor.trackEvent(event: Event.googleAuthStart)
+        
+        Task {
+            do {
+                let result = try await interactor.signInGoogle()
+                interactor.trackEvent(event: Event.googleAuthSuccess(user: result.user, isNewUser: result.isNewUser))
+
+                try await interactor.logIn(user: result.user, isNewUser: result.isNewUser)
+                interactor.trackEvent(event: Event.googleAuthLoginSuccess(user: result.user, isNewUser: result.isNewUser))
+
+                delegate.onDidSignIn?(result.isNewUser)
+                router.dismissScreen()
+            } catch {
+                interactor.trackEvent(event: Event.googleAuthFail(error: error))
+            }
+        }
+    }
 
 }
 
@@ -56,6 +75,10 @@ extension CreateAccountPresenter {
         case appleAuthSuccess(user: UserAuthInfo, isNewUser: Bool)
         case appleAuthLoginSuccess(user: UserAuthInfo, isNewUser: Bool)
         case appleAuthFail(error: Error)
+        case googleAuthStart
+        case googleAuthSuccess(user: UserAuthInfo, isNewUser: Bool)
+        case googleAuthLoginSuccess(user: UserAuthInfo, isNewUser: Bool)
+        case googleAuthFail(error: Error)
 
         var eventName: String {
             switch self {
@@ -65,17 +88,24 @@ extension CreateAccountPresenter {
             case .appleAuthSuccess:        return "CreateAccountView_AppleAuth_Success"
             case .appleAuthLoginSuccess:   return "CreateAccountView_AppleAuth_LoginSuccess"
             case .appleAuthFail:           return "CreateAccountView_AppleAuth_Fail"
+            case .googleAuthStart:          return "CreateAccountView_GoogleAuth_Start"
+            case .googleAuthSuccess:        return "CreateAccountView_GoogleAuth_Success"
+            case .googleAuthLoginSuccess:   return "CreateAccountView_GoogleAuth_LoginSuccess"
+            case .googleAuthFail:           return "CreateAccountView_GoogleAuth_Fail"
             }
         }
         
         var parameters: [String: Any]? {
             switch self {
             case .appleAuthSuccess(user: let user, isNewUser: let isNewUser),
-                    .appleAuthLoginSuccess(user: let user, isNewUser: let isNewUser):
+                .appleAuthLoginSuccess(user: let user, isNewUser: let isNewUser),
+                .googleAuthSuccess(user: let user, isNewUser: let isNewUser),
+                .googleAuthLoginSuccess(user: let user, isNewUser: let isNewUser)
+                :
                 var dict = user.eventParameters
                 dict["is_new_user"] = isNewUser
                 return dict
-            case .appleAuthFail(error: let error):
+            case .appleAuthFail(error: let error), .googleAuthFail(error: let error):
                 return error.eventParameters
             default:
                 return nil

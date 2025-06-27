@@ -223,10 +223,30 @@ struct CoreInteractor: GlobalInteractor {
     }
     
     func deleteAccount() async throws {
-        _ = try authManager.getAuthId()
-        try await userManager.deleteCurrentUser()
-        try await authManager.deleteAccount()
+        guard let auth else {
+            throw AppError("Auth not found.")
+        }
+        
+        var option: SignInOption = .anonymous
+        if auth.authProviders.contains(.apple) {
+            option = .apple
+        } else if auth.authProviders.contains(.google), let clientId = Constants.firebaseAppClientId {
+            option = .google(GIDClientID: clientId)
+        }
+        
+        // Delete auth
+        try await authManager.deleteAccountWithReauthentication(option: option, revokeToken: false) {
+            // Delete User profile (Firestore)
+            // Note: this must be done within this closure
+            // So that it completes before auth is revoked
+            // Once auth is revoked, security rules may restrict user from reading/writing to Firestore
+            try await userManager.deleteCurrentUser()
+        }
+        
+        // Delete Purchases (RevenueCat)
         try await purchaseManager.logOut()
+        
+        // Delete logs (Mixpanel)
         logManager.deleteUserProfile()
     }
 
