@@ -100,7 +100,7 @@ struct Dependencies {
         container.register(PushManager.self, service: pushManager)
         container.register(HapticManager.self, service: hapticManager)
         container.register(SoundEffectManager.self, service: soundEffectManager)
-        container.register(StreakManager.self, service: streakManager)
+        container.register(StreakManager.self, key: streakConfiguration.streakId, service: streakManager)
         self.container = container
         
         SwiftfulRoutingLogger.enableLogging(logger: logManager)
@@ -122,7 +122,7 @@ class DevPreview {
         container.register(PushManager.self, service: pushManager)
         container.register(SoundEffectManager.self, service: soundEffectManager)
         container.register(HapticManager.self, service: hapticManager)
-        container.register(StreakManager.self, service: streakManager)
+        container.register(StreakManager.self, key: "daily", service: streakManager)
         return container
     }
     

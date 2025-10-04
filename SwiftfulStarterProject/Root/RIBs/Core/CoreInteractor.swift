@@ -23,7 +23,7 @@ struct CoreInteractor: GlobalInteractor {
         self.pushManager = container.resolve(PushManager.self)!
         self.hapticManager = container.resolve(HapticManager.self)!
         self.soundEffectManager = container.resolve(SoundEffectManager.self)!
-        self.streakManager = container.resolve(StreakManager.self)!
+        self.streakManager = container.resolve(StreakManager.self, key: "daily")!
     }
     
     // MARK: APP STATE
@@ -184,27 +184,61 @@ struct CoreInteractor: GlobalInteractor {
     }
     
     // MARK: Sound Effects
-    
+
     func prepareSoundEffect(sound: SoundEffectFile, simultaneousPlayers: Int = 1) {
         Task {
             await soundEffectManager.prepare(url: sound.url, simultaneousPlayers: simultaneousPlayers, volume: 1)
         }
     }
-    
+
     func tearDownSoundEffect(sound: SoundEffectFile) {
         Task {
             await soundEffectManager.tearDown(url: sound.url)
         }
     }
-    
+
     func playSoundEffect(sound: SoundEffectFile) {
         Task {
             await soundEffectManager.play(url: sound.url)
         }
     }
-    
+
+    // MARK: StreakManager
+
+    var currentStreakData: CurrentStreakData {
+        streakManager.currentStreakData
+    }
+
+    func addStreakEvent(userId: String, event: StreakEvent) async throws {
+        try await streakManager.addStreakEvent(userId: userId, event: event)
+    }
+
+    func getAllStreakEvents(userId: String) async throws -> [StreakEvent] {
+        try await streakManager.getAllStreakEvents(userId: userId)
+    }
+
+    func deleteAllStreakEvents(userId: String) async throws {
+        try await streakManager.deleteAllStreakEvents(userId: userId)
+    }
+
+    func addStreakFreeze(userId: String, freeze: StreakFreeze) async throws {
+        try await streakManager.addStreakFreeze(userId: userId, freeze: freeze)
+    }
+
+    func useStreakFreeze(userId: String, freezeId: String) async throws {
+        try await streakManager.useStreakFreeze(userId: userId, freezeId: freezeId)
+    }
+
+    func getAllStreakFreezes(userId: String) async throws -> [StreakFreeze] {
+        try await streakManager.getAllStreakFreezes(userId: userId)
+    }
+
+    func recalculateStreak(userId: String) {
+        streakManager.recalculateStreak(userId: userId)
+    }
+
     // MARK: SHARED
-    
+
     func logIn(user: UserAuthInfo, isNewUser: Bool) async throws {
         try await userManager.logIn(auth: user, isNewUser: isNewUser)
         try await purchaseManager.logIn(
@@ -215,13 +249,15 @@ struct CoreInteractor: GlobalInteractor {
                 firebaseAppInstanceId: Constants.firebaseAnalyticsAppInstanceID
             )
         )
+        try await streakManager.logIn(userId: user.uid)
         logManager.addUserProperties(dict: Utilities.eventParameters, isHighPriority: false)
     }
-    
+
     func signOut() async throws {
         try authManager.signOut()
         try await purchaseManager.logOut()
         userManager.signOut()
+        streakManager.logOut()
     }
     
     func deleteAccount() async throws {

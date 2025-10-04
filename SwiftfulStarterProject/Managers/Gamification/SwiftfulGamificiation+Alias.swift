@@ -10,6 +10,9 @@ import SwiftfulGamificationFirebase
 typealias StreakManager = SwiftfulGamification.StreakManager
 typealias MockStreakServices = SwiftfulGamification.MockStreakServices
 typealias StreakConfiguration = SwiftfulGamification.StreakConfiguration
+typealias StreakEvent = SwiftfulGamification.StreakEvent
+typealias CurrentStreakData = SwiftfulGamification.CurrentStreakData
+typealias StreakFreeze = SwiftfulGamification.StreakFreeze
 
 @MainActor
 public struct ProdStreakServices: StreakServices {
