@@ -22,6 +22,15 @@ struct Dependencies {
         let pushManager: PushManager
         let hapticManager: HapticManager
         let soundEffectManager: SoundEffectManager
+        let streakManager: StreakManager
+        
+        let streakConfiguration = StreakConfiguration(
+            streakId: "daily",
+            eventsRequiredPerDay: 5,
+            useServerCalculation: false,
+            leewayHours: 0,
+            autoConsumeFreeze: true
+        )
 
         switch config {
         case .mock(isSignedIn: let isSignedIn):
@@ -42,6 +51,7 @@ struct Dependencies {
             purchaseManager = PurchaseManager(service: MockPurchaseService(), logger: logManager)
             appState = AppState(startingModuleId: isSignedIn ? Constants.tabbarModuleId : Constants.onboardingModuleId)
             hapticManager = HapticManager(logger: logManager)
+            streakManager = StreakManager(services: MockStreakServices(), configuration: streakConfiguration, logger: logManager)
         case .dev:
             logManager = LogManager(services: [
                 ConsoleService(printParameters: true),
@@ -58,6 +68,7 @@ struct Dependencies {
             )
             hapticManager = HapticManager(logger: logManager)
             appState = AppState()
+            streakManager = StreakManager(services: ProdStreakServices(), configuration: streakConfiguration, logger: logManager)
         case .prod:
             logManager = LogManager(services: [
                 FirebaseAnalyticsService(),
@@ -74,6 +85,7 @@ struct Dependencies {
             )
             hapticManager = HapticManager(logger: logManager)
             appState = AppState()
+            streakManager = StreakManager(services: ProdStreakServices(), configuration: streakConfiguration, logger: logManager)
         }
         pushManager = PushManager(logManager: logManager)
         soundEffectManager = SoundEffectManager(logger: logManager)
@@ -88,6 +100,7 @@ struct Dependencies {
         container.register(PushManager.self, service: pushManager)
         container.register(HapticManager.self, service: hapticManager)
         container.register(SoundEffectManager.self, service: soundEffectManager)
+        container.register(StreakManager.self, service: streakManager)
         self.container = container
         
         SwiftfulRoutingLogger.enableLogging(logger: logManager)
@@ -109,6 +122,7 @@ class DevPreview {
         container.register(PushManager.self, service: pushManager)
         container.register(SoundEffectManager.self, service: soundEffectManager)
         container.register(HapticManager.self, service: hapticManager)
+        container.register(StreakManager.self, service: streakManager)
         return container
     }
     
@@ -121,6 +135,7 @@ class DevPreview {
     let pushManager: PushManager
     let hapticManager: HapticManager
     let soundEffectManager: SoundEffectManager
+    let streakManager: StreakManager
 
     init(isSignedIn: Bool = true) {
         self.authManager = AuthManager(service: MockAuthService(user: isSignedIn ? .mock() : nil))
@@ -132,6 +147,7 @@ class DevPreview {
         self.pushManager = PushManager()
         self.hapticManager = HapticManager()
         self.soundEffectManager = SoundEffectManager()
+        self.streakManager = StreakManager(services: MockStreakServices(), configuration: StreakConfiguration.mockBasic())
     }
 
 }

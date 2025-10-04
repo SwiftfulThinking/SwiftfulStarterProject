@@ -11,6 +11,8 @@
 		0229588C2CEE932F00765488 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0229588B2CEE932F00765488 /* SDWebImageSwiftUI */; };
 		028744422D3396FC00C2C3E1 /* SwiftfulHaptics in Frameworks */ = {isa = PBXBuildFile; productRef = 028744412D3396FC00C2C3E1 /* SwiftfulHaptics */; };
 		028744482D33A58F00C2C3E1 /* SwiftfulSoundEffects in Frameworks */ = {isa = PBXBuildFile; productRef = 028744472D33A58F00C2C3E1 /* SwiftfulSoundEffects */; };
+		028EF08A2E91C41900DA1D11 /* SwiftfulGamification in Frameworks */ = {isa = PBXBuildFile; productRef = 028EF0892E91C41900DA1D11 /* SwiftfulGamification */; };
+		028EF08D2E91C42700DA1D11 /* SwiftfulGamificationFirebase in Frameworks */ = {isa = PBXBuildFile; productRef = 028EF08C2E91C42700DA1D11 /* SwiftfulGamificationFirebase */; };
 		028F9B862CECF666009B9F48 /* SwiftfulUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9B852CECF666009B9F48 /* SwiftfulUtilities */; };
 		028F9BC52CED14CA009B9F48 /* SwiftfulLogging in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9BC42CED14CA009B9F48 /* SwiftfulLogging */; };
 		028F9BCE2CED152A009B9F48 /* SwiftfulLoggingMixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 028F9BCD2CED152A009B9F48 /* SwiftfulLoggingMixpanel */; };
@@ -104,12 +106,14 @@
 				028F9BDF2CED1617009B9F48 /* SwiftfulUI in Frameworks */,
 				028744422D3396FC00C2C3E1 /* SwiftfulHaptics in Frameworks */,
 				028F9BCE2CED152A009B9F48 /* SwiftfulLoggingMixpanel in Frameworks */,
+				028EF08A2E91C41900DA1D11 /* SwiftfulGamification in Frameworks */,
 				02B62BAB2E662DF3008FB7FF /* SwiftfulLoggingFirebaseCrashlytics in Frameworks */,
 				02B62BA52E662DD7008FB7FF /* SwiftfulAuthenticatingFirebase in Frameworks */,
 				028744482D33A58F00C2C3E1 /* SwiftfulSoundEffects in Frameworks */,
 				0229588C2CEE932F00765488 /* SDWebImageSwiftUI in Frameworks */,
 				028F9B862CECF666009B9F48 /* SwiftfulUtilities in Frameworks */,
 				028F9BD72CED155A009B9F48 /* SwiftfulAuthUI in Frameworks */,
+				028EF08D2E91C42700DA1D11 /* SwiftfulGamificationFirebase in Frameworks */,
 				02B62BB22E662E85008FB7FF /* FirebaseStorage in Frameworks */,
 				02B62BB02E662E60008FB7FF /* FirebaseRemoteConfig in Frameworks */,
 				028F9BD12CED1539009B9F48 /* SwiftfulPurchasing in Frameworks */,
@@ -241,6 +245,8 @@
 				02B62BAD2E662E14008FB7FF /* SwiftfulFirestore */,
 				02B62BAF2E662E60008FB7FF /* FirebaseRemoteConfig */,
 				02B62BB12E662E85008FB7FF /* FirebaseStorage */,
+				028EF0892E91C41900DA1D11 /* SwiftfulGamification */,
+				028EF08C2E91C42700DA1D11 /* SwiftfulGamificationFirebase */,
 			);
 			productName = SwiftfulStarterProject;
 			productReference = 028F9B532CECF2C2009B9F48 /* SwiftfulStarterProject.app */;
@@ -295,6 +301,8 @@
 				02B62BA62E662DE7008FB7FF /* XCRemoteSwiftPackageReference "SwiftfulLoggingFirebaseAnalytics" */,
 				02B62BA92E662DF3008FB7FF /* XCRemoteSwiftPackageReference "SwiftfulLoggingFirebaseCrashlytics" */,
 				02B62BAC2E662E14008FB7FF /* XCRemoteSwiftPackageReference "SwiftfulFirestore" */,
+				028EF0882E91C41900DA1D11 /* XCRemoteSwiftPackageReference "SwiftfulGamification" */,
+				028EF08B2E91C42700DA1D11 /* XCRemoteSwiftPackageReference "SwiftfulGamificationFirebase" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 028F9B542CECF2C2009B9F48 /* Products */;
@@ -935,6 +943,22 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		028EF0882E91C41900DA1D11 /* XCRemoteSwiftPackageReference "SwiftfulGamification" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulGamification.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		028EF08B2E91C42700DA1D11 /* XCRemoteSwiftPackageReference "SwiftfulGamificationFirebase" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulGamificationFirebase.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		028F9B842CECF666009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulUtilities" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulUtilities";
@@ -1053,6 +1077,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 028744462D33A58F00C2C3E1 /* XCRemoteSwiftPackageReference "SwiftfulSoundEffects" */;
 			productName = SwiftfulSoundEffects;
+		};
+		028EF0892E91C41900DA1D11 /* SwiftfulGamification */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 028EF0882E91C41900DA1D11 /* XCRemoteSwiftPackageReference "SwiftfulGamification" */;
+			productName = SwiftfulGamification;
+		};
+		028EF08C2E91C42700DA1D11 /* SwiftfulGamificationFirebase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 028EF08B2E91C42700DA1D11 /* XCRemoteSwiftPackageReference "SwiftfulGamificationFirebase" */;
+			productName = SwiftfulGamificationFirebase;
 		};
 		028F9B852CECF666009B9F48 /* SwiftfulUtilities */ = {
 			isa = XCSwiftPackageProductDependency;

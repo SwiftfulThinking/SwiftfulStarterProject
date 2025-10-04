@@ -1,5 +1,5 @@
 {
-  "originHash" : "faeb9d019e8f2aac7944d04ec60ba167d340ee2098a50de630597e3ecf8465c4",
+  "originHash" : "e44cd7ecde2f9d01bb4a8e0e9bf5558d46fc09247770ea9a15f3e7df20430c66",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -242,6 +242,24 @@
       "state" : {
         "revision" : "10a2983db613e463916df3f33e18e1d7a7b780d8",
         "version" : "11.0.3"
+      }
+    },
+    {
+      "identity" : "swiftfulgamification",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulGamification.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "023cd3f74b4586f5bf4f819ec5c7147de3695a53"
+      }
+    },
+    {
+      "identity" : "swiftfulgamificationfirebase",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulGamificationFirebase.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "644f70a93ca8d444d808bc1fa4cba69fcb8ba0ae"
       }
     },
     {

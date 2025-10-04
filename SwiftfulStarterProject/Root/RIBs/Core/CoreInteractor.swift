@@ -11,6 +11,7 @@ struct CoreInteractor: GlobalInteractor {
     private let pushManager: PushManager
     private let hapticManager: HapticManager
     private let soundEffectManager: SoundEffectManager
+    private let streakManager: StreakManager
 
     init(container: DependencyContainer) {
         self.appState = container.resolve(AppState.self)!
@@ -22,6 +23,7 @@ struct CoreInteractor: GlobalInteractor {
         self.pushManager = container.resolve(PushManager.self)!
         self.hapticManager = container.resolve(HapticManager.self)!
         self.soundEffectManager = container.resolve(SoundEffectManager.self)!
+        self.streakManager = container.resolve(StreakManager.self)!
     }
     
     // MARK: APP STATE
