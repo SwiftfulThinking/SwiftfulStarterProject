@@ -12,6 +12,8 @@ struct CoreInteractor: GlobalInteractor {
     private let hapticManager: HapticManager
     private let soundEffectManager: SoundEffectManager
     private let streakManager: StreakManager
+    private let xpManager: ExperiencePointsManager
+    private let progressManager: ProgressManager
 
     init(container: DependencyContainer) {
         self.appState = container.resolve(AppState.self)!
@@ -23,7 +25,9 @@ struct CoreInteractor: GlobalInteractor {
         self.pushManager = container.resolve(PushManager.self)!
         self.hapticManager = container.resolve(HapticManager.self)!
         self.soundEffectManager = container.resolve(SoundEffectManager.self)!
-        self.streakManager = container.resolve(StreakManager.self, key: "daily")!
+        self.streakManager = container.resolve(StreakManager.self, key: Dependencies.streakConfiguration.streakKey)!
+        self.xpManager = container.resolve(ExperiencePointsManager.self, key: Dependencies.xpConfiguration.experienceKey)!
+        self.progressManager = container.resolve(ProgressManager.self, key: Dependencies.progressConfiguration.progressKey)!
     }
     
     // MARK: APP STATE
@@ -209,32 +213,100 @@ struct CoreInteractor: GlobalInteractor {
         streakManager.currentStreakData
     }
 
-    func addStreakEvent(userId: String, event: StreakEvent) async throws {
-        try await streakManager.addStreakEvent(userId: userId, event: event)
+    @discardableResult
+    func addStreakEvent(id: String, timestamp: Date = Date(), metadata: [String: GamificationDictionaryValue] = [:]) async throws -> StreakEvent {
+        try await streakManager.addStreakEvent(id: id, timestamp: timestamp, metadata: metadata)
     }
 
-    func getAllStreakEvents(userId: String) async throws -> [StreakEvent] {
-        try await streakManager.getAllStreakEvents(userId: userId)
+    func getAllStreakEvents() async throws -> [StreakEvent] {
+        try await streakManager.getAllStreakEvents()
     }
 
-    func deleteAllStreakEvents(userId: String) async throws {
-        try await streakManager.deleteAllStreakEvents(userId: userId)
+    func deleteAllStreakEvents() async throws {
+        try await streakManager.deleteAllStreakEvents()
     }
 
-    func addStreakFreeze(userId: String, freeze: StreakFreeze) async throws {
-        try await streakManager.addStreakFreeze(userId: userId, freeze: freeze)
+    @discardableResult
+    func addStreakFreeze(id: String, expiresAt: Date? = nil) async throws -> StreakFreeze {
+        try await streakManager.addStreakFreeze(id: id, expiresAt: expiresAt)
     }
 
-    func useStreakFreeze(userId: String, freezeId: String) async throws {
-        try await streakManager.useStreakFreeze(userId: userId, freezeId: freezeId)
+    func useStreakFreeze(freezeId: String) async throws {
+        try await streakManager.useStreakFreeze(freezeId: freezeId)
     }
 
-    func getAllStreakFreezes(userId: String) async throws -> [StreakFreeze] {
-        try await streakManager.getAllStreakFreezes(userId: userId)
+    func getAllStreakFreezes() async throws -> [StreakFreeze] {
+        try await streakManager.getAllStreakFreezes()
     }
 
-    func recalculateStreak(userId: String) {
-        streakManager.recalculateStreak(userId: userId)
+    func recalculateStreak() {
+        streakManager.recalculateStreak()
+    }
+
+    // MARK: ExperiencePointsManager
+
+    var currentExperiencePointsData: CurrentExperiencePointsData {
+        xpManager.currentExperiencePointsData
+    }
+
+    @discardableResult
+    func addExperiencePoints(id: String, points: Int, metadata: [String: GamificationDictionaryValue] = [:]) async throws -> ExperiencePointsEvent {
+        try await xpManager.addExperiencePoints(id: id, points: points, metadata: metadata)
+    }
+
+    func getAllExperiencePointsEvents() async throws -> [ExperiencePointsEvent] {
+        try await xpManager.getAllExperiencePointsEvents()
+    }
+
+    func getAllExperiencePointsEvents(forField field: String, equalTo value: GamificationDictionaryValue) async throws -> [ExperiencePointsEvent] {
+        try await xpManager.getAllExperiencePointsEvents(forField: field, equalTo: value)
+    }
+
+    func deleteAllExperiencePointsEvents() async throws {
+        try await xpManager.deleteAllExperiencePointsEvents()
+    }
+
+    func recalculateExperiencePoints() {
+        xpManager.recalculateExperiencePoints()
+    }
+
+    // MARK: ProgressManager
+
+    func getProgress(id: String) -> Double {
+        progressManager.getProgress(id: id)
+    }
+
+    func getProgressItem(id: String) -> ProgressItem? {
+        progressManager.getProgressItem(id: id)
+    }
+
+    func getAllProgress() -> [String: Double] {
+        progressManager.getAllProgress()
+    }
+
+    func getAllProgressItems() -> [ProgressItem] {
+        progressManager.getAllProgressItems()
+    }
+
+    func getProgressItems(forMetadataField metadataField: String, equalTo value: GamificationDictionaryValue) -> [ProgressItem] {
+        progressManager.getProgressItems(forMetadataField: metadataField, equalTo: value)
+    }
+
+    func getMaxProgress(forMetadataField metadataField: String, equalTo value: GamificationDictionaryValue) -> Double {
+        progressManager.getMaxProgress(forMetadataField: metadataField, equalTo: value)
+    }
+
+    @discardableResult
+    func addProgress(id: String, value: Double, metadata: [String: GamificationDictionaryValue]? = nil) async throws -> ProgressItem {
+        try await progressManager.addProgress(id: id, value: value, metadata: metadata)
+    }
+
+    func deleteProgress(id: String) async throws {
+        try await progressManager.deleteProgress(id: id)
+    }
+
+    func deleteAllProgress() async throws {
+        try await progressManager.deleteAllProgress()
     }
 
     // MARK: SHARED
@@ -250,6 +322,8 @@ struct CoreInteractor: GlobalInteractor {
             )
         )
         try await streakManager.logIn(userId: user.uid)
+        try await xpManager.logIn(userId: user.uid)
+        try await progressManager.logIn(userId: user.uid)
         logManager.addUserProperties(dict: Utilities.eventParameters, isHighPriority: false)
     }
 
@@ -258,6 +332,8 @@ struct CoreInteractor: GlobalInteractor {
         try await purchaseManager.logOut()
         userManager.signOut()
         streakManager.logOut()
+        xpManager.logOut()
+        progressManager.logOut()
     }
     
     func deleteAccount() async throws {

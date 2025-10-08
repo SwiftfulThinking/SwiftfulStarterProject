@@ -238,10 +238,10 @@
     {
       "identity" : "swiftfulfirestore",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SwiftfulThinking/SwiftfulFirestore",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulFirestore.git",
       "state" : {
-        "revision" : "10a2983db613e463916df3f33e18e1d7a7b780d8",
-        "version" : "11.0.3"
+        "branch" : "development",
+        "revision" : "056be03845cc8ed594555f74c36c856a35e32aa5"
       }
     },
     {
@@ -250,7 +250,7 @@
       "location" : "https://github.com/SwiftfulThinking/SwiftfulGamification.git",
       "state" : {
         "branch" : "main",
-        "revision" : "023cd3f74b4586f5bf4f819ec5c7147de3695a53"
+        "revision" : "eaae3ef9e9b42b6000aed67a7a839319e46c554f"
       }
     },
     {
@@ -259,7 +259,7 @@
       "location" : "https://github.com/SwiftfulThinking/SwiftfulGamificationFirebase.git",
       "state" : {
         "branch" : "main",
-        "revision" : "644f70a93ca8d444d808bc1fa4cba69fcb8ba0ae"
+        "revision" : "2834636c3b2854c23b3a80def02d8c22ba0ecfa3"
       }
     },
     {

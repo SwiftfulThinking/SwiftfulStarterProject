@@ -7,6 +7,9 @@
 import SwiftfulGamification
 import SwiftfulGamificationFirebase
 
+typealias GamificationDictionaryValue = SwiftfulGamification.GamificationDictionaryValue
+
+// Streaks
 typealias StreakManager = SwiftfulGamification.StreakManager
 typealias MockStreakServices = SwiftfulGamification.MockStreakServices
 typealias StreakConfiguration = SwiftfulGamification.StreakConfiguration
@@ -21,7 +24,44 @@ public struct ProdStreakServices: StreakServices {
 
     public init() {
         self.remote = FirebaseRemoteStreakService()
-        self.local = MockLocalStreakPersistence(streak: nil) // fixme
+        self.local = FileManagerStreakPersistence()
+    }
+}
+
+// Experience Points
+
+typealias ExperiencePointsManager = SwiftfulGamification.ExperiencePointsManager
+typealias MockExperiencePointsServices = SwiftfulGamification.MockExperiencePointsServices
+typealias ExperiencePointsConfiguration = SwiftfulGamification.ExperiencePointsConfiguration
+typealias CurrentExperiencePointsData = SwiftfulGamification.CurrentExperiencePointsData
+typealias ExperiencePointsEvent = SwiftfulGamification.ExperiencePointsEvent
+
+@MainActor
+public struct ProdExperiencePointsServices: ExperiencePointsServices {
+    public let remote: RemoteExperiencePointsService
+    public let local: LocalExperiencePointsPersistence
+
+    public init() {
+        self.remote = FirebaseRemoteExperiencePointsService()
+        self.local = FileManagerExperiencePointsPersistence()
+    }
+}
+
+// Progress
+
+typealias ProgressManager = SwiftfulGamification.ProgressManager
+typealias ProgressConfiguration = SwiftfulGamification.ProgressConfiguration
+typealias MockProgressServices = SwiftfulGamification.MockProgressServices
+typealias ProgressItem = SwiftfulGamification.ProgressItem
+
+@MainActor
+public struct ProdProgressServices: ProgressServices {
+    public let remote: RemoteProgressService
+    public let local: LocalProgressPersistence
+
+    public init() {
+        self.remote = FirebaseRemoteProgressService()
+        self.local = SwiftDataProgressPersistence()
     }
 }
 

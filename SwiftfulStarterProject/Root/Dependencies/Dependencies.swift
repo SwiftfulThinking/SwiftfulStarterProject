@@ -23,15 +23,9 @@ struct Dependencies {
         let hapticManager: HapticManager
         let soundEffectManager: SoundEffectManager
         let streakManager: StreakManager
+        let xpManager: ExperiencePointsManager
+        let progressManager: ProgressManager
         
-        let streakConfiguration = StreakConfiguration(
-            streakId: "daily",
-            eventsRequiredPerDay: 5,
-            useServerCalculation: false,
-            leewayHours: 0,
-            autoConsumeFreeze: true
-        )
-
         switch config {
         case .mock(isSignedIn: let isSignedIn):
             logManager = LogManager(services: [
@@ -51,7 +45,9 @@ struct Dependencies {
             purchaseManager = PurchaseManager(service: MockPurchaseService(), logger: logManager)
             appState = AppState(startingModuleId: isSignedIn ? Constants.tabbarModuleId : Constants.onboardingModuleId)
             hapticManager = HapticManager(logger: logManager)
-            streakManager = StreakManager(services: MockStreakServices(), configuration: streakConfiguration, logger: logManager)
+            streakManager = StreakManager(services: MockStreakServices(), configuration: Dependencies.streakConfiguration, logger: logManager)
+            xpManager = ExperiencePointsManager(services: MockExperiencePointsServices(), configuration: Dependencies.xpConfiguration, logger: logManager)
+            progressManager = ProgressManager(services: MockProgressServices(), configuration: Dependencies.progressConfiguration, logger: logManager)
         case .dev:
             logManager = LogManager(services: [
                 ConsoleService(printParameters: true),
@@ -68,7 +64,9 @@ struct Dependencies {
             )
             hapticManager = HapticManager(logger: logManager)
             appState = AppState()
-            streakManager = StreakManager(services: ProdStreakServices(), configuration: streakConfiguration, logger: logManager)
+            streakManager = StreakManager(services: ProdStreakServices(), configuration: Dependencies.streakConfiguration, logger: logManager)
+            xpManager = ExperiencePointsManager(services: ProdExperiencePointsServices(), configuration: Dependencies.xpConfiguration, logger: logManager)
+            progressManager = ProgressManager(services: ProdProgressServices(), configuration: Dependencies.progressConfiguration, logger: logManager)
         case .prod:
             logManager = LogManager(services: [
                 FirebaseAnalyticsService(),
@@ -85,7 +83,9 @@ struct Dependencies {
             )
             hapticManager = HapticManager(logger: logManager)
             appState = AppState()
-            streakManager = StreakManager(services: ProdStreakServices(), configuration: streakConfiguration, logger: logManager)
+            streakManager = StreakManager(services: ProdStreakServices(), configuration: Dependencies.streakConfiguration, logger: logManager)
+            xpManager = ExperiencePointsManager(services: ProdExperiencePointsServices(), configuration: Dependencies.xpConfiguration, logger: logManager)
+            progressManager = ProgressManager(services: ProdProgressServices(), configuration: Dependencies.progressConfiguration, logger: logManager)
         }
         pushManager = PushManager(logManager: logManager)
         soundEffectManager = SoundEffectManager(logger: logManager)
@@ -100,11 +100,32 @@ struct Dependencies {
         container.register(PushManager.self, service: pushManager)
         container.register(HapticManager.self, service: hapticManager)
         container.register(SoundEffectManager.self, service: soundEffectManager)
-        container.register(StreakManager.self, key: streakConfiguration.streakId, service: streakManager)
+        container.register(StreakManager.self, key: Dependencies.streakConfiguration.streakKey, service: streakManager)
+        container.register(ExperiencePointsManager.self, key: Dependencies.xpConfiguration.experienceKey, service: xpManager)
+        container.register(ProgressManager.self, key: Dependencies.progressConfiguration.progressKey, service: progressManager)
+
         self.container = container
         
         SwiftfulRoutingLogger.enableLogging(logger: logManager)
     }
+    
+    static let streakConfiguration = StreakConfiguration(
+        streakKey: "daily",
+        eventsRequiredPerDay: 1,
+        useServerCalculation: false,
+        leewayHours: 0,
+        autoConsumeFreeze: true
+    )
+    
+    static let xpConfiguration = ExperiencePointsConfiguration(
+        experienceKey: "general",
+        useServerCalculation: false
+    )
+    
+    static let progressConfiguration = ProgressConfiguration(
+        progressKey: "general"
+    )
+
 }
 
 @MainActor
@@ -123,6 +144,8 @@ class DevPreview {
         container.register(SoundEffectManager.self, service: soundEffectManager)
         container.register(HapticManager.self, service: hapticManager)
         container.register(StreakManager.self, key: "daily", service: streakManager)
+        container.register(ExperiencePointsManager.self, key: "general", service: xpManager)
+        container.register(ProgressManager.self, key: "general", service: progressManager)
         return container
     }
     
@@ -136,6 +159,8 @@ class DevPreview {
     let hapticManager: HapticManager
     let soundEffectManager: SoundEffectManager
     let streakManager: StreakManager
+    let xpManager: ExperiencePointsManager
+    let progressManager: ProgressManager
 
     init(isSignedIn: Bool = true) {
         self.authManager = AuthManager(service: MockAuthService(user: isSignedIn ? .mock() : nil))
@@ -147,7 +172,9 @@ class DevPreview {
         self.pushManager = PushManager()
         self.hapticManager = HapticManager()
         self.soundEffectManager = SoundEffectManager()
-        self.streakManager = StreakManager(services: MockStreakServices(), configuration: StreakConfiguration.mockBasic())
+        self.streakManager = StreakManager(services: MockStreakServices(), configuration: StreakConfiguration.mockDefault())
+        self.xpManager = ExperiencePointsManager(services: MockExperiencePointsServices(), configuration: ExperiencePointsConfiguration.mockDefault())
+        self.progressManager = ProgressManager(services: MockProgressServices(), configuration: ProgressConfiguration.mockDefault())
     }
 
 }
