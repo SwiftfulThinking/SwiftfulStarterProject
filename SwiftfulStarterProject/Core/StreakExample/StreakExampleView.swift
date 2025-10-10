@@ -32,6 +32,9 @@ struct StreakExampleView: View {
                     Text("Longest: \(presenter.currentStreakData.longestStreak ?? 0)")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
+                    Text("Freezes: \(presenter.currentStreakData.freezesRemaining ?? 0)")
+                        .font(.subheadline)
+                        .foregroundStyle(.blue)
                     if let lastEventDate = presenter.currentStreakData.lastEventDate {
                         Text("Last: \(lastEventDate.formatted(date: .abbreviated, time: .shortened))")
                             .font(.caption)
@@ -50,30 +53,45 @@ struct StreakExampleView: View {
                 .padding()
 
                 // Buttons
-                HStack(spacing: 12) {
-                    Button("Add Streak Event") {
-                        Task {
-                            do {
-                                errorMessage = nil
-                                try await presenter.addStreakEvent()
-                            } catch {
-                                errorMessage = "Error: \(error.localizedDescription)"
+                VStack(spacing: 12) {
+                    HStack(spacing: 12) {
+                        Button("Add Streak Event") {
+                            Task {
+                                do {
+                                    errorMessage = nil
+                                    try await presenter.addStreakEvent()
+                                } catch {
+                                    errorMessage = "Error: \(error.localizedDescription)"
+                                }
                             }
                         }
-                    }
-                    .buttonStyle(.borderedProminent)
+                        .buttonStyle(.borderedProminent)
 
-                    Button("Add Freeze") {
+                        Button("Add Freeze") {
+                            Task {
+                                do {
+                                    errorMessage = nil
+                                    try await presenter.addFreeze()
+                                } catch {
+                                    errorMessage = "Error: \(error.localizedDescription)"
+                                }
+                            }
+                        }
+                        .buttonStyle(.bordered)
+                    }
+
+                    Button("Use Freeze") {
                         Task {
                             do {
                                 errorMessage = nil
-                                try await presenter.addFreeze()
+                                try await presenter.useFreeze()
                             } catch {
                                 errorMessage = "Error: \(error.localizedDescription)"
                             }
                         }
                     }
                     .buttonStyle(.bordered)
+                    .disabled((presenter.currentStreakData.freezesRemaining ?? 0) == 0)
                 }
 
                 // Calendar
