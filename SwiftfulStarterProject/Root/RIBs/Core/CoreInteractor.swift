@@ -312,8 +312,9 @@ struct CoreInteractor: GlobalInteractor {
     // MARK: SHARED
 
     func logIn(user: UserAuthInfo, isNewUser: Bool) async throws {
-        try await userManager.logIn(auth: user, isNewUser: isNewUser)
-        try await purchaseManager.logIn(
+        // Run all logins in parallel
+        async let userLogin: Void = userManager.logIn(auth: user, isNewUser: isNewUser)
+        async let purchaseLogin: ([PurchasedEntitlement]) = purchaseManager.logIn(
             userId: user.uid,
             userAttributes: PurchaseProfileAttributes(
                 email: user.email,
@@ -321,9 +322,13 @@ struct CoreInteractor: GlobalInteractor {
                 firebaseAppInstanceId: Constants.firebaseAnalyticsAppInstanceID
             )
         )
-        try await streakManager.logIn(userId: user.uid)
-        try await xpManager.logIn(userId: user.uid)
-        try await progressManager.logIn(userId: user.uid)
+        async let streakLogin: Void = streakManager.logIn(userId: user.uid)
+        async let xpLogin: Void = xpManager.logIn(userId: user.uid)
+        async let progressLogin: Void = progressManager.logIn(userId: user.uid)
+
+        let (_, entitlements, _, _, _) = await (try userLogin, try purchaseLogin, try streakLogin, try xpLogin, try progressLogin)
+
+        // Add user properties
         logManager.addUserProperties(dict: Utilities.eventParameters, isHighPriority: false)
     }
 
