@@ -3,21 +3,33 @@ import SwiftUI
 @Observable
 @MainActor
 class StreakExamplePresenter {
-    
+
     private let interactor: StreakExampleInteractor
     private let router: StreakExampleRouter
-    
+
+    var currentStreakData: CurrentStreakData {
+        interactor.currentStreakData
+    }
+
     init(interactor: StreakExampleInteractor, router: StreakExampleRouter) {
         self.interactor = interactor
         self.router = router
     }
-    
+
     func onViewAppear(delegate: StreakExampleDelegate) {
         interactor.trackScreenEvent(event: Event.onAppear(delegate: delegate))
     }
-    
+
     func onViewDisappear(delegate: StreakExampleDelegate) {
         interactor.trackEvent(event: Event.onDisappear(delegate: delegate))
+    }
+
+    func addStreakEvent() async throws {
+        try await interactor.addStreakEvent(id: UUID().uuidString, timestamp: Date(), metadata: [:])
+    }
+
+    func addFreeze() async throws {
+        try await interactor.addStreakFreeze(id: UUID().uuidString, expiresAt: nil)
     }
 }
 

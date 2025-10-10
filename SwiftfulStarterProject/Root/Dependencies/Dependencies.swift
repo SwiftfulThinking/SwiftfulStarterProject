@@ -143,9 +143,9 @@ class DevPreview {
         container.register(PushManager.self, service: pushManager)
         container.register(SoundEffectManager.self, service: soundEffectManager)
         container.register(HapticManager.self, service: hapticManager)
-        container.register(StreakManager.self, key: "daily", service: streakManager)
-        container.register(ExperiencePointsManager.self, key: "general", service: xpManager)
-        container.register(ProgressManager.self, key: "general", service: progressManager)
+        container.register(StreakManager.self, key: Dependencies.streakConfiguration.streakKey, service: streakManager)
+        container.register(ExperiencePointsManager.self, key: Dependencies.xpConfiguration.experienceKey, service: xpManager)
+        container.register(ProgressManager.self, key: Dependencies.progressConfiguration.progressKey, service: progressManager)
         return container
     }
     

@@ -326,7 +326,7 @@ struct CoreInteractor: GlobalInteractor {
         async let xpLogin: Void = xpManager.logIn(userId: user.uid)
         async let progressLogin: Void = progressManager.logIn(userId: user.uid)
 
-        let (_, entitlements, _, _, _) = await (try userLogin, try purchaseLogin, try streakLogin, try xpLogin, try progressLogin)
+        let (_, _, _, _, _) = await (try userLogin, try purchaseLogin, try streakLogin, try xpLogin, try progressLogin)
 
         // Add user properties
         logManager.addUserProperties(dict: Utilities.eventParameters, isHighPriority: false)
@@ -338,7 +338,7 @@ struct CoreInteractor: GlobalInteractor {
         userManager.signOut()
         streakManager.logOut()
         xpManager.logOut()
-        progressManager.logOut()
+        await progressManager.logOut()
     }
     
     func deleteAccount() async throws {

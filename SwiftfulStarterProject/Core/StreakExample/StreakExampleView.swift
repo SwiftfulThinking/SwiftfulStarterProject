@@ -221,8 +221,17 @@ struct DayCell: View {
 #Preview("No Streak") {
     let container = DevPreview.shared.container()
 
-    // Blank streak (0 days)
-    let streakData = CurrentStreakData.blank(streakKey: "workout")
+    // Blank streak (0 days) but user is logged in
+    let streakData = CurrentStreakData(
+        streakKey: "workout",
+        userId: "mock_user_123",
+        currentStreak: 0,
+        longestStreak: 0,
+        totalEvents: 0,
+        freezesRemaining: 0,
+        eventsRequiredPerDay: 1,
+        todayEventCount: 0
+    )
     let streakManager = StreakManager(
         services: MockStreakServices(streak: streakData),
         configuration: StreakConfiguration.mockDefault()
