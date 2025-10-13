@@ -235,10 +235,6 @@ struct CoreInteractor: GlobalInteractor {
         try await streakManager.useStreakFreezes()
     }
 
-    func useStreakFreeze(freezeId: String) async throws {
-        try await streakManager.useStreakFreeze(freezeId: freezeId)
-    }
-
     func getAllStreakFreezes() async throws -> [StreakFreeze] {
         try await streakManager.getAllStreakFreezes()
     }
