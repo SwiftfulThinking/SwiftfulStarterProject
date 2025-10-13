@@ -250,7 +250,7 @@
       "location" : "https://github.com/SwiftfulThinking/SwiftfulGamification.git",
       "state" : {
         "branch" : "main",
-        "revision" : "2b42dedf01981f63841d5949698fdb4c9cb84407"
+        "revision" : "3de92f1b79e56d0873378230d362a542e8dc41be"
       }
     },
     {
@@ -259,7 +259,7 @@
       "location" : "https://github.com/SwiftfulThinking/SwiftfulGamificationFirebase.git",
       "state" : {
         "branch" : "main",
-        "revision" : "9b63213ff5ad29be5b2e0c297f80806ff24997da"
+        "revision" : "90ac26d7e35099a115864ba30630dd6d40c0def1"
       }
     },
     {

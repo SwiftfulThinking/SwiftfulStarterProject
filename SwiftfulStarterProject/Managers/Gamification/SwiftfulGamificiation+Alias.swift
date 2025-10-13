@@ -23,7 +23,7 @@ public struct ProdStreakServices: StreakServices {
     public let local: LocalStreakPersistence
 
     public init() {
-        self.remote = FirebaseRemoteStreakService()
+        self.remote = FirebaseRemoteStreakService(rootCollectionName: "st_streaks")
         self.local = FileManagerStreakPersistence()
     }
 }
@@ -42,7 +42,7 @@ public struct ProdExperiencePointsServices: ExperiencePointsServices {
     public let local: LocalExperiencePointsPersistence
 
     public init() {
-        self.remote = FirebaseRemoteExperiencePointsService()
+        self.remote = FirebaseRemoteExperiencePointsService(rootCollectionName: "st_experience")
         self.local = FileManagerExperiencePointsPersistence()
     }
 }
@@ -60,7 +60,7 @@ public struct ProdProgressServices: ProgressServices {
     public let local: LocalProgressPersistence
 
     public init() {
-        self.remote = FirebaseRemoteProgressService()
+        self.remote = FirebaseRemoteProgressService(rootCollectionName: "st_progress")
         self.local = SwiftDataProgressPersistence()
     }
 }
