@@ -3,21 +3,29 @@ import SwiftUI
 @Observable
 @MainActor
 class ExperiencePointsExamplePresenter {
-    
+
     private let interactor: ExperiencePointsExampleInteractor
     private let router: ExperiencePointsExampleRouter
-    
+
+    var currentExperiencePointsData: CurrentExperiencePointsData {
+        interactor.currentExperiencePointsData
+    }
+
     init(interactor: ExperiencePointsExampleInteractor, router: ExperiencePointsExampleRouter) {
         self.interactor = interactor
         self.router = router
     }
-    
+
     func onViewAppear(delegate: ExperiencePointsExampleDelegate) {
         interactor.trackScreenEvent(event: Event.onAppear(delegate: delegate))
     }
-    
+
     func onViewDisappear(delegate: ExperiencePointsExampleDelegate) {
         interactor.trackEvent(event: Event.onDisappear(delegate: delegate))
+    }
+
+    func addExperiencePoints(points: Int) async throws {
+        try await interactor.addExperiencePoints(id: UUID().uuidString, points: points, metadata: [:])
     }
 }
 
