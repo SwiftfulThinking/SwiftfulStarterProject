@@ -110,7 +110,7 @@ struct Dependencies {
     }
     
     static let streakConfiguration = StreakConfiguration(
-        streakKey: "daily",
+        streakKey: Constants.streakKey,
         eventsRequiredPerDay: 1,
         useServerCalculation: false,
         leewayHours: 0,
@@ -118,12 +118,12 @@ struct Dependencies {
     )
     
     static let xpConfiguration = ExperiencePointsConfiguration(
-        experienceKey: "general",
+        experienceKey: Constants.xpKey,
         useServerCalculation: false
     )
     
     static let progressConfiguration = ProgressConfiguration(
-        progressKey: "general"
+        progressKey: Constants.progressKey
     )
 
 }

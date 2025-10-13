@@ -32,8 +32,8 @@ class StreakExamplePresenter {
         try await interactor.addStreakFreeze(id: UUID().uuidString, expiresAt: nil)
     }
 
-    func useFreeze() async throws {
-        try await interactor.useStreakFreeze()
+    func useFreezes() async throws {
+        try await interactor.useStreakFreezes()
     }
 }
 

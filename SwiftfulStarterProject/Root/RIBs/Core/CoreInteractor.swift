@@ -230,6 +230,10 @@ struct CoreInteractor: GlobalInteractor {
     func addStreakFreeze(id: String, expiresAt: Date? = nil) async throws -> StreakFreeze {
         try await streakManager.addStreakFreeze(id: id, expiresAt: expiresAt)
     }
+    
+    func useStreakFreezes() async throws {
+        try await streakManager.useStreakFreezes()
+    }
 
     func useStreakFreeze(freezeId: String) async throws {
         try await streakManager.useStreakFreeze(freezeId: freezeId)

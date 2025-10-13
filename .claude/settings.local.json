@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/nicksarno/Documents/documents/GITHUB/SwiftfulGamification/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

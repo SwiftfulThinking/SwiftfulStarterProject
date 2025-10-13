@@ -12,6 +12,22 @@ struct StreakExampleView: View {
     let delegate: StreakExampleDelegate
     @State private var errorMessage: String?
 
+    private var useFreezeButtonText: String {
+        switch presenter.currentStreakData.applyManualStreakFreezeStatus {
+        case .canSaveStreakWithFreezes(let count):
+            return "Use \(count) Freeze\(count == 1 ? "" : "s")"
+        case .cannotSaveStreakWithFreezes:
+            return "Use Freezes"
+        }
+    }
+
+    private var canUseFreezes: Bool {
+        if case .canSaveStreakWithFreezes = presenter.currentStreakData.applyManualStreakFreezeStatus {
+            return true
+        }
+        return false
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -80,18 +96,18 @@ struct StreakExampleView: View {
                         .buttonStyle(.bordered)
                     }
 
-                    Button("Use Freeze") {
+                    Button(useFreezeButtonText) {
                         Task {
                             do {
                                 errorMessage = nil
-                                try await presenter.useFreeze()
+                                try await presenter.useFreezes()
                             } catch {
                                 errorMessage = "Error: \(error.localizedDescription)"
                             }
                         }
                     }
                     .buttonStyle(.bordered)
-                    .disabled((presenter.currentStreakData.freezesAvailableCount ?? 0) == 0)
+                    .disabled(!canUseFreezes)
                 }
 
                 // Calendar
@@ -320,6 +336,7 @@ struct DayCell: View {
         services: MockStreakServices(streak: streakData),
         configuration: StreakConfiguration.mockDefault()
     )
+    Task { try? await streakManager.logIn(userId: "mock_user_123") }
     container.register(StreakManager.self, key: Constants.streakKey, service: streakManager)
 
     let interactor = CoreInteractor(container: container)
@@ -366,6 +383,139 @@ struct DayCell: View {
         services: MockStreakServices(streak: streakData),
         configuration: StreakConfiguration.mock(freezeBehavior: .autoConsumeFreezes)
     )
+    Task { try? await streakManager.logIn(userId: "mock_user_123") }
+    container.register(StreakManager.self, key: Constants.streakKey, service: streakManager)
+
+    let interactor = CoreInteractor(container: container)
+    let builder = CoreBuilder(interactor: interactor)
+    let delegate = StreakExampleDelegate()
+
+    return RouterView { router in
+        builder.streakExampleView(router: router, delegate: delegate)
+    }
+}
+
+#Preview("Auto-Saved (2 Freezes)") {
+    let container = DevPreview.shared.container()
+
+    // Streak broken 3 days ago, with 2 freezes to auto-save
+    // Last event was 3 days ago, creating a 2-day gap
+    var calendar = Calendar.current
+    calendar.timeZone = .current
+    let today = Date()
+
+    var events: [StreakEvent] = []
+
+    // Last event 3 days ago
+    let lastEventDate = calendar.date(byAdding: .day, value: -3, to: today)!
+    events.append(StreakEvent.mock(timestamp: lastEventDate))
+
+    // Previous consecutive days (4-10 days ago)
+    for daysAgo in 4...10 {
+        let date = calendar.date(byAdding: .day, value: -daysAgo, to: today)!
+        events.append(StreakEvent.mock(timestamp: date))
+    }
+
+    let streakData = CurrentStreakData.mockWithRecentEvents(
+        streakKey: "workout",
+        userId: "mock_user_123",
+        recentEvents: events,
+        freezesAvailableCount: 2
+    )
+
+    let streakManager = StreakManager(
+        services: MockStreakServices(streak: streakData),
+        configuration: StreakConfiguration.mock(freezeBehavior: .autoConsumeFreezes)
+    )
+    Task { try? await streakManager.logIn(userId: "mock_user_123") }
+    container.register(StreakManager.self, key: Constants.streakKey, service: streakManager)
+
+    let interactor = CoreInteractor(container: container)
+    let builder = CoreBuilder(interactor: interactor)
+    let delegate = StreakExampleDelegate()
+
+    return RouterView { router in
+        builder.streakExampleView(router: router, delegate: delegate)
+    }
+}
+
+#Preview("Auto-Consume (Not Enough)") {
+    let container = DevPreview.shared.container()
+
+    // Streak broken 3 days ago, with only 1 freeze (need 2)
+    // User can add another freeze to save it
+    var calendar = Calendar.current
+    calendar.timeZone = .current
+    let today = Date()
+
+    var events: [StreakEvent] = []
+
+    // Last event 3 days ago
+    let lastEventDate = calendar.date(byAdding: .day, value: -3, to: today)!
+    events.append(StreakEvent.mock(timestamp: lastEventDate))
+
+    // Previous consecutive days (4-10 days ago)
+    for daysAgo in 4...10 {
+        let date = calendar.date(byAdding: .day, value: -daysAgo, to: today)!
+        events.append(StreakEvent.mock(timestamp: date))
+    }
+
+    let streakData = CurrentStreakData.mockWithRecentEvents(
+        streakKey: "workout",
+        userId: "mock_user_123",
+        recentEvents: events,
+        freezesAvailableCount: 1
+    )
+
+    let streakManager = StreakManager(
+        services: MockStreakServices(streak: streakData),
+        configuration: StreakConfiguration.mock(freezeBehavior: .autoConsumeFreezes)
+    )
+    Task { try? await streakManager.logIn(userId: "mock_user_123") }
+    container.register(StreakManager.self, key: Constants.streakKey, service: streakManager)
+
+    let interactor = CoreInteractor(container: container)
+    let builder = CoreBuilder(interactor: interactor)
+    let delegate = StreakExampleDelegate()
+
+    return RouterView { router in
+        builder.streakExampleView(router: router, delegate: delegate)
+    }
+}
+
+#Preview("Manual Apply (2 Freezes)") {
+    let container = DevPreview.shared.container()
+
+    // Streak broken 3 days ago, with 2 freezes available
+    // User must manually apply freezes to save streak
+    var calendar = Calendar.current
+    calendar.timeZone = .current
+    let today = Date()
+
+    var events: [StreakEvent] = []
+
+    // Last event 3 days ago
+    let lastEventDate = calendar.date(byAdding: .day, value: -3, to: today)!
+    events.append(StreakEvent.mock(timestamp: lastEventDate))
+
+    // Previous consecutive days (4-10 days ago)
+    for daysAgo in 4...10 {
+        let date = calendar.date(byAdding: .day, value: -daysAgo, to: today)!
+        events.append(StreakEvent.mock(timestamp: date))
+    }
+
+    let streakData = CurrentStreakData.mockWithRecentEvents(
+        streakKey: "workout",
+        userId: "mock_user_123",
+        recentEvents: events,
+        freezesAvailableCount: 2
+    )
+
+    let streakManager = StreakManager(
+        services: MockStreakServices(streak: streakData),
+        configuration: StreakConfiguration.mockDefault()
+    )
+    Task { try? await streakManager.logIn(userId: "mock_user_123") }
     container.register(StreakManager.self, key: Constants.streakKey, service: streakManager)
 
     let interactor = CoreInteractor(container: container)

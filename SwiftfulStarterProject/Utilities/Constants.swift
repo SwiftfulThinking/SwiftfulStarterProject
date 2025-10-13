@@ -11,6 +11,10 @@ struct Constants {
     
     static let onboardingModuleId = "onboarding"
     static let tabbarModuleId = "tabbar"
+    
+    static let streakKey = "daily" // daily streaks
+    static let xpKey = "general" // general XP
+    static let progressKey = "general" // general progress
 
     static var mixpanelDistinctId: String? {
         #if MOCK
