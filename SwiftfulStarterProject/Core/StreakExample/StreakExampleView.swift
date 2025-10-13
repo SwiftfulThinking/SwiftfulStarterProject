@@ -254,7 +254,7 @@ struct DayCell: View {
         services: MockStreakServices(streak: streakData),
         configuration: StreakConfiguration.mockDefault()
     )
-    container.register(StreakManager.self, key: Dependencies.streakConfiguration.streakKey, service: streakManager)
+    container.register(StreakManager.self, key: Constants.streakKey, service: streakManager)
 
     let interactor = CoreInteractor(container: container)
     let builder = CoreBuilder(interactor: interactor)
@@ -268,13 +268,13 @@ struct DayCell: View {
 #Preview("5 Day Streak") {
     let container = DevPreview.shared.container()
 
-    // 5 day active streak
-    let streakData = CurrentStreakData.mockActive(currentStreak: 5)
+    // 5 day active streak with 2 freezes
+    let streakData = CurrentStreakData.mockActive(currentStreak: 5, freezesAvailableCount: 2)
     let streakManager = StreakManager(
         services: MockStreakServices(streak: streakData),
         configuration: StreakConfiguration.mockDefault()
     )
-    container.register(StreakManager.self, key: Dependencies.streakConfiguration.streakKey, service: streakManager)
+    container.register(StreakManager.self, key: Constants.streakKey, service: streakManager)
 
     let interactor = CoreInteractor(container: container)
     let builder = CoreBuilder(interactor: interactor)
@@ -312,14 +312,61 @@ struct DayCell: View {
     let streakData = CurrentStreakData.mockWithRecentEvents(
         streakKey: "workout",
         userId: "mock_user_123",
-        recentEvents: events
+        recentEvents: events,
+        freezesAvailableCount: 2
     )
 
     let streakManager = StreakManager(
         services: MockStreakServices(streak: streakData),
         configuration: StreakConfiguration.mockDefault()
     )
-    container.register(StreakManager.self, key: Dependencies.streakConfiguration.streakKey, service: streakManager)
+    container.register(StreakManager.self, key: Constants.streakKey, service: streakManager)
+
+    let interactor = CoreInteractor(container: container)
+    let builder = CoreBuilder(interactor: interactor)
+    let delegate = StreakExampleDelegate()
+
+    return RouterView { router in
+        builder.streakExampleView(router: router, delegate: delegate)
+    }
+}
+
+#Preview("Longest 10, Current 3 (Auto-Consume)") {
+    let container = DevPreview.shared.container()
+
+    // Create events for a previous 10-day streak and current 3-day streak
+    var calendar = Calendar.current
+    calendar.timeZone = .current
+    let today = Date()
+
+    var events: [StreakEvent] = []
+
+    // Current 3-day streak (days 1-3 ago, NOT including today so streak is "at risk")
+    for daysAgo in 1...3 {
+        let date = calendar.date(byAdding: .day, value: -daysAgo, to: today)!
+        events.append(StreakEvent.mock(timestamp: date))
+    }
+
+    // Gap of 2 days (breaks the streak)
+
+    // Previous 10-day streak (days 6-15 ago)
+    for daysAgo in 6...15 {
+        let date = calendar.date(byAdding: .day, value: -daysAgo, to: today)!
+        events.append(StreakEvent.mock(timestamp: date))
+    }
+
+    let streakData = CurrentStreakData.mockWithRecentEvents(
+        streakKey: "workout",
+        userId: "mock_user_123",
+        recentEvents: events,
+        freezesAvailableCount: 2
+    )
+
+    let streakManager = StreakManager(
+        services: MockStreakServices(streak: streakData),
+        configuration: StreakConfiguration.mock(freezeBehavior: .autoConsumeFreezes)
+    )
+    container.register(StreakManager.self, key: Constants.streakKey, service: streakManager)
 
     let interactor = CoreInteractor(container: container)
     let builder = CoreBuilder(interactor: interactor)
