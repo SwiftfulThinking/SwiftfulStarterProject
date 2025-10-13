@@ -114,7 +114,7 @@ struct Dependencies {
         eventsRequiredPerDay: 1,
         useServerCalculation: false,
         leewayHours: 0,
-        autoConsumeFreeze: true
+        freezeBehavior: .autoConsumeFreezes
     )
     
     static let xpConfiguration = ExperiencePointsConfiguration(

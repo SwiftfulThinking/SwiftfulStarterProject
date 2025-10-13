@@ -32,7 +32,7 @@ struct StreakExampleView: View {
                     Text("Longest: \(presenter.currentStreakData.longestStreak ?? 0)")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
-                    Text("Freezes: \(presenter.currentStreakData.freezesRemaining ?? 0)")
+                    Text("Freezes: \(presenter.currentStreakData.freezesAvailableCount ?? 0)")
                         .font(.subheadline)
                         .foregroundStyle(.blue)
                     if let lastEventDate = presenter.currentStreakData.lastEventDate {
@@ -91,7 +91,7 @@ struct StreakExampleView: View {
                         }
                     }
                     .buttonStyle(.bordered)
-                    .disabled((presenter.currentStreakData.freezesRemaining ?? 0) == 0)
+                    .disabled((presenter.currentStreakData.freezesAvailableCount ?? 0) == 0)
                 }
 
                 // Calendar
@@ -246,7 +246,7 @@ struct DayCell: View {
         currentStreak: 0,
         longestStreak: 0,
         totalEvents: 0,
-        freezesRemaining: 0,
+        freezesAvailableCount: 0,
         eventsRequiredPerDay: 1,
         todayEventCount: 0
     )

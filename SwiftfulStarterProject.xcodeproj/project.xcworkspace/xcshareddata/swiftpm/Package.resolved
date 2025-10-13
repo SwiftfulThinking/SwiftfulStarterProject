@@ -250,7 +250,7 @@
       "location" : "https://github.com/SwiftfulThinking/SwiftfulGamification.git",
       "state" : {
         "branch" : "main",
-        "revision" : "44b6d7cf5e1f399647a39038c043f72da069b5ad"
+        "revision" : "f3ca3a1190985079d407daba135925ea6d2eaa2c"
       }
     },
     {
@@ -259,7 +259,7 @@
       "location" : "https://github.com/SwiftfulThinking/SwiftfulGamificationFirebase.git",
       "state" : {
         "branch" : "main",
-        "revision" : "5074bf3327d7e84520a6b771dbf0113c724ded79"
+        "revision" : "9b63213ff5ad29be5b2e0c297f80806ff24997da"
       }
     },
     {
@@ -339,8 +339,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulRouting",
       "state" : {
-        "revision" : "e08e0502989b7fcba919888eb6e9a84bef5ed367",
-        "version" : "6.1.2"
+        "revision" : "f169d9a96741a3ec520d21d7da3cae06d7590700",
+        "version" : "6.1.8"
       }
     },
     {
