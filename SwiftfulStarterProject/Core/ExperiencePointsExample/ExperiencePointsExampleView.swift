@@ -290,16 +290,40 @@ struct ExperienceDayCell: View {
 #Preview("High XP User") {
     let container = DevPreview.shared.container()
 
-    // User with high XP total
+    // User with high XP total - generate events to match the total
+    let totalPoints = 50000
+    let eventCount = 1000
+    let pointsPerEvent = totalPoints / eventCount
+    let events = (0..<min(eventCount, 60)).map { daysAgo in
+        ExperiencePointsEvent.mock(
+            daysAgo: daysAgo,
+            experienceKey: "main",
+            points: pointsPerEvent
+        )
+    }
+
+    // Calculate fields from events (matching ExperiencePointsCalculator logic)
+    let calendar = Calendar.current
+    let today = Date()
+    let todayStart = calendar.startOfDay(for: today)
+
+    let todayEventCount = events.filter { event in
+        calendar.isDate(event.timestamp, inSameDayAs: todayStart)
+    }.count
+
+    let lastEvent = events.max(by: { $0.timestamp < $1.timestamp })
+    let firstEvent = events.min(by: { $0.timestamp < $1.timestamp })
+
     let xpData = CurrentExperiencePointsData(
         experienceKey: "main",
         userId: "mock_user_123",
-        totalPoints: 50000,
-        totalEvents: 1000,
-        todayEventCount: 15,
-        lastEventDate: Date(),
-        createdAt: Calendar.current.date(byAdding: .year, value: -1, to: Date()),
-        updatedAt: Date()
+        totalPoints: totalPoints,
+        totalEvents: eventCount,
+        todayEventCount: todayEventCount,
+        lastEventDate: lastEvent?.timestamp,
+        createdAt: firstEvent?.timestamp,
+        updatedAt: today,
+        recentEvents: events
     )
     let xpManager = ExperiencePointsManager(
         services: MockExperiencePointsServices(data: xpData),
