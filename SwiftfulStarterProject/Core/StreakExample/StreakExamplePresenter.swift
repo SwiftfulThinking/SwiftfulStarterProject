@@ -25,7 +25,7 @@ class StreakExamplePresenter {
     }
 
     func addStreakEvent() async throws {
-        try await interactor.addStreakEvent(id: UUID().uuidString, timestamp: Date(), metadata: [:])
+        try await interactor.addStreakEvent(timestamp: Date(), metadata: [:])
     }
 
     func addFreeze() async throws {

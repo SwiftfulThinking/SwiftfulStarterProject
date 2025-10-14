@@ -214,8 +214,8 @@ struct CoreInteractor: GlobalInteractor {
     }
 
     @discardableResult
-    func addStreakEvent(id: String, timestamp: Date = Date(), metadata: [String: GamificationDictionaryValue] = [:]) async throws -> StreakEvent {
-        try await streakManager.addStreakEvent(id: id, timestamp: timestamp, metadata: metadata)
+    func addStreakEvent(timestamp: Date = Date(), metadata: [String: GamificationDictionaryValue] = [:]) async throws -> StreakEvent {
+        try await streakManager.addStreakEvent(timestamp: timestamp, metadata: metadata)
     }
 
     func getAllStreakEvents() async throws -> [StreakEvent] {
@@ -250,8 +250,8 @@ struct CoreInteractor: GlobalInteractor {
     }
 
     @discardableResult
-    func addExperiencePoints(id: String, points: Int, metadata: [String: GamificationDictionaryValue] = [:]) async throws -> ExperiencePointsEvent {
-        try await xpManager.addExperiencePoints(id: id, points: points, metadata: metadata)
+    func addExperiencePoints(points: Int, metadata: [String: GamificationDictionaryValue] = [:]) async throws -> ExperiencePointsEvent {
+        try await xpManager.addExperiencePoints(points: points, metadata: metadata)
     }
 
     func getAllExperiencePointsEvents() async throws -> [ExperiencePointsEvent] {

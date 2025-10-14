@@ -25,7 +25,7 @@ class ExperiencePointsExamplePresenter {
     }
 
     func addExperiencePoints(points: Int) async throws {
-        try await interactor.addExperiencePoints(id: UUID().uuidString, points: points, metadata: [:])
+        try await interactor.addExperiencePoints(points: points, metadata: [:])
     }
 }
 
