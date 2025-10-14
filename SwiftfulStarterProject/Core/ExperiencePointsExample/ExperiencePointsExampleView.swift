@@ -28,12 +28,12 @@ struct ExperiencePointsExampleView: View {
                 VStack(spacing: 8) {
                     Text("Experience Points")
                         .font(.headline)
-                    Text("\(presenter.currentExperiencePointsData.totalPoints ?? 0) XP")
+                    Text("\(presenter.currentExperiencePointsData.pointsAllTime ?? 0) XP")
                         .font(.system(size: 48, weight: .bold))
-                    Text("Total Events: \(presenter.currentExperiencePointsData.totalEvents ?? 0)")
+                    Text("Today: \(presenter.currentExperiencePointsData.pointsToday ?? 0) points")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
-                    Text("Today: \(presenter.currentExperiencePointsData.todayEventCount ?? 0) events")
+                    Text("Events Today: \(presenter.currentExperiencePointsData.eventsTodayCount ?? 0)")
                         .font(.subheadline)
                         .foregroundStyle(.blue)
                     if let lastEventDate = presenter.currentExperiencePointsData.lastEventDate {
@@ -225,9 +225,9 @@ struct ExperienceDayCell: View {
     let xpData = CurrentExperiencePointsData(
         experienceKey: "main",
         userId: "mock_user_123",
-        totalPoints: 0,
-        totalEvents: 0,
-        todayEventCount: 0
+        pointsAllTime: 0,
+        pointsToday: 0,
+        eventsTodayCount: 0
     )
     let xpManager = ExperiencePointsManager(
         services: MockExperiencePointsServices(data: xpData),
@@ -249,7 +249,7 @@ struct ExperienceDayCell: View {
     let container = DevPreview.shared.container()
 
     // Active XP with some points
-    let xpData = CurrentExperiencePointsData.mockActive(totalPoints: 2500)
+    let xpData = CurrentExperiencePointsData.mockActive(pointsToday: 250)
     let xpManager = ExperiencePointsManager(
         services: MockExperiencePointsServices(data: xpData),
         configuration: ExperiencePointsConfiguration.mockDefault()
@@ -317,9 +317,8 @@ struct ExperienceDayCell: View {
     let xpData = CurrentExperiencePointsData(
         experienceKey: "main",
         userId: "mock_user_123",
-        totalPoints: totalPoints,
-        totalEvents: eventCount,
-        todayEventCount: todayEventCount,
+        pointsAllTime: totalPoints,
+        eventsTodayCount: todayEventCount,
         lastEventDate: lastEvent?.timestamp,
         createdAt: firstEvent?.timestamp,
         updatedAt: today,
