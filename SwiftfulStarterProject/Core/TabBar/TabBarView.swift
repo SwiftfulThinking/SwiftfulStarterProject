@@ -45,8 +45,25 @@ extension CoreBuilder {
                     .any()
                 }),
                 TabBarScreen(title: "Beta", systemImage: "heart.fill", screen: {
-                    RouterView { _ in
-                        Text("Beta")
+                    RouterView { router in
+                        List {
+                            Button("Streaks") {
+                                router.showScreen { router in
+                                    streakExampleView(router: router, delegate: StreakExampleDelegate())
+                                }
+                            }
+                            Button("Experience Points") {
+                                router.showScreen { router in
+                                    experiencePointsExampleView(router: router, delegate: ExperiencePointsExampleDelegate())
+                                }
+                            }
+                            Button("Progress") {
+                                router.showScreen { router in
+                                    progressExampleView(router: router, delegate: ProgressExampleDelegate())
+                                }
+                            }
+                        }
+                        .navigationTitle("Gamificiation Examples")
                     }
                     .any()
                 }),
