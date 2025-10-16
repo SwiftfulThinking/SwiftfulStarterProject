@@ -1,5 +1,5 @@
 {
-  "originHash" : "3a13bcd2c760632e8e3b9024a4f5d72c2ffa67136f1ad91f29726bf3b28c74c0",
+  "originHash" : "e44cd7ecde2f9d01bb4a8e0e9bf5558d46fc09247770ea9a15f3e7df20430c66",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -267,8 +267,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulHaptics.git",
       "state" : {
-        "revision" : "8a8efaecbd524f41d7803f77d13b746166c68897",
-        "version" : "1.1.0"
+        "revision" : "181943a602277e94217267274a227f5f5042fce3",
+        "version" : "2.0.3"
       }
     },
     {

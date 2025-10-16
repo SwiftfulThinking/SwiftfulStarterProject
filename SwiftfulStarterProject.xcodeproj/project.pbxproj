@@ -948,7 +948,7 @@
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulHaptics.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 2.0.0;
 			};
 		};
 		028744462D33A58F00C2C3E1 /* XCRemoteSwiftPackageReference "SwiftfulSoundEffects" */ = {
