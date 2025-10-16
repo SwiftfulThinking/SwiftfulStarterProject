@@ -36,8 +36,8 @@ struct ExperiencePointsExampleView: View {
                     Text("Events Today: \(presenter.currentExperiencePointsData.eventsTodayCount ?? 0)")
                         .font(.subheadline)
                         .foregroundStyle(.blue)
-                    if let lastEventDate = presenter.currentExperiencePointsData.lastEventDate {
-                        Text("Last: \(lastEventDate.formatted(date: .abbreviated, time: .shortened))")
+                    if let dateLastEvent = presenter.currentExperiencePointsData.dateLastEvent {
+                        Text("Last: \(dateLastEvent.formatted(date: .abbreviated, time: .shortened))")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -149,7 +149,7 @@ struct ExperiencePointsCalendarView: View {
                 ForEach(daysInMonth, id: \.self) { date in
                     let isCurrentMonth = calendar.isDate(date, equalTo: currentMonth, toGranularity: .month)
                     let dayEvents = recentEvents.filter { event in
-                        calendar.isDate(event.timestamp, inSameDayAs: date)
+                        calendar.isDate(event.dateCreated, inSameDayAs: date)
                     }
                     let totalPoints = dayEvents.reduce(0) { $0 + $1.points }
 
@@ -297,7 +297,6 @@ struct ExperienceDayCell: View {
     let events = (0..<min(eventCount, 60)).map { daysAgo in
         ExperiencePointsEvent.mock(
             daysAgo: daysAgo,
-            experienceKey: "main",
             points: pointsPerEvent
         )
     }
@@ -308,20 +307,20 @@ struct ExperienceDayCell: View {
     let todayStart = calendar.startOfDay(for: today)
 
     let todayEventCount = events.filter { event in
-        calendar.isDate(event.timestamp, inSameDayAs: todayStart)
+        calendar.isDate(event.dateCreated, inSameDayAs: todayStart)
     }.count
 
-    let lastEvent = events.max(by: { $0.timestamp < $1.timestamp })
-    let firstEvent = events.min(by: { $0.timestamp < $1.timestamp })
+    let lastEvent = events.max(by: { $0.dateCreated < $1.dateCreated })
+    let firstEvent = events.min(by: { $0.dateCreated < $1.dateCreated })
 
     let xpData = CurrentExperiencePointsData(
         experienceKey: "main",
         userId: "mock_user_123",
         pointsAllTime: totalPoints,
         eventsTodayCount: todayEventCount,
-        lastEventDate: lastEvent?.timestamp,
-        createdAt: firstEvent?.timestamp,
-        updatedAt: today,
+        dateLastEvent: lastEvent?.dateCreated,
+        dateCreated: firstEvent?.dateCreated,
+        dateUpdated: today,
         recentEvents: events
     )
     let xpManager = ExperiencePointsManager(

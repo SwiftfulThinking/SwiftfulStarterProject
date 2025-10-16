@@ -163,7 +163,7 @@ struct MonthCalendarView: View {
 
             // Day headers
             HStack(spacing: 0) {
-                ForEach(Array(["S", "M", "T", "W", "T", "F", "S"].enumerated()), id: \.offset) { _, day in
+                ForEach(["S", "M", "T", "W", "T", "F", "S"], id: \.self) { day in
                     Text(day)
                         .font(.caption)
                         .fontWeight(.semibold)
@@ -420,6 +420,7 @@ struct DayCell: View {
         streakKey: "workout",
         userId: "mock_user_123",
         recentEvents: events,
+        eventsRequiredPerDay: 1,
         freezesAvailableCount: 2
     )
 
