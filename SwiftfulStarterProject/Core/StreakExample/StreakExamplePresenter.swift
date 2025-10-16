@@ -25,11 +25,11 @@ class StreakExamplePresenter {
     }
 
     func addStreakEvent() async throws {
-        try await interactor.addStreakEvent(timestamp: Date(), metadata: [:])
+        try await interactor.addStreakEvent(metadata: [:])
     }
 
     func addFreeze() async throws {
-        try await interactor.addStreakFreeze(id: UUID().uuidString, expiresAt: nil)
+        try await interactor.addStreakFreeze(id: UUID().uuidString, dateExpires: nil)
     }
 
     func useFreezes() async throws {

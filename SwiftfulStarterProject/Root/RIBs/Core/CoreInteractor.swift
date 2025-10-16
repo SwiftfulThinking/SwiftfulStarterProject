@@ -214,8 +214,8 @@ struct CoreInteractor: GlobalInteractor {
     }
 
     @discardableResult
-    func addStreakEvent(timestamp: Date = Date(), metadata: [String: GamificationDictionaryValue] = [:]) async throws -> StreakEvent {
-        try await streakManager.addStreakEvent(timestamp: timestamp, metadata: metadata)
+    func addStreakEvent(metadata: [String: GamificationDictionaryValue] = [:]) async throws -> StreakEvent {
+        try await streakManager.addStreakEvent(metadata: metadata)
     }
 
     func getAllStreakEvents() async throws -> [StreakEvent] {
@@ -227,8 +227,8 @@ struct CoreInteractor: GlobalInteractor {
     }
 
     @discardableResult
-    func addStreakFreeze(id: String, expiresAt: Date? = nil) async throws -> StreakFreeze {
-        try await streakManager.addStreakFreeze(id: id, expiresAt: expiresAt)
+    func addStreakFreeze(id: String, dateExpires: Date? = nil) async throws -> StreakFreeze {
+        try await streakManager.addStreakFreeze(id: id, dateExpires: dateExpires)
     }
     
     func useStreakFreezes() async throws {

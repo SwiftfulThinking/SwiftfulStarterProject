@@ -51,8 +51,8 @@ struct StreakExampleView: View {
                     Text("Freezes: \(presenter.currentStreakData.freezesAvailableCount ?? 0)")
                         .font(.subheadline)
                         .foregroundStyle(.blue)
-                    if let lastEventDate = presenter.currentStreakData.lastEventDate {
-                        Text("Last: \(lastEventDate.formatted(date: .abbreviated, time: .shortened))")
+                    if let dateLastEvent = presenter.currentStreakData.dateLastEvent {
+                        Text("Last: \(dateLastEvent.formatted(date: .abbreviated, time: .shortened))")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -177,7 +177,7 @@ struct MonthCalendarView: View {
                 ForEach(daysInMonth, id: \.self) { date in
                     let isCurrentMonth = calendar.isDate(date, equalTo: currentMonth, toGranularity: .month)
                     let dayEvents = recentEvents.filter { event in
-                        calendar.isDate(event.timestamp, inSameDayAs: date)
+                        calendar.isDate(event.dateCreated, inSameDayAs: date)
                     }
 
                     DayCell(
@@ -314,7 +314,7 @@ struct DayCell: View {
     // Current 3-day streak (days 1-3 ago, NOT including today so streak is "at risk")
     for daysAgo in 1...3 {
         let date = calendar.date(byAdding: .day, value: -daysAgo, to: today)!
-        events.append(StreakEvent.mock(timestamp: date))
+        events.append(StreakEvent.mock(date: date))
     }
 
     // Gap of 2 days (breaks the streak)
@@ -322,7 +322,7 @@ struct DayCell: View {
     // Previous 10-day streak (days 6-15 ago)
     for daysAgo in 6...15 {
         let date = calendar.date(byAdding: .day, value: -daysAgo, to: today)!
-        events.append(StreakEvent.mock(timestamp: date))
+        events.append(StreakEvent.mock(date: date))
     }
 
     let streakData = CurrentStreakData.mockWithRecentEvents(
@@ -361,7 +361,7 @@ struct DayCell: View {
     // Current 3-day streak (days 1-3 ago, NOT including today so streak is "at risk")
     for daysAgo in 1...3 {
         let date = calendar.date(byAdding: .day, value: -daysAgo, to: today)!
-        events.append(StreakEvent.mock(timestamp: date))
+        events.append(StreakEvent.mock(date: date))
     }
 
     // Gap of 2 days (breaks the streak)
@@ -369,7 +369,7 @@ struct DayCell: View {
     // Previous 10-day streak (days 6-15 ago)
     for daysAgo in 6...15 {
         let date = calendar.date(byAdding: .day, value: -daysAgo, to: today)!
-        events.append(StreakEvent.mock(timestamp: date))
+        events.append(StreakEvent.mock(date: date))
     }
 
     let streakData = CurrentStreakData.mockWithRecentEvents(
@@ -408,12 +408,12 @@ struct DayCell: View {
 
     // Last event 3 days ago
     let lastEventDate = calendar.date(byAdding: .day, value: -3, to: today)!
-    events.append(StreakEvent.mock(timestamp: lastEventDate))
+    events.append(StreakEvent.mock(date: lastEventDate))
 
     // Previous consecutive days (4-10 days ago)
     for daysAgo in 4...10 {
         let date = calendar.date(byAdding: .day, value: -daysAgo, to: today)!
-        events.append(StreakEvent.mock(timestamp: date))
+        events.append(StreakEvent.mock(date: date))
     }
 
     let streakData = CurrentStreakData.mockWithRecentEvents(
@@ -452,12 +452,12 @@ struct DayCell: View {
 
     // Last event 3 days ago
     let lastEventDate = calendar.date(byAdding: .day, value: -3, to: today)!
-    events.append(StreakEvent.mock(timestamp: lastEventDate))
+    events.append(StreakEvent.mock(date: lastEventDate))
 
     // Previous consecutive days (4-10 days ago)
     for daysAgo in 4...10 {
         let date = calendar.date(byAdding: .day, value: -daysAgo, to: today)!
-        events.append(StreakEvent.mock(timestamp: date))
+        events.append(StreakEvent.mock(date: date))
     }
 
     let streakData = CurrentStreakData.mockWithRecentEvents(
@@ -496,12 +496,12 @@ struct DayCell: View {
 
     // Last event 3 days ago
     let lastEventDate = calendar.date(byAdding: .day, value: -3, to: today)!
-    events.append(StreakEvent.mock(timestamp: lastEventDate))
+    events.append(StreakEvent.mock(date: lastEventDate))
 
     // Previous consecutive days (4-10 days ago)
     for daysAgo in 4...10 {
         let date = calendar.date(byAdding: .day, value: -daysAgo, to: today)!
-        events.append(StreakEvent.mock(timestamp: date))
+        events.append(StreakEvent.mock(date: date))
     }
 
     let streakData = CurrentStreakData.mockWithRecentEvents(
