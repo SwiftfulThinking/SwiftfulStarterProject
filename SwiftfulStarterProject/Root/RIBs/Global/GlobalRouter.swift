@@ -13,61 +13,46 @@ protocol GlobalRouter {
 
 extension GlobalRouter {
     
-    /// Dismiss the current screen
     func dismissScreen() {
         router.dismissScreen()
     }
     
-    /// Dismiss the closest sheet or fullScreenCover
     func dismissEnvironment() {
         router.dismissEnvironment()
     }
     
-    /// Dismiss all screens pushed onto the NavStack
-    func dismissScreenStack() {
-        router.dismissScreenStack()
+    func dismissPushStack() {
+        router.dismissPushStack()
     }
     
-    func dismissModal(id: String?) {
-        router.dismissModal(id: id)
-    }
-    
-    func dismissAllModals() {
-        router.dismissAllModals()
+    func dismissModal() {
+        router.dismissModal()
     }
     
     func showNextScreen() throws {
-        try router.showNextScreen()
+        try router.tryShowNextScreen()
     }
     
     func showNextScreenOrDismissEnvironment() {
-        do {
-            try showNextScreen()
-        } catch {
-            dismissEnvironment()
-        }
+        router.showNextScreenOrDismissEnvironment()
     }
     
-    func showNextScreenOrDismissScreenStack() {
-        do {
-            try showNextScreen()
-        } catch {
-            dismissScreenStack()
-        }
+    func showNextScreenOrDismissPushStack() {
+        router.showNextScreenOrDismissPushStack()
     }
     
-    func showAlert(_ option: DialogOption, title: String, subtitle: String?, buttons: (@Sendable () -> AnyView)?) {
-        router.showAlert(option, title: title, subtitle: subtitle, alert: {
+    func showAlert(_ option: AlertStyle, title: String, subtitle: String?, buttons: (@Sendable () -> AnyView)?) {
+        router.showAlert(option, title: title, subtitle: subtitle, buttons: {
             buttons?()
         })
     }
     
     func showSimpleAlert(title: String, subtitle: String?) {
-        router.showAlert(.alert, title: title, subtitle: subtitle, alert: { })
+        router.showAlert(.alert, title: title, subtitle: subtitle, buttons: { })
     }
     
     func showAlert(error: Error) {
-        router.showAlert(.alert, title: "Error", subtitle: error.localizedDescription, alert: { })
+        router.showAlert(.alert, title: "Error", subtitle: error.localizedDescription, buttons: { })
     }
     
     func dismissAlert() {

@@ -6,6 +6,7 @@
 //
 import SwiftUI
 import SwiftfulAuthUI
+import SwiftfulRouting
 
 struct CreateAccountDelegate {
     var title: String = "Create Account?"
@@ -40,18 +41,32 @@ struct CreateAccountView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             
-            SignInAppleButtonView(
-                type: .signIn,
-                style: .black,
-                cornerRadius: 10
-            )
-            .frame(height: 55)
-            .frame(maxWidth: 400)
-            .anyButton(.press) {
-                presenter.onSignInApplePressed(delegate: delegate)
+            VStack(spacing: 12) {
+                SignInAppleButtonView(
+                    type: .signIn,
+                    style: .black,
+                    cornerRadius: 10
+                )
+                .frame(height: 55)
+                .frame(maxWidth: 400)
+                .anyButton(.press) {
+                    presenter.onSignInApplePressed(delegate: delegate)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                SignInGoogleButtonView(
+                    type: .signIn,
+                    backgroundColor: .googleRed,
+                    cornerRadius: 10
+                )
+                .frame(height: 55)
+                .frame(maxWidth: 400)
+                .anyButton(.press) {
+                    presenter.onSignInGooglePressed(delegate: delegate)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            
+
             Spacer()
         }
         .padding(16)
@@ -83,7 +98,13 @@ extension CoreBuilder {
 extension CoreRouter {
     
     func showCreateAccountView(delegate: CreateAccountDelegate, onDismiss: (() -> Void)? = nil) {
-        router.showResizableSheet(sheetDetents: [.medium], selection: nil, showDragIndicator: false, onDismiss: onDismiss) { router in
+        let config = ResizableSheetConfig(
+            detents: [.medium],
+            selection: nil,
+            dragIndicator: .hidden
+        )
+                
+        router.showScreen(.sheetConfig(config: config)) { _ in
             builder.createAccountView(router: router, delegate: delegate)
         }
     }

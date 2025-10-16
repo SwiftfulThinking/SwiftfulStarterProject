@@ -65,7 +65,7 @@ class SettingsPresenter {
     private func dismissScreen() async {
         router.dismissScreen()
         try? await Task.sleep(for: .seconds(1))
-        interactor.updateAppState(showTabBarView: false)
+        router.switchToOnboardingModule()
     }
         
     func onDeleteAccountPressed() {
@@ -75,6 +75,21 @@ class SettingsPresenter {
             .alert,
             title: "Delete Account?",
             subtitle: "This action is permanent and cannot be undone. Your data will be deleted from our server forever.",
+            buttons: {
+                AnyView(
+                    Button("Delete", role: .destructive, action: {
+                        self.showDeleteAccountReauthAlert()
+                    })
+                )
+            }
+        )
+    }
+    
+    private func showDeleteAccountReauthAlert() {
+        router.showAlert(
+            .alert,
+            title: "Reauthentication Required",
+            subtitle: "As a safety precaution in order to delete your account, you must first sign again.",
             buttons: {
                 AnyView(
                     Button("Delete", role: .destructive, action: {

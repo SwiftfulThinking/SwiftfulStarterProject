@@ -37,15 +37,14 @@ class OnboardingCompletedPresenter {
                 try await interactor.saveOnboardingComplete()
                 interactor.trackEvent(event: Event.finishSuccess)
 
-                // dismiss screen
-                isCompletingProfileSetup = false
-                
                 // Show tabbar view
-                interactor.updateAppState(showTabBarView: true)
+                router.switchToCoreModule()
             } catch {
                 router.showAlert(error: error)
                 interactor.trackEvent(event: Event.finishFail(error: error))
             }
+            
+            isCompletingProfileSetup = false
         }
     }
 

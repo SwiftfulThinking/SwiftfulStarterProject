@@ -1,12 +1,14 @@
 //
 //  AppPresenter.swift
-//  
 //
-//  
+//
+//
 //
 import SwiftUI
 import SwiftfulUtilities
+#if !MOCK
 import FirebaseMessaging
+#endif
 
 @Observable
 @MainActor
@@ -14,8 +16,8 @@ class AppPresenter {
     
     private let interactor: AppViewInteractor
     
-    var showTabBar: Bool {
-        interactor.showTabBar
+    var auth: UserAuthInfo? {
+        interactor.auth
     }
     
     init(interactor: AppViewInteractor) {
@@ -62,11 +64,13 @@ class AppPresenter {
                 
                 // Log in
                 try await interactor.logIn(user: result.user, isNewUser: result.isNewUser)
-                
+
                 // Save push token
+                #if !MOCK
                 if let token = try? await Messaging.messaging().token() {
                     savePushToken(token: token)
                 }
+                #endif
             } catch {
                 interactor.trackEvent(event: Event.anonAuthFail(error: error))
                 try? await Task.sleep(for: .seconds(5))
