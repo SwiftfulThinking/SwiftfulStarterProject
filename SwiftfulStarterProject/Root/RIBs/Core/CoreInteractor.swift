@@ -170,21 +170,31 @@ struct CoreInteractor: GlobalInteractor {
     // MARK: Haptics
     
     func prepareHaptic(option: HapticOption) {
-        Task {
-            await hapticManager.prepare(option: option)
-        }
+        hapticManager.prepare(option: option)
+    }
+    
+    func prepareHaptics(options: [HapticOption]) {
+        hapticManager.prepare(options: options)
     }
         
     func playHaptic(option: HapticOption) {
-        Task {
-            await hapticManager.play(option: option)
-        }
+        hapticManager.play(option: option)
+    }
+    
+    func playHaptics(options: [HapticOption]) {
+        hapticManager.play(options: options)
     }
     
     func tearDownHaptic(option: HapticOption) {
-        Task {
-            await hapticManager.tearDown(option: option)
-        }
+        hapticManager.tearDown(option: option)
+    }
+    
+    func tearDownHaptics(options: [HapticOption]) {
+        hapticManager.tearDown(options: options)
+    }
+    
+    func tearDownAllHaptics() {
+        hapticManager.tearDownAll()
     }
     
     // MARK: Sound Effects
