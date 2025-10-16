@@ -1,5 +1,5 @@
 {
-  "originHash" : "faeb9d019e8f2aac7944d04ec60ba167d340ee2098a50de630597e3ecf8465c4",
+  "originHash" : "3a13bcd2c760632e8e3b9024a4f5d72c2ffa67136f1ad91f29726bf3b28c74c0",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -238,10 +238,28 @@
     {
       "identity" : "swiftfulfirestore",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SwiftfulThinking/SwiftfulFirestore",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulFirestore.git",
       "state" : {
-        "revision" : "10a2983db613e463916df3f33e18e1d7a7b780d8",
-        "version" : "11.0.3"
+        "revision" : "288c869297fd3615ce8791f2740760d36b3b8db1",
+        "version" : "11.0.4"
+      }
+    },
+    {
+      "identity" : "swiftfulgamification",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulGamification.git",
+      "state" : {
+        "revision" : "8a9e6a0a4eef6f7de86a9383318cee323fcdff7a",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swiftfulgamificationfirebase",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulGamificationFirebase.git",
+      "state" : {
+        "revision" : "a037fd0c198ac3094c5c8f5f4f3d03ef7d742f27",
+        "version" : "1.0.1"
       }
     },
     {
@@ -321,8 +339,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulRouting",
       "state" : {
-        "revision" : "e08e0502989b7fcba919888eb6e9a84bef5ed367",
-        "version" : "6.1.2"
+        "revision" : "f169d9a96741a3ec520d21d7da3cae06d7590700",
+        "version" : "6.1.8"
       }
     },
     {

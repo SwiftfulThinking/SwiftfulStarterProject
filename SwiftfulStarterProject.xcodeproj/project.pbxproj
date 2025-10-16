@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0207BD952EA0958200E46D93 /* SwiftfulGamificationFirebase in Frameworks */ = {isa = PBXBuildFile; productRef = 0207BD942EA0958200E46D93 /* SwiftfulGamificationFirebase */; };
+		0207BD982EA0958B00E46D93 /* SwiftfulGamification in Frameworks */ = {isa = PBXBuildFile; productRef = 0207BD972EA0958B00E46D93 /* SwiftfulGamification */; };
 		0210A6CA2DB4DCE40072B2FC /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = 0210A6C92DB4DCE40072B2FC /* SwiftfulRouting */; };
 		0229588C2CEE932F00765488 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0229588B2CEE932F00765488 /* SDWebImageSwiftUI */; };
 		028744422D3396FC00C2C3E1 /* SwiftfulHaptics in Frameworks */ = {isa = PBXBuildFile; productRef = 028744412D3396FC00C2C3E1 /* SwiftfulHaptics */; };
@@ -109,6 +111,8 @@
 				028744482D33A58F00C2C3E1 /* SwiftfulSoundEffects in Frameworks */,
 				0229588C2CEE932F00765488 /* SDWebImageSwiftUI in Frameworks */,
 				028F9B862CECF666009B9F48 /* SwiftfulUtilities in Frameworks */,
+				0207BD952EA0958200E46D93 /* SwiftfulGamificationFirebase in Frameworks */,
+				0207BD982EA0958B00E46D93 /* SwiftfulGamification in Frameworks */,
 				028F9BD72CED155A009B9F48 /* SwiftfulAuthUI in Frameworks */,
 				02B62BB22E662E85008FB7FF /* FirebaseStorage in Frameworks */,
 				02B62BB02E662E60008FB7FF /* FirebaseRemoteConfig in Frameworks */,
@@ -241,6 +245,8 @@
 				02B62BAD2E662E14008FB7FF /* SwiftfulFirestore */,
 				02B62BAF2E662E60008FB7FF /* FirebaseRemoteConfig */,
 				02B62BB12E662E85008FB7FF /* FirebaseStorage */,
+				0207BD942EA0958200E46D93 /* SwiftfulGamificationFirebase */,
+				0207BD972EA0958B00E46D93 /* SwiftfulGamification */,
 			);
 			productName = SwiftfulStarterProject;
 			productReference = 028F9B532CECF2C2009B9F48 /* SwiftfulStarterProject.app */;
@@ -295,6 +301,8 @@
 				02B62BA62E662DE7008FB7FF /* XCRemoteSwiftPackageReference "SwiftfulLoggingFirebaseAnalytics" */,
 				02B62BA92E662DF3008FB7FF /* XCRemoteSwiftPackageReference "SwiftfulLoggingFirebaseCrashlytics" */,
 				02B62BAC2E662E14008FB7FF /* XCRemoteSwiftPackageReference "SwiftfulFirestore" */,
+				0207BD932EA0958200E46D93 /* XCRemoteSwiftPackageReference "SwiftfulGamificationFirebase" */,
+				0207BD962EA0958B00E46D93 /* XCRemoteSwiftPackageReference "SwiftfulGamification" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 028F9B542CECF2C2009B9F48 /* Products */;
@@ -903,6 +911,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0207BD932EA0958200E46D93 /* XCRemoteSwiftPackageReference "SwiftfulGamificationFirebase" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulGamificationFirebase.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+		0207BD962EA0958B00E46D93 /* XCRemoteSwiftPackageReference "SwiftfulGamification" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulGamification.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		0210A6C82DB4DCE40072B2FC /* XCRemoteSwiftPackageReference "SwiftfulRouting" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulRouting";
@@ -1034,6 +1058,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0207BD942EA0958200E46D93 /* SwiftfulGamificationFirebase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0207BD932EA0958200E46D93 /* XCRemoteSwiftPackageReference "SwiftfulGamificationFirebase" */;
+			productName = SwiftfulGamificationFirebase;
+		};
+		0207BD972EA0958B00E46D93 /* SwiftfulGamification */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0207BD962EA0958B00E46D93 /* XCRemoteSwiftPackageReference "SwiftfulGamification" */;
+			productName = SwiftfulGamification;
+		};
 		0210A6C92DB4DCE40072B2FC /* SwiftfulRouting */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0210A6C82DB4DCE40072B2FC /* XCRemoteSwiftPackageReference "SwiftfulRouting" */;
