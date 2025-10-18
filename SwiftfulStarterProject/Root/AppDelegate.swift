@@ -16,6 +16,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         var config: BuildConfiguration
         
+        #if DEBUG
+        UserDefaults.standard.set(false, forKey: "com.apple.CoreData.SQLDebug")
+        UserDefaults.standard.set(false, forKey: "com.apple.CoreData.Logging.stderr")
+        #endif
+        
         #if MOCK
         config = .mock(isSignedIn: false)
         #elseif DEV

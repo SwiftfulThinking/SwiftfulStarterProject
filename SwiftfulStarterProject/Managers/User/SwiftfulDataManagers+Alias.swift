@@ -14,8 +14,6 @@ typealias MockUserServices = SwiftfulDataManagers.MockDMDocumentServices
 
 @MainActor
 public struct ProductionUserServices: DMDocumentServices {
-    public typealias T = UserModel
-
     public let remote: any RemoteDocumentService<UserModel>
     public let local: any LocalDocumentPersistence<UserModel>
 

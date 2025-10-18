@@ -56,7 +56,7 @@ struct Dependencies {
                 FirebaseCrashlyticsService()
             ])
             authManager = AuthManager(service: FirebaseAuthService(), logger: logManager)
-            userManager = UserManager(services: ProductionUserServices(), configuration: Dependencies.userManagerConfiguration,  logger: logManager)
+            userManager = UserManager(services: ProductionUserServices(), configuration: Dependencies.userManagerConfiguration, logger: logManager)
             abTestManager = ABTestManager(service: LocalABTestService(), logManager: logManager)
             purchaseManager = PurchaseManager(
                 service: RevenueCatPurchaseService(apiKey: Keys.revenueCatAPIKey), // StoreKitPurchaseService(),
@@ -74,7 +74,7 @@ struct Dependencies {
                 FirebaseCrashlyticsService()
             ])
             authManager = AuthManager(service: FirebaseAuthService(), logger: logManager)
-            userManager = UserManager(services: ProductionUserServices(), configuration: Dependencies.userManagerConfiguration,  logger: logManager)
+            userManager = UserManager(services: ProductionUserServices(), configuration: Dependencies.userManagerConfiguration, logger: logManager)
 
             abTestManager = ABTestManager(service: FirebaseABTestService(), logManager: logManager)
             purchaseManager = PurchaseManager(
