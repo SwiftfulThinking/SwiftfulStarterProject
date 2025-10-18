@@ -29,7 +29,7 @@ struct Dependencies {
         switch config {
         case .mock(isSignedIn: let isSignedIn):
             logManager = LogManager(services: [
-                ConsoleService(printParameters: false)
+                ConsoleService(printParameters: true, system: .stdout)
             ])
             authManager = AuthManager(service: MockAuthService(user: isSignedIn ? .mock() : nil), logger: logManager)
             userManager = UserManager(services: MockUserServices(document: isSignedIn ? UserModel.mock : nil), configuration: Dependencies.userManagerConfiguration, logger: logManager)
