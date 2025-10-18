@@ -1,177 +1,164 @@
 //
-//  UserManager.swift
-//  
+//  UserManager2.swift
+//  SwiftfulStarterProject
 //
-//  
+//  Created by Nick Sarno on 1/17/25.
 //
+
 import SwiftUI
+import SwiftfulDataManagers
 
 @MainActor
 @Observable
-class UserManager {
-    
-    private let remote: RemoteUserService
-    private let local: LocalUserPersistence
-    private let logManager: LogManager?
-    
-    private(set) var currentUser: UserModel?
-    private var currentUserListenerTask: Task<Void, Error>?
+class UserManager: DocumentManagerSync<UserModel> {
 
-    init(services: UserServices, logManager: LogManager? = nil) {
-        self.remote = services.remote
-        self.local = services.local
-        self.logManager = logManager
-        self.currentUser = local.getCurrentUser()
+    var currentUser: UserModel? {
+        currentDocument
     }
-        
+
+    override init<S: DMDocumentServices>(
+        services: S,
+        configuration: DataManagerSyncConfiguration = .mockNoPendingWrites(),
+        logger: (any DataLogger)? = nil
+    ) where S.T == UserModel {
+        // Initialize parent DocumentManagerSync
+        super.init(
+            services: services,
+            configuration: configuration,
+            logger: logger
+        )
+
+        // Add user properties to analytics if user is cached
+        if let user = currentUser, let logger {
+            logger.trackEvent(event: Event.userPropertiesAdded(user: user))
+        }
+    }
+
     func logIn(auth: UserAuthInfo, isNewUser: Bool) async throws {
         let creationVersion = isNewUser ? Utilities.appVersion : nil
         let user = UserModel(auth: auth, creationVersion: creationVersion)
-        logManager?.trackEvent(event: Event.logInStart(user: user))
-        
-        try await remote.saveUser(user: user)
-        logManager?.trackEvent(event: Event.logInSuccess(user: user))
+        logger?.trackEvent(event: Event.logInStart(user: user))
 
-        addCurrentUserListener(userId: auth.uid)
-    }
-    
-    private func addCurrentUserListener(userId: String) {
-        logManager?.trackEvent(event: Event.remoteListenerStart)
+        // Save user document
+        try await saveDocument(user)
+        logger?.trackEvent(event: Event.logInSuccess(user: user))
 
-        currentUserListenerTask?.cancel()
-        currentUserListenerTask = Task {
-            do {
-                for try await value in remote.streamUser(userId: userId) {
-                    self.currentUser = value
-                    logManager?.trackEvent(event: Event.remoteListenerSuccess(user: value))
-                    logManager?.addUserProperties(dict: value.eventParameters, isHighPriority: true)
-                    
-                    self.saveCurrentUserLocally()
-                }
-            } catch {
-                logManager?.trackEvent(event: Event.remoteListenerFail(error: error))
-            }
+        // Start listening to this user document
+        try await super.logIn(auth.uid)
+
+        // Add user properties to analytics
+        if let currentUser, let logManager = logger as? LogManager {
+            logManager.addUserProperties(dict: currentUser.eventParameters, isHighPriority: true)
         }
     }
-    
-    private func saveCurrentUserLocally() {
-        logManager?.trackEvent(event: Event.saveLocalStart(user: currentUser))
 
-        Task {
-            do {
-                try local.saveCurrentUser(user: currentUser)
-                logManager?.trackEvent(event: Event.saveLocalSuccess(user: currentUser))
-            } catch {
-                logManager?.trackEvent(event: Event.saveLocalFail(error: error))
-            }
-        }
+    func getUser() async throws -> UserModel {
+        try await getDocumentAsync()
     }
-    
-    func getUser(userId: String) async throws -> UserModel {
-        try await remote.getUser(userId: userId)
-    }
-    
+
     func saveOnboardingCompleteForCurrentUser() async throws {
-        let uid = try currentUserId()
-        try await remote.markOnboardingCompleted(userId: uid)
+        try await updateDocument(data: [
+            UserModel.CodingKeys.didCompleteOnboarding.rawValue: true
+        ])
     }
-    
+
     func saveUserName(name: String) async throws {
-        let uid = try currentUserId()
-        try await remote.saveUserName(userId: uid, name: name)
+        try await updateDocument(data: [
+            UserModel.CodingKeys.submittedName.rawValue: name
+        ])
     }
-    
+
     func saveUserEmail(email: String) async throws {
-        let uid = try currentUserId()
-        try await remote.saveUserEmail(userId: uid, email: email)
+        try await updateDocument(data: [
+            UserModel.CodingKeys.submittedEmail.rawValue: email
+        ])
     }
-    
+
     func saveUserProfileImage(image: UIImage) async throws {
-        let uid = try currentUserId()
-        try await remote.saveUserProfileImage(userId: uid, image: image)
+        let uid = try getDocumentId()
+
+        // Upload the image
+        let path = "users/\(uid)/profile"
+        let url = try await FirebaseImageUploadService().uploadImage(image: image, path: path)
+
+        // Update user document with image url
+        try await updateDocument(data: [
+            UserModel.CodingKeys.submittedProfileImage.rawValue: url.absoluteString
+        ])
     }
-    
+
     func saveUserFCMToken(token: String) async throws {
-        let uid = try currentUserId()
-        try await remote.saveUserFCMToken(userId: uid, token: token)
+        try await updateDocument(data: [
+            UserModel.CodingKeys.fcmToken.rawValue: token
+        ])
     }
-    
+
     func signOut() {
-        currentUserListenerTask?.cancel()
-        currentUserListenerTask = nil
-        currentUser = nil
-        logManager?.trackEvent(event: Event.signOut)
+        logOut()
+        logger?.trackEvent(event: Event.signOut)
     }
-    
+
     func deleteCurrentUser() async throws {
-        logManager?.trackEvent(event: Event.deleteAccountStart)
+        logger?.trackEvent(event: Event.deleteAccountStart)
 
         let uid = try currentUserId()
-        try await remote.deleteUser(userId: uid)
-        logManager?.trackEvent(event: Event.deleteAccountSuccess)
+        guard let documentId = try? getDocumentId(), uid == documentId else {
+            throw UserManagerError.userIdChanged
+        }
+        
+        try await deleteDocument()
+        logger?.trackEvent(event: Event.deleteAccountSuccess)
 
         signOut()
     }
-    
+
     private func currentUserId() throws -> String {
         guard let uid = currentUser?.userId else {
             throw UserManagerError.noUserId
         }
         return uid
     }
-    
+
     enum UserManagerError: LocalizedError {
         case noUserId
+        case userIdChanged
     }
-    
-    enum Event: LoggableEvent {
+
+    enum Event: DataLogEvent {
+        case userPropertiesAdded(user: UserModel)
         case logInStart(user: UserModel?)
         case logInSuccess(user: UserModel?)
-        case remoteListenerStart
-        case remoteListenerSuccess(user: UserModel?)
-        case remoteListenerFail(error: Error)
-        case saveLocalStart(user: UserModel?)
-        case saveLocalSuccess(user: UserModel?)
-        case saveLocalFail(error: Error)
         case signOut
         case deleteAccountStart
         case deleteAccountSuccess
 
         var eventName: String {
             switch self {
-            case .logInStart:               return "UserMan_LogIn_Start"
-            case .logInSuccess:             return "UserMan_LogIn_Success"
-            case .remoteListenerStart:      return "UserMan_RemoteListener_Start"
-            case .remoteListenerSuccess:    return "UserMan_RemoteListener_Success"
-            case .remoteListenerFail:       return "UserMan_RemoteListener_Fail"
-            case .saveLocalStart:           return "UserMan_SaveLocal_Start"
-            case .saveLocalSuccess:         return "UserMan_SaveLocal_Success"
-            case .saveLocalFail:            return "UserMan_SaveLocal_Fail"
-            case .signOut:                  return "UserMan_SignOut"
-            case .deleteAccountStart:       return "UserMan_DeleteAccount_Start"
-            case .deleteAccountSuccess:     return "UserMan_DeleteAccount_Success"
+            case .userPropertiesAdded:      return "UserMan2_UserPropertiesAdded"
+            case .logInStart:               return "UserMan2_LogIn_Start"
+            case .logInSuccess:             return "UserMan2_LogIn_Success"
+            case .signOut:                  return "UserMan2_SignOut"
+            case .deleteAccountStart:       return "UserMan2_DeleteAccount_Start"
+            case .deleteAccountSuccess:     return "UserMan2_DeleteAccount_Success"
             }
         }
-        
+
         var parameters: [String: Any]? {
             switch self {
-            case .logInStart(user: let user), .logInSuccess(user: let user), .remoteListenerSuccess(user: let user), .saveLocalStart(user: let user), .saveLocalSuccess(user: let user):
+            case .userPropertiesAdded(user: let user):
+                return user.eventParameters
+            case .logInStart(user: let user), .logInSuccess(user: let user):
                 return user?.eventParameters
-            case .remoteListenerFail(error: let error), .saveLocalFail(error: let error):
-                return error.eventParameters
             default:
                 return nil
             }
         }
-        
-        var type: LogType {
+
+        var type: DataLogType {
             switch self {
-            case .remoteListenerFail, .saveLocalFail:
-                return .severe
             default:
                 return .analytic
             }
         }
     }
-
 }

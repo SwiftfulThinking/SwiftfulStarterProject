@@ -138,7 +138,7 @@ fileprivate extension View {
 #Preview("No auth") {
     let container = DevPreview.shared.container()
     container.register(AuthManager.self, service: AuthManager(service: MockAuthService(user: nil)))
-    container.register(UserManager.self, service: UserManager(services: MockUserServices(user: nil)))
+    container.register(UserManager.self, service: UserManager(services: MockUserServices(document: nil)))
     let builder = CoreBuilder(interactor: CoreInteractor(container: container))
     
     return RouterView { router in
@@ -148,7 +148,7 @@ fileprivate extension View {
 #Preview("Anonymous") {
     let container = DevPreview.shared.container()
     container.register(AuthManager.self, service: AuthManager(service: MockAuthService(user: UserAuthInfo.mock(isAnonymous: true))))
-    container.register(UserManager.self, service: UserManager(services: MockUserServices(user: .mock)))
+    container.register(UserManager.self, service: UserManager(services: MockUserServices(document: .mock)))
     let builder = CoreBuilder(interactor: CoreInteractor(container: container))
     
     return RouterView { router in
@@ -158,7 +158,7 @@ fileprivate extension View {
 #Preview("Not anonymous") {
     let container = DevPreview.shared.container()
     container.register(AuthManager.self, service: AuthManager(service: MockAuthService(user: UserAuthInfo.mock(isAnonymous: false))))
-    container.register(UserManager.self, service: UserManager(services: MockUserServices(user: .mock)))
+    container.register(UserManager.self, service: UserManager(services: MockUserServices(document: .mock)))
     let builder = CoreBuilder(interactor: CoreInteractor(container: container))
     
     return RouterView { router in
