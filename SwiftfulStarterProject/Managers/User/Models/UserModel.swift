@@ -7,8 +7,9 @@
 import Foundation
 import SwiftUI
 import IdentifiableByString
+import SwiftfulDataManagers
 
-struct UserModel: StringIdentifiable, Codable {
+struct UserModel: StringIdentifiable, Codable, DataModelProtocol {
     var id: String {
         userId
     }
