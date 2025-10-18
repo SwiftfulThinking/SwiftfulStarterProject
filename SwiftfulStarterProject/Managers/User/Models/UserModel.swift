@@ -7,9 +7,10 @@
 import Foundation
 import SwiftUI
 import IdentifiableByString
+import SwiftfulDataManagers
 
-struct UserModel: StringIdentifiable, Codable {
-    var id: String {
+public struct UserModel: StringIdentifiable, Codable, DMProtocol {
+    public var id: String {
         userId
     }
     
@@ -72,7 +73,7 @@ struct UserModel: StringIdentifiable, Codable {
         self.didCompleteOnboarding = didCompleteOnboarding
     }
     
-    init(auth: UserAuthInfo, creationVersion: String?) {
+    public init(auth: UserAuthInfo, creationVersion: String?) {
         self.init(
             userId: auth.uid,
             email: auth.email,
@@ -109,7 +110,7 @@ struct UserModel: StringIdentifiable, Codable {
         case didCompleteOnboarding = "did_complete_onboarding"
     }
     
-    var eventParameters: [String: Any] {
+    public var eventParameters: [String: Any] {
         let dict: [String: Any?] = [
             "user_\(CodingKeys.userId.rawValue)": userId,
             "user_\(CodingKeys.email.rawValue)": email,

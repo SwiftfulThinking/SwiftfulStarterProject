@@ -64,7 +64,7 @@ struct AppView<Content: View>: View {
 }
 #Preview("AppView - Onboarding") {
     let container = DevPreview.shared.container()
-    container.register(UserManager.self, service: UserManager(services: MockUserServices(user: nil)))
+    container.register(UserManager.self, service: UserManager(services: MockUserServices(document: nil)))
     container.register(AuthManager.self, service: AuthManager(service: MockAuthService(user: nil)))
     let builder = CoreBuilder(interactor: CoreInteractor(container: container))
 
