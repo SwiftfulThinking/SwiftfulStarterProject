@@ -12,21 +12,16 @@ import SwiftfulDataManagers
 @Observable
 class UserManager2: DocumentManagerSync<UserModel> {
 
-    private let remoteUserService: RemoteUserService
-
     var currentUser: UserModel? {
         currentDocument
     }
 
-    init(
-        remoteUserService: RemoteUserService,
+    override init(
         remote: any RemoteDocumentService<UserModel>,
         local: any LocalDocumentPersistence<UserModel>,
         configuration: DataManagerConfiguration,
         logger: (any DataLogger)? = nil
     ) {
-        self.remoteUserService = remoteUserService
-
         // Initialize parent DocumentManagerSync
         super.init(
             remote: remote,
@@ -58,41 +53,51 @@ class UserManager2: DocumentManagerSync<UserModel> {
             logManager.addUserProperties(dict: currentUser.eventParameters, isHighPriority: true)
         }
     }
+    
+    func getUser() -> UserModel? {
+        getDocument()
+    }
 
-    func getUser(userId: String) async throws -> UserModel {
-        // If requesting current user, return from cache
-        if currentUser?.userId == userId {
-            if let user = currentUser {
-                return user
-            }
-        }
-        // Otherwise fetch from remote
-        return try await remoteUserService.getUser(userId: userId)
+    func getUser() async throws -> UserModel {
+        // Use parent's getDocument method which fetches from remote
+        return try await getDocumentAsync()
     }
 
     func saveOnboardingCompleteForCurrentUser() async throws {
-        let uid = try currentUserId()
-        try await remoteUserService.markOnboardingCompleted(userId: uid)
+        try await updateDocument(data: [
+            UserModel.CodingKeys.didCompleteOnboarding.rawValue: true
+        ])
     }
 
     func saveUserName(name: String) async throws {
-        let uid = try currentUserId()
-        try await remoteUserService.saveUserName(userId: uid, name: name)
+        try await updateDocument(data: [
+            UserModel.CodingKeys.submittedName.rawValue: name
+        ])
     }
 
     func saveUserEmail(email: String) async throws {
-        let uid = try currentUserId()
-        try await remoteUserService.saveUserEmail(userId: uid, email: email)
+        try await updateDocument(data: [
+            UserModel.CodingKeys.submittedEmail.rawValue: email
+        ])
     }
 
     func saveUserProfileImage(image: UIImage) async throws {
-        let uid = try currentUserId()
-        try await remoteUserService.saveUserProfileImage(userId: uid, image: image)
+        let uid = try getDocumentId()
+
+        // Upload the image
+        let path = "users/\(uid)/profile"
+        let url = try await FirebaseImageUploadService().uploadImage(image: image, path: path)
+
+        // Update user document with image url
+        try await updateDocument(data: [
+            UserModel.CodingKeys.submittedProfileImage.rawValue: url.absoluteString
+        ])
     }
 
     func saveUserFCMToken(token: String) async throws {
-        let uid = try currentUserId()
-        try await remoteUserService.saveUserFCMToken(userId: uid, token: token)
+        try await updateDocument(data: [
+            UserModel.CodingKeys.fcmToken.rawValue: token
+        ])
     }
 
     func signOut() {
