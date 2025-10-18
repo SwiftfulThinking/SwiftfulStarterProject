@@ -10,22 +10,20 @@ import SwiftfulDataManagers
 
 @MainActor
 @Observable
-class UserManager2: DocumentManagerSync<UserModel> {
+class UserManager: DocumentManagerSync<UserModel> {
 
     var currentUser: UserModel? {
         currentDocument
     }
 
-    override init(
-        remote: any RemoteDocumentService<UserModel>,
-        local: any LocalDocumentPersistence<UserModel>,
-        configuration: DataManagerConfiguration,
+    override init<S: DMDocumentServices>(
+        services: S,
+        configuration: DataManagerSyncConfiguration = .mockNoPendingWrites(),
         logger: (any DataLogger)? = nil
-    ) {
+    ) where S.T == UserModel {
         // Initialize parent DocumentManagerSync
         super.init(
-            remote: remote,
-            local: local,
+            services: services,
             configuration: configuration,
             logger: logger
         )
@@ -53,14 +51,9 @@ class UserManager2: DocumentManagerSync<UserModel> {
             logManager.addUserProperties(dict: currentUser.eventParameters, isHighPriority: true)
         }
     }
-    
-    func getUser() -> UserModel? {
-        getDocument()
-    }
 
     func getUser() async throws -> UserModel {
-        // Use parent's getDocument method which fetches from remote
-        return try await getDocumentAsync()
+        try await getDocumentAsync()
     }
 
     func saveOnboardingCompleteForCurrentUser() async throws {

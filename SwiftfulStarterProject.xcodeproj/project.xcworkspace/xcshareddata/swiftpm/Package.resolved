@@ -241,7 +241,7 @@
       "location" : "https://github.com/SwiftfulThinking/SwiftfulDataManagers.git",
       "state" : {
         "branch" : "main",
-        "revision" : "9257eccee2e272d11e2f43ef0aa347865ffe6208"
+        "revision" : "bab36c02c406e6de28f6f7f9e606b575465ba34f"
       }
     },
     {
@@ -250,7 +250,7 @@
       "location" : "https://github.com/SwiftfulThinking/SwiftfulDataManagersFirebase.git",
       "state" : {
         "branch" : "main",
-        "revision" : "815d4189186fbb768f3c1566e405e64a04206e04"
+        "revision" : "df92f4585a27f0c8733d1210995a219f1c31e768"
       }
     },
     {

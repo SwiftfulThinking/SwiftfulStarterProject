@@ -1,12 +1,12 @@
+////
+////  LocalUserPersistence.swift
+////  
+////
+////  
+////
 //
-//  LocalUserPersistence.swift
-//  
-//
-//  
-//
-
-@MainActor
-protocol LocalUserPersistence {
-    func getCurrentUser() -> UserModel?
-    func saveCurrentUser(user: UserModel?) throws
-}
+//@MainActor
+//protocol LocalUserPersistence {
+//    func getCurrentUser() -> UserModel?
+//    func saveCurrentUser(user: UserModel?) throws
+//}

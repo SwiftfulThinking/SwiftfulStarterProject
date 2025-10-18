@@ -32,7 +32,7 @@ struct Dependencies {
                 ConsoleService(printParameters: false)
             ])
             authManager = AuthManager(service: MockAuthService(user: isSignedIn ? .mock() : nil), logger: logManager)
-            userManager = UserManager(services: MockUserServices(user: isSignedIn ? .mock : nil), logManager: logManager)
+            userManager = UserManager(services: MockUserServices(document: isSignedIn ? UserModel.mock : nil), configuration: Dependencies.userManagerConfiguration, logger: logManager)
             
             // Note: configure AB tests for UI tests here
             //
@@ -56,7 +56,7 @@ struct Dependencies {
                 FirebaseCrashlyticsService()
             ])
             authManager = AuthManager(service: FirebaseAuthService(), logger: logManager)
-            userManager = UserManager(services: ProductionUserServices(), logManager: logManager)
+            userManager = UserManager(services: ProductionUserServices(), configuration: Dependencies.userManagerConfiguration,  logger: logManager)
             abTestManager = ABTestManager(service: LocalABTestService(), logManager: logManager)
             purchaseManager = PurchaseManager(
                 service: RevenueCatPurchaseService(apiKey: Keys.revenueCatAPIKey), // StoreKitPurchaseService(),
@@ -74,7 +74,7 @@ struct Dependencies {
                 FirebaseCrashlyticsService()
             ])
             authManager = AuthManager(service: FirebaseAuthService(), logger: logManager)
-            userManager = UserManager(services: ProductionUserServices(), logManager: logManager)
+            userManager = UserManager(services: ProductionUserServices(), configuration: Dependencies.userManagerConfiguration,  logger: logManager)
 
             abTestManager = ABTestManager(service: FirebaseABTestService(), logManager: logManager)
             purchaseManager = PurchaseManager(
@@ -125,6 +125,11 @@ struct Dependencies {
     static let progressConfiguration = ProgressConfiguration(
         progressKey: Constants.progressKey
     )
+    
+    static let userManagerConfiguration = DataManagerSyncConfiguration(
+        managerKey: "UserMan",
+        enablePendingWrites: true
+    )
 
 }
 
@@ -164,7 +169,7 @@ class DevPreview {
 
     init(isSignedIn: Bool = true) {
         self.authManager = AuthManager(service: MockAuthService(user: isSignedIn ? .mock() : nil))
-        self.userManager = UserManager(services: MockUserServices(user: isSignedIn ? .mock : nil))
+        self.userManager = UserManager(services: MockUserServices(document: isSignedIn ? .mock : nil), configuration: DataManagerSyncConfiguration.mockNoPendingWrites())
         self.logManager = LogManager(services: [])
         self.abTestManager = ABTestManager(service: MockABTestService())
         self.purchaseManager = PurchaseManager(service: MockPurchaseService())
