@@ -240,8 +240,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulDataManagers.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "bab36c02c406e6de28f6f7f9e606b575465ba34f"
+        "revision" : "e74ea4fdff55d8c795d6ed3c064d87dbc4939ac9",
+        "version" : "1.0.1"
       }
     },
     {
@@ -249,8 +249,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulDataManagersFirebase.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "df92f4585a27f0c8733d1210995a219f1c31e768"
+        "revision" : "033a1fdea422d0ebe729ab4ae3ffa84dddbf9c33",
+        "version" : "1.0.1"
       }
     },
     {
