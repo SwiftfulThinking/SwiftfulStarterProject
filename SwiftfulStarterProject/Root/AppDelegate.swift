@@ -22,7 +22,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         #endif
         
         #if MOCK
-        config = .mock(isSignedIn: false)
+        config = .mock(isSignedIn: true)
         #elseif DEV
         config = .dev
         #else

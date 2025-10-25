@@ -98,7 +98,50 @@ extension CoreBuilder {
     }
     
     func coreModuleEntryView() -> some View {
-        tabbarView()
+        let tabs: [TabBarTab] = [
+            TabBarTab(title: "Home", systemImage: "house.fill", content: {
+                RouterView { router in
+                    homeView(router: router, delegate: HomeDelegate())
+                }
+                .any()
+            }),
+            TabBarTab(title: "Beta", systemImage: "heart.fill", content: {
+                RouterView { router in
+                    List {
+                        Button("Streaks") {
+                            router.showScreen { router in
+                                streakExampleView(router: router, delegate: StreakExampleDelegate())
+                            }
+                        }
+                        Button("Experience Points") {
+                            router.showScreen { router in
+                                experiencePointsExampleView(router: router, delegate: ExperiencePointsExampleDelegate())
+                            }
+                        }
+                        Button("Progress") {
+                            router.showScreen { router in
+                                progressExampleView(router: router, delegate: ProgressExampleDelegate())
+                            }
+                        }
+                    }
+                    .navigationTitle("Gamification Examples")
+                }
+                .any()
+            }),
+            TabBarTab(title: "Profile", systemImage: "person.fill", content: {
+                RouterView { router in
+                    profileView(router: router, delegate: ProfileDelegate())
+                }
+                .any()
+            })
+        ]
+        
+        return tabBarView(
+            delegate: TabBarDelegate(
+                tabs: tabs,
+                startingTabId: tabs.first?.id
+            )
+        )
     }
     
 }
