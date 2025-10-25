@@ -1,5 +1,5 @@
 {
-  "originHash" : "d03ed665e758bc06782137159ad6ed0dd237efeecd4acc552ec9bb3e3adf485c",
+  "originHash" : "5b0775425588c591d2c93a5fa54e6e2c7a18684e47dfefa66cefc4bdd8a9a95b",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -134,6 +134,15 @@
       "state" : {
         "revision" : "a0bc79961d7be727d258d33d5a6b2f1023270ba1",
         "version" : "1.22.5"
+      }
+    },
+    {
+      "identity" : "lottie-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-ios.git",
+      "state" : {
+        "revision" : "a004050748dc197c56256a14dca49a035d74726c",
+        "version" : "4.5.2"
       }
     },
     {
@@ -323,6 +332,15 @@
       "state" : {
         "revision" : "ee3aac2ee1d69963e14f8db3a48c96e20abbc5fa",
         "version" : "1.1.2"
+      }
+    },
+    {
+      "identity" : "swiftfulonboarding",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulOnboarding.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "2a99df67c1e7d52df8ebdfb02932fc43964e166f"
       }
     },
     {

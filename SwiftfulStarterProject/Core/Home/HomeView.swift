@@ -21,27 +21,29 @@ struct HomeView: View {
     }
 
     var body: some View {
-        Text("Hello, World!")
-            .navigationTitle("Home")
-            .toolbar(content: {
-                ToolbarItem(placement: .topBarLeading) {
-                    if showDevSettingsButton {
-                        devSettingsButton
-                    }
+        List {
+            Text("Hello, World!")
+        }
+        .navigationTitle("Home")
+        .toolbar(content: {
+            ToolbarItem(placement: .topBarLeading) {
+                if showDevSettingsButton {
+                    devSettingsButton
                 }
-            })
-            .onAppear {
-                presenter.onViewAppear(delegate: delegate)
             }
-            .onDisappear {
-                presenter.onViewDisappear(delegate: delegate)
-            }
-            .onOpenURL { url in
-                presenter.handleDeepLink(url: url)
-            }
-            .onNotificationRecieved(name: .pushNotification) { notification in
-                presenter.handlePushNotificationRecieved(notification: notification)
-            }
+        })
+        .onAppear {
+            presenter.onViewAppear(delegate: delegate)
+        }
+        .onDisappear {
+            presenter.onViewDisappear(delegate: delegate)
+        }
+        .onOpenURL { url in
+            presenter.handleDeepLink(url: url)
+        }
+        .onNotificationRecieved(name: .pushNotification) { notification in
+            presenter.handlePushNotificationRecieved(notification: notification)
+        }
     }
     
     private var devSettingsButton: some View {
@@ -53,6 +55,7 @@ struct HomeView: View {
             .padding(.vertical, 6)
             .background(Color.accent)
             .cornerRadius(12)
+            .fixedSize(horizontal: true, vertical: false)
             .anyButton(.press) {
                 presenter.onDevSettingsPressed()
             }

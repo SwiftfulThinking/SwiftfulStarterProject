@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0200345B2EAC73C700D87C8F /* SwiftfulOnboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 0200345A2EAC73C700D87C8F /* SwiftfulOnboarding */; };
 		0207BD952EA0958200E46D93 /* SwiftfulGamificationFirebase in Frameworks */ = {isa = PBXBuildFile; productRef = 0207BD942EA0958200E46D93 /* SwiftfulGamificationFirebase */; };
 		0207BD982EA0958B00E46D93 /* SwiftfulGamification in Frameworks */ = {isa = PBXBuildFile; productRef = 0207BD972EA0958B00E46D93 /* SwiftfulGamification */; };
 		0210A6CA2DB4DCE40072B2FC /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = 0210A6C92DB4DCE40072B2FC /* SwiftfulRouting */; };
@@ -122,6 +123,7 @@
 				028F9BD12CED1539009B9F48 /* SwiftfulPurchasing in Frameworks */,
 				02B62BA22E662DC3008FB7FF /* FirebaseMessaging in Frameworks */,
 				028F9BC52CED14CA009B9F48 /* SwiftfulLogging in Frameworks */,
+				0200345B2EAC73C700D87C8F /* SwiftfulOnboarding in Frameworks */,
 				028200B62EA3437B0004887E /* SwiftfulDataManagersFirebase in Frameworks */,
 				028F9BD42CED1547009B9F48 /* SwiftfulPurchasingRevenueCat in Frameworks */,
 				028F9BD92CED155A009B9F48 /* SwiftfulAuthenticating in Frameworks */,
@@ -253,6 +255,7 @@
 				0207BD972EA0958B00E46D93 /* SwiftfulGamification */,
 				028200B22EA3434D0004887E /* SwiftfulDataManagers */,
 				028200B52EA3437B0004887E /* SwiftfulDataManagersFirebase */,
+				0200345A2EAC73C700D87C8F /* SwiftfulOnboarding */,
 			);
 			productName = SwiftfulStarterProject;
 			productReference = 028F9B532CECF2C2009B9F48 /* SwiftfulStarterProject.app */;
@@ -311,6 +314,7 @@
 				0207BD962EA0958B00E46D93 /* XCRemoteSwiftPackageReference "SwiftfulGamification" */,
 				028200B12EA3434D0004887E /* XCRemoteSwiftPackageReference "SwiftfulDataManagers" */,
 				028200B42EA3437B0004887E /* XCRemoteSwiftPackageReference "SwiftfulDataManagersFirebase" */,
+				020034592EAC73C700D87C8F /* XCRemoteSwiftPackageReference "SwiftfulOnboarding" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 028F9B542CECF2C2009B9F48 /* Products */;
@@ -919,6 +923,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		020034592EAC73C700D87C8F /* XCRemoteSwiftPackageReference "SwiftfulOnboarding" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulOnboarding.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		0207BD932EA0958200E46D93 /* XCRemoteSwiftPackageReference "SwiftfulGamificationFirebase" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulGamificationFirebase.git";
@@ -1082,6 +1094,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0200345A2EAC73C700D87C8F /* SwiftfulOnboarding */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 020034592EAC73C700D87C8F /* XCRemoteSwiftPackageReference "SwiftfulOnboarding" */;
+			productName = SwiftfulOnboarding;
+		};
 		0207BD942EA0958200E46D93 /* SwiftfulGamificationFirebase */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0207BD932EA0958200E46D93 /* XCRemoteSwiftPackageReference "SwiftfulGamificationFirebase" */;
