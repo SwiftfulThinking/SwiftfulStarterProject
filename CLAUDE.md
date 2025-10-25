@@ -344,7 +344,65 @@ VStack(spacing: 8) {
    - Ask what data source/dependency this manager will use (e.g., "Firebase", "CoreLocation", "UserNotifications")
    - This is for documentation purposes - helps understand what the Prod service will integrate with
 
-4. **Create the manager using templates:**
+4. **Determine manager type:**
+   - Ask: "Should we subclass the SwiftfulDataManagers class? (Yes/No)"
+   - **If YES** (using SwiftfulDataManagers for data sync):
+     - Ask: "Is this pointing to a single document or an entire collection?"
+       - **Document** → Use `DocumentManagerSync` or `DocumentManagerAsync`
+       - **Collection** → Use `CollectionManagerSync` or `CollectionManagerAsync`
+     - Ask: "Should we sync this in realtime on app launch?"
+       - **Yes** → Use Sync variant (real-time updates, local caching, offline support)
+       - **No** → Use Async variant (one-off operations, no caching)
+     - Proceed to Step 5a (Create Data Sync Manager)
+   - **If NO** (standard service manager):
+     - Proceed to Step 5b (Create Service Manager using templates)
+
+5a. **Create Data Sync Manager (SwiftfulDataManagers):**
+   - Reference `UserManager.swift` as the example pattern
+   - Create folder: `/SwiftfulStarterProject/Managers/ManagerName/`
+   - Create file: `ManagerNameManager.swift`
+   - Extend appropriate base class:
+     - `DocumentManagerSync<ModelType>` - Single document with real-time sync
+     - `DocumentManagerAsync<ModelType>` - Single document, one-off operations
+     - `CollectionManagerSync<ModelType>` - Collection with real-time sync
+     - `CollectionManagerAsync<ModelType>` - Collection, one-off operations
+   - Structure should include:
+     ```swift
+     import SwiftUI
+     import SwiftfulDataManagers
+
+     @MainActor
+     @Observable
+     class ManagerNameManager: DocumentManagerSync<YourModel> {
+
+         // Add computed properties for easy access
+         var currentData: YourModel? {
+             currentDocument
+         }
+
+         override init<S: DMDocumentServices>(
+             services: S,
+             configuration: DataManagerSyncConfiguration = .mockNoPendingWrites(),
+             logger: (any DataLogger)? = nil
+         ) where S.T == YourModel {
+             super.init(services: services, configuration: configuration, logger: logger)
+         }
+
+         // Add custom methods as needed
+         // func logIn(uid: String) async throws
+         // func logOut()
+         // func updateData(...) async throws
+
+         // Event tracking enum
+         enum Event: DataLogEvent {
+             // Define events
+         }
+     }
+     ```
+   - Skip to Step 6 for verification
+   - Note: Most managers do NOT use SwiftfulDataManagers. Only use for data that needs persistence/sync.
+
+5b. **Create Service Manager using templates:**
    - Read all 4 template files from `~/Library/Developer/Xcode/Templates/MyTemplates/ManagerTemplate.xctemplate/___FILEBASENAME___/`
    - Substitute placeholders:
      - `___VARIABLE_productName:identifier___` → ManagerName (e.g., "Analytics", "Location")
@@ -356,12 +414,24 @@ VStack(spacing: 8) {
      - `MockManagerNameService.swift` (in Services subfolder)
      - `ProdManagerNameService.swift` (in Services subfolder)
 
-5. **Verify creation:**
+6. **Verify creation:**
    - List the created files to confirm
-   - Inform user: "Created new manager with protocol and services. Files created in /Managers/ManagerName/"
-   - Remind: "The ProdManagerNameService is where you'll integrate with [DataSource]. Add implementation there as needed."
+   - **If Data Sync Manager (5a):**
+     - Inform user: "Created Data Sync Manager extending SwiftfulDataManagers. File created in /Managers/ManagerName/"
+     - Remind: "See UserManager.swift for example implementation. Add custom methods as needed."
+   - **If Service Manager (5b):**
+     - Inform user: "Created Service Manager with protocol and services. Files created in /Managers/ManagerName/"
+     - Remind: "The ProdManagerNameService is where you'll integrate with [DataSource]. Add implementation there as needed."
 
-**Manager Structure:**
+**Manager Structures:**
+
+**Data Sync Manager (SwiftfulDataManagers):**
+```
+/Managers/ManagerName/
+└── ManagerNameManager.swift        # Extends DocumentManagerSync or CollectionManagerSync
+```
+
+**Service Manager (Template-based):**
 ```
 /Managers/ManagerName/
 ├── ManagerNameManager.swift        # @Observable class with service dependency
@@ -372,11 +442,17 @@ VStack(spacing: 8) {
 ```
 
 **Important:**
-- ALWAYS use the templates when they're installed
-- NEVER manually write manager files from scratch if templates are available
-- DO NOT add any functions to the template files - keep them empty as scaffolding
-- The template provides structure only - implementation comes later as needed
+- **Most managers use the Service Manager pattern** - Only use SwiftfulDataManagers for data that needs persistence/sync
+- ALWAYS use the templates when creating Service Managers
+- NEVER manually write Service Manager files from scratch if templates are available
+- For Service Managers: DO NOT add any functions to the template files - keep them empty as scaffolding
+- For Data Sync Managers: Reference UserManager.swift as the implementation example
 - Templates ensure consistency with protocol-based manager pattern
+
+**SwiftfulDataManagers Decision Guide:**
+- Use if you need: real-time sync, local caching, offline support, Firestore integration
+- Don't use for: Analytics, Haptics, Push Notifications, Sound, or other services without data persistence
+- Example use cases: User data, Settings, Posts, Messages, any data stored in Firestore collections
 
 ---
 
