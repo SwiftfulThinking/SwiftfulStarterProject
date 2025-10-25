@@ -510,18 +510,25 @@ VStack(spacing: 8) {
 import SwiftUI
 import IdentifiableByString
 
-struct ModelNameModel: StringIdentifiable, Codable {
+struct ModelNameModel: StringIdentifiable, Codable, Sendable {
     let id: String
     let value: String?  // Replace with your custom properties
+    let customProperty: Bool?  // Example custom property
 
-    init(id: String, value: String? = nil) {
+    init(
+        id: String,
+        value: String? = nil,
+        customProperty: Bool? = nil
+    ) {
         self.id = id
         self.value = value
+        self.customProperty = customProperty
     }
 
     enum CodingKeys: String, CodingKey {
         case id
-        case value  // Update as you add properties
+        case value
+        case customProperty = "custom_property"  // Always use snake_case
     }
 
     var eventParameters: [String: Any] {
@@ -532,11 +539,13 @@ struct ModelNameModel: StringIdentifiable, Codable {
 
 **Important:**
 - ALWAYS use the template when creating models
-- The template provides: StringIdentifiable, Codable conformance, CodingKeys, eventParameters
+- **ALL models must conform to: StringIdentifiable, Codable, Sendable**
+- The template provides: CodingKeys, eventParameters structure
 - Replace the default `value` property with your actual model properties
 - Update CodingKeys enum when adding/removing properties
+- **ALWAYS use snake_case for CodingKeys raw values** (e.g., `case myProperty = "my_property"`)
 - Models are stored under their related manager in the Models subfolder
-- For SwiftfulDataManagers: Models must conform to DMProtocol (StringIdentifiable, Codable, Sendable)
+- Sendable conformance is required for Swift 6 concurrency safety
 
 ---
 
