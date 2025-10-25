@@ -315,6 +315,71 @@ VStack(spacing: 8) {
 
 ---
 
+### ACTION 3: Create New Manager
+
+**Triggers:** "add manager", "new manager", "create manager", "add data manager", "new data source", or similar requests
+
+**Steps:**
+
+1. **Check if Xcode templates are installed:**
+   ```bash
+   ls ~/Library/Developer/Xcode/Templates/MyTemplates/ManagerTemplate.xctemplate
+   ```
+
+2. **If templates NOT found:**
+   - Respond: "The Xcode templates are not installed. Please install them first:"
+   - Provide link: https://github.com/SwiftfulThinking/XcodeTemplates
+   - Include installation instructions:
+     ```bash
+     cd ~/Library/Developer/Xcode
+     mkdir -p Templates
+     # Then drag MyTemplates folder into Templates directory
+     ```
+   - Stop here. Do not proceed without templates.
+
+3. **If templates ARE installed:**
+   - Check if manager name is provided in the request
+   - If NOT provided: Ask "What is the name of the new manager?" (e.g., "Analytics", "Location", "Notification")
+   - Note: Don't include "Manager" suffix in the name - template adds it automatically
+   - Ask what data source/dependency this manager will use (e.g., "Firebase", "CoreLocation", "UserNotifications")
+   - This is for documentation purposes - helps understand what the Prod service will integrate with
+
+4. **Create the manager using templates:**
+   - Read all 4 template files from `~/Library/Developer/Xcode/Templates/MyTemplates/ManagerTemplate.xctemplate/___FILEBASENAME___/`
+   - Substitute placeholders:
+     - `___VARIABLE_productName:identifier___` → ManagerName (e.g., "Analytics", "Location")
+   - Create folder structure: `/SwiftfulStarterProject/Managers/ManagerName/`
+   - Create subfolder: `/SwiftfulStarterProject/Managers/ManagerName/Services/`
+   - Create 4 files:
+     - `ManagerNameManager.swift` (in ManagerName folder)
+     - `ManagerNameService.swift` (in Services subfolder)
+     - `MockManagerNameService.swift` (in Services subfolder)
+     - `ProdManagerNameService.swift` (in Services subfolder)
+
+5. **Verify creation:**
+   - List the created files to confirm
+   - Inform user: "Created new manager with protocol and services. Files created in /Managers/ManagerName/"
+   - Remind: "The ProdManagerNameService is where you'll integrate with [DataSource]. Add implementation there as needed."
+
+**Manager Structure:**
+```
+/Managers/ManagerName/
+├── ManagerNameManager.swift        # @Observable class with service dependency
+└── Services/
+    ├── ManagerNameService.swift    # Protocol (Sendable)
+    ├── MockManagerNameService.swift # Mock implementation (struct)
+    └── ProdManagerNameService.swift # Production implementation (struct)
+```
+
+**Important:**
+- ALWAYS use the templates when they're installed
+- NEVER manually write manager files from scratch if templates are available
+- DO NOT add any functions to the template files - keep them empty as scaffolding
+- The template provides structure only - implementation comes later as needed
+- Templates ensure consistency with protocol-based manager pattern
+
+---
+
 ## Architecture Overview
 
 **Type**: iOS SwiftUI Application
