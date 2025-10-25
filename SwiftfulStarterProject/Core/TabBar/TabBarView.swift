@@ -42,7 +42,7 @@ struct TabBarView: View {
     var body: some View {
         TabView(selection: selectionHandler) {
             ForEach(delegate.tabs) { tab in
-                tab.content()
+                tab.content
                     .tabItem {
                         Label(tab.title, systemImage: tab.systemImage)
                     }

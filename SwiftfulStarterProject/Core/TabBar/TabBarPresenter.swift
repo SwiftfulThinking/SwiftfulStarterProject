@@ -1,14 +1,28 @@
 import SwiftUI
 
-struct TabBarTab: Identifiable, Equatable {
+struct TabBarTab: Identifiable {
     var id: String {
         title
     }
 
     let title: String
     let systemImage: String
-    @ViewBuilder var content: () -> AnyView
+    let content: AnyView
 
+    @MainActor
+    init<T: View>(
+        title: String,
+        systemImage: String,
+        destination: @escaping (AnyRouter) -> T
+    ) {
+        self.title = title
+        self.systemImage = systemImage
+        self.content = RouterView { router in
+            destination(router)
+        }
+        .any()
+    }
+    
     var eventParameters: [String: Any] {
         [
             "tab_title": title,
