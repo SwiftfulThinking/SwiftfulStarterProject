@@ -396,20 +396,63 @@ VStack(spacing: 8) {
              super.init(services: services, configuration: configuration, logger: logger)
          }
 
-         // Add custom methods as needed
-         // func logIn(uid: String) async throws
-         // func logOut()
-         // func updateData(...) async throws
+         // REQUIRED for Sync managers: signIn and signOut methods
+         func signIn(id: String) async throws {
+             logger?.trackEvent(event: Event.signInStart(id: id))
+             try await super.logIn(id)
+             logger?.trackEvent(event: Event.signInSuccess(id: id))
+         }
+
+         func signOut() {
+             logger?.trackEvent(event: Event.signOut)
+             super.logOut()
+         }
+
+         // Add custom methods as needed - ALWAYS track analytics
+         // func updateData(...) async throws {
+         //     logger?.trackEvent(event: Event.updateStart)
+         //     try await updateDocument(...)
+         //     logger?.trackEvent(event: Event.updateSuccess)
+         // }
 
          // Event tracking enum
          enum Event: DataLogEvent {
-             // Define events
+             case signInStart(id: String)
+             case signInSuccess(id: String)
+             case signOut
+             // Add events for all manager methods
+
+             var eventName: String {
+                 switch self {
+                 case .signInStart:      return "ManagerNameMan_SignIn_Start"
+                 case .signInSuccess:    return "ManagerNameMan_SignIn_Success"
+                 case .signOut:          return "ManagerNameMan_SignOut"
+                 }
+             }
+
+             var parameters: [String: Any]? {
+                 switch self {
+                 case .signInStart(id: let id), .signInSuccess(id: let id):
+                     return ["id": id]
+                 case .signOut:
+                     return nil
+                 }
+             }
+
+             var type: DataLogType {
+                 switch self {
+                 default:
+                     return .analytic
+                 }
+             }
          }
      }
      ```
    - Skip to Step 6 for verification
    - Note: Most managers do NOT use SwiftfulDataManagers. Only use for data that needs persistence/sync.
    - Note: The model type (ModelNameModel) must match the model you specified/created
+   - **IMPORTANT for Sync managers:** ALWAYS include `signIn(id:)` method that calls `super.logIn(id)` and `signOut()` method that calls `super.logOut()`
+   - **IMPORTANT:** ALWAYS add analytics tracking to every manager method using `logger?.trackEvent(event: Event.methodName)`
 
 5b. **Create Service Manager using templates:**
    - Read all 4 template files from `~/Library/Developer/Xcode/Templates/MyTemplates/ManagerTemplate.xctemplate/___FILEBASENAME___/`
@@ -522,8 +565,9 @@ VStack(spacing: 8) {
 ```swift
 import SwiftUI
 import IdentifiableByString
+import SwiftfulDataManagers
 
-struct ModelNameModel: StringIdentifiable, Codable, Sendable {
+struct ModelNameModel: StringIdentifiable, Codable, Sendable, DMProtocol {
     let id: String
     let value: String?  // Replace with your custom properties
     let customProperty: Bool?  // Example custom property
@@ -546,17 +590,33 @@ struct ModelNameModel: StringIdentifiable, Codable, Sendable {
 
     var eventParameters: [String: Any] {
         // Auto-generated for analytics tracking
+        let dict: [String: Any?] = [
+            "modelname_\(CodingKeys.id.rawValue)": id,
+            "modelname_\(CodingKeys.value.rawValue)": value,
+            "modelname_\(CodingKeys.customProperty.rawValue)": customProperty
+        ]
+        return dict.compactMapValues({ $0 })
+    }
+
+    static var mocks: [ModelNameModel] {
+        [
+            ModelNameModel(id: "1", value: "Mock 1", customProperty: true),
+            ModelNameModel(id: "2", value: "Mock 2", customProperty: false)
+        ]
     }
 }
 ```
 
 **Important:**
 - ALWAYS use the template when creating models
-- **ALL models must conform to: StringIdentifiable, Codable, Sendable**
-- The template provides: CodingKeys, eventParameters structure
+- **ALL models must conform to: StringIdentifiable, Codable, Sendable, DMProtocol**
+- DMProtocol is required for SwiftfulDataManagers compatibility
+- The template provides: CodingKeys, eventParameters, mocks structure
 - Replace the default `value` property with your actual model properties
 - Update CodingKeys enum when adding/removing properties
 - **ALWAYS use snake_case for CodingKeys raw values** (e.g., `case myProperty = "my_property"`)
+- **ALWAYS implement `eventParameters`** computed property for analytics
+- **ALWAYS implement `static var mocks`** array for preview/testing
 - Models are stored under their related manager in the Models subfolder
 - Sendable conformance is required for Swift 6 concurrency safety
 
