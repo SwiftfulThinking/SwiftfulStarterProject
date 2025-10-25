@@ -477,6 +477,167 @@ VStack(spacing: 8) {
      - Inform user: "Created Service Manager with protocol and services. Files created in /Managers/ManagerName/"
      - Remind: "The ProdManagerNameService is where you'll integrate with [DataSource]. Add implementation there as needed."
 
+7. **Initialize manager in the application:**
+
+   After creating the manager files, you MUST register it in three places for it to work in the app:
+
+   **7a. Update Dependencies.swift:**
+
+   - Add manager property declaration at top of `init()` method:
+     ```swift
+     let managerNameManager: ManagerNameManager
+     ```
+
+   - **For Service Managers:**
+     - Initialize for each build config (mock/dev/prod) with appropriate services:
+       ```swift
+       switch config {
+       case .mock(isSignedIn: let isSignedIn):
+           managerNameManager = ManagerNameManager(
+               service: MockManagerNameService(),
+               logger: logManager
+           )
+       case .dev, .prod:
+           managerNameManager = ManagerNameManager(
+               service: ProdManagerNameService(),
+               logger: logManager
+           )
+       }
+       ```
+     - Register in DependencyContainer (after initialization, before `self.container = container`):
+       ```swift
+       container.register(ManagerNameManager.self, service: managerNameManager)
+       ```
+
+   - **For Data Sync Managers (SwiftfulDataManagers):**
+     - Create static configuration property outside the init (with other static configs):
+       ```swift
+       static let managerNameManagerConfiguration = DataManagerSyncConfiguration(
+           managerKey: "ManagerNameMan",
+           enablePendingWrites: true  // or false, depending on needs
+       )
+       ```
+     - Initialize with different services for mock vs prod:
+       ```swift
+       switch config {
+       case .mock(isSignedIn: let isSignedIn):
+           managerNameManager = ManagerNameManager(
+               services: MockManagerNameServices(document: isSignedIn ? ModelNameModel.mocks.first : nil),
+               configuration: Dependencies.managerNameManagerConfiguration,
+               logger: logManager
+           )
+       case .dev, .prod:
+           managerNameManager = ManagerNameManager(
+               services: ProductionManagerNameServices(),
+               configuration: Dependencies.managerNameManagerConfiguration,
+               logger: logManager
+           )
+       }
+       ```
+     - Register in DependencyContainer **with key** from configuration:
+       ```swift
+       container.register(
+           ManagerNameManager.self,
+           key: Dependencies.managerNameManagerConfiguration.managerKey,
+           service: managerNameManager
+       )
+       ```
+
+   **7b. Update DevPreview.swift:**
+
+   - Add property declaration in class:
+     ```swift
+     let managerNameManager: ManagerNameManager
+     ```
+
+   - **For Service Managers:**
+     - Initialize in `init()` with mock service:
+       ```swift
+       self.managerNameManager = ManagerNameManager(
+           service: MockManagerNameService(),
+           logger: logManager
+       )
+       ```
+     - Register in `container()` method:
+       ```swift
+       container.register(ManagerNameManager.self, service: managerNameManager)
+       ```
+
+   - **For Data Sync Managers:**
+     - Initialize in `init()` with mock services and mock config:
+       ```swift
+       self.managerNameManager = ManagerNameManager(
+           services: MockManagerNameServices(document: isSignedIn ? ModelNameModel.mocks.first : nil),
+           configuration: .mockNoPendingWrites(),
+           logger: nil
+       )
+       ```
+     - Register in `container()` method (no key needed for DevPreview):
+       ```swift
+       container.register(ManagerNameManager.self, service: managerNameManager)
+       ```
+
+   **7c. Update CoreInteractor.swift:**
+
+   - Add private property declaration at top of struct:
+     ```swift
+     private let managerNameManager: ManagerNameManager
+     ```
+
+   - Resolve from container in `init()`:
+     - **For Service Managers (no key):**
+       ```swift
+       self.managerNameManager = container.resolve(ManagerNameManager.self)!
+       ```
+     - **For Data Sync Managers (with key):**
+       ```swift
+       self.managerNameManager = container.resolve(
+           ManagerNameManager.self,
+           key: Dependencies.managerNameManagerConfiguration.managerKey
+       )!
+       ```
+
+   - Add methods to expose manager functionality (create a new MARK section):
+     ```swift
+     // MARK: ManagerNameManager
+
+     // For Data Sync Managers, expose the current data:
+     var currentData: ModelNameModel? {
+         managerNameManager.currentData
+     }
+
+     // Expose any public methods from the manager:
+     func doSomething() async throws {
+         try await managerNameManager.doSomething()
+     }
+     ```
+
+   - **For Data Sync Managers with Sync support ONLY:**
+     - Update the `logIn()` method to include the new manager:
+       ```swift
+       func logIn(user: UserAuthInfo, isNewUser: Bool) async throws {
+           // Add to parallel login operations:
+           async let managerNameLogin: Void = managerNameManager.signIn(id: user.uid)
+
+           // Update the await statement to include it:
+           let (_, _, _, _, _, _) = await (try userLogin, try purchaseLogin, try streakLogin, try xpLogin, try progressLogin, try managerNameLogin)
+       }
+       ```
+     - Update the `signOut()` method:
+       ```swift
+       func signOut() async throws {
+           // Add after other sign outs:
+           managerNameManager.signOut()
+       }
+       ```
+
+   **Important Notes:**
+   - Service Managers: Simple initialization with service + logger
+   - Data Sync Managers: Need DMServices (Mock/Production), configuration, and key for registration
+   - Only Sync Data Managers need signIn/signOut in CoreInteractor's logIn/signOut methods
+   - Async Data Managers do NOT need signIn/signOut coordination
+   - See existing managers (UserManager, StreakManager) as examples
+
 **Manager Structures:**
 
 **Data Sync Manager (SwiftfulDataManagers):**

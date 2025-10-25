@@ -1,19 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Read(//Users/nicksarno/Documents/documents/GITHUB/SwiftfulGamification/**)",
-      "Read(//Users/nicksarno/Documents/documents/GITHUB/SwiftfulGamificationFirebase/**)",
-      "Read(//Users/nicksarno/Documents/documents/GITHUB/SwiftfulAuthenticating/**)",
-      "Read(//Users/nicksarno/Documents/documents/GITHUB/SwiftfulPurchasingRevenueCat/**)",
-      "Read(//Users/nicksarno/Documents/documents/GITHUB/SwiftfulAuthenticatingFirebase/**)",
-      "Read(//Users/nicksarno/Documents/documents/GITHUB/SwiftfulPurchasing/**)",
-      "Bash(tree:*)",
       "Bash(find:*)",
-      "Bash(swift build:*)",
-      "Read(//Users/nicksarno/Documents/documents/GITHUB/**)",
-      "Bash(git rev-parse:*)",
-      "Bash(git add:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\n[Feature] Refine logging and add logIn/logOut methods for sync managers\n\n- Remove trackEvent helper functions, use direct logger?.trackEvent calls\n- Remove managerInitialized event from all managers\n- Update event name prefixes: DocManA_, ColManA_, DocManS_, ColManS_\n- Change all success events to .info type (remove .analytic)\n- Add logIn() and logOut() methods following ProgressManager pattern\n- Add clearCaches parameter to stopListening() for data cleanup\n- Implement pending writes cleanup when newer writes succeed\n- Add pendingWritesCleared and cachesCleared events\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+      "Read(//Users/nicksarno/Library/Developer/Xcode/Templates/MyTemplates/ModelTemplate.xctemplate/**)",
+      "Bash(cat:*)",
+      "Bash(xargs:*)",
+      "Read(//Users/nicksarno/Library/Developer/Xcode/Templates/MyTemplates/ManagerTemplate.xctemplate/**)"
     ],
     "deny": [],
     "ask": []
