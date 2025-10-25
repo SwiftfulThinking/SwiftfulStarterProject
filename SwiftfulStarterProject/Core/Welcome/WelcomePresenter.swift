@@ -29,7 +29,7 @@ class WelcomePresenter {
     }
     
     func onGetStartedPressed() {
-        router.showOnboardingCompletedView(delegate: OnboardingCompletedDelegate())
+        router.showOnboardingView(delegate: OnboardingDelegate())
     }
         
     private func handleDidSignIn(isNewUser: Bool) {
