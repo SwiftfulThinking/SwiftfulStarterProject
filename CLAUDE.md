@@ -358,14 +358,22 @@ VStack(spacing: 8) {
      - Proceed to Step 5b (Create Service Manager using templates)
 
 5a. **Create Data Sync Manager (SwiftfulDataManagers):**
-   - Reference `UserManager.swift` as the example pattern
-   - Create folder: `/SwiftfulStarterProject/Managers/ManagerName/`
-   - Create file: `ManagerNameManager.swift`
-   - Extend appropriate base class:
-     - `DocumentManagerSync<ModelType>` - Single document with real-time sync
-     - `DocumentManagerAsync<ModelType>` - Single document, one-off operations
-     - `CollectionManagerSync<ModelType>` - Collection with real-time sync
-     - `CollectionManagerAsync<ModelType>` - Collection, one-off operations
+   - Ask: "What is the data model type?" (e.g., "User", "Post", "Message")
+   - Note: Don't include "Model" suffix - it will be added automatically
+   - Check if model exists at `/Managers/ManagerName/Models/ModelNameModel.swift`
+   - **If model does NOT exist:**
+     - Trigger ACTION 4 to create the model
+     - Create it in the same manager folder: `/Managers/ManagerName/Models/`
+     - Wait for model creation to complete before proceeding
+   - **If model exists or after creation:**
+     - Reference `UserManager.swift` as the example pattern
+     - Create folder: `/SwiftfulStarterProject/Managers/ManagerName/`
+     - Create file: `ManagerNameManager.swift`
+     - Extend appropriate base class with the model type:
+       - `DocumentManagerSync<ModelNameModel>` - Single document with real-time sync
+       - `DocumentManagerAsync<ModelNameModel>` - Single document, one-off operations
+       - `CollectionManagerSync<ModelNameModel>` - Collection with real-time sync
+       - `CollectionManagerAsync<ModelNameModel>` - Collection, one-off operations
    - Structure should include:
      ```swift
      import SwiftUI
@@ -373,10 +381,10 @@ VStack(spacing: 8) {
 
      @MainActor
      @Observable
-     class ManagerNameManager: DocumentManagerSync<YourModel> {
+     class ManagerNameManager: DocumentManagerSync<ModelNameModel> {
 
          // Add computed properties for easy access
-         var currentData: YourModel? {
+         var currentData: ModelNameModel? {
              currentDocument
          }
 
@@ -384,7 +392,7 @@ VStack(spacing: 8) {
              services: S,
              configuration: DataManagerSyncConfiguration = .mockNoPendingWrites(),
              logger: (any DataLogger)? = nil
-         ) where S.T == YourModel {
+         ) where S.T == ModelNameModel {
              super.init(services: services, configuration: configuration, logger: logger)
          }
 
@@ -401,6 +409,7 @@ VStack(spacing: 8) {
      ```
    - Skip to Step 6 for verification
    - Note: Most managers do NOT use SwiftfulDataManagers. Only use for data that needs persistence/sync.
+   - Note: The model type (ModelNameModel) must match the model you specified/created
 
 5b. **Create Service Manager using templates:**
    - Read all 4 template files from `~/Library/Developer/Xcode/Templates/MyTemplates/ManagerTemplate.xctemplate/___FILEBASENAME___/`
@@ -418,7 +427,9 @@ VStack(spacing: 8) {
    - List the created files to confirm
    - **If Data Sync Manager (5a):**
      - Inform user: "Created Data Sync Manager extending SwiftfulDataManagers. File created in /Managers/ManagerName/"
+     - If model was created: "Also created ModelNameModel in /Managers/ManagerName/Models/"
      - Remind: "See UserManager.swift for example implementation. Add custom methods as needed."
+     - Remind: "The manager is typed with <ModelNameModel> for type safety."
    - **If Service Manager (5b):**
      - Inform user: "Created Service Manager with protocol and services. Files created in /Managers/ManagerName/"
      - Remind: "The ProdManagerNameService is where you'll integrate with [DataSource]. Add implementation there as needed."
@@ -428,7 +439,9 @@ VStack(spacing: 8) {
 **Data Sync Manager (SwiftfulDataManagers):**
 ```
 /Managers/ManagerName/
-└── ManagerNameManager.swift        # Extends DocumentManagerSync or CollectionManagerSync
+├── ManagerNameManager.swift        # Extends DocumentManagerSync<ModelNameModel>
+└── Models/
+    └── ModelNameModel.swift        # Data model (created via ACTION 4 if needed)
 ```
 
 **Service Manager (Template-based):**
