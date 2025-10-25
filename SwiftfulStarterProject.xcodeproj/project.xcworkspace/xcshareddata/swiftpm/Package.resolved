@@ -339,8 +339,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulOnboarding.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "2a99df67c1e7d52df8ebdfb02932fc43964e166f"
+        "revision" : "55cdf8497d56b8557f0a430d0ec25477641991f7",
+        "version" : "1.0.0"
       }
     },
     {

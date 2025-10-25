@@ -927,8 +927,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulOnboarding.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 		0207BD932EA0958200E46D93 /* XCRemoteSwiftPackageReference "SwiftfulGamificationFirebase" */ = {

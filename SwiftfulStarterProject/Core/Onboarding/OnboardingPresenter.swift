@@ -27,6 +27,7 @@ class OnboardingPresenter {
 
     func onFlowComplete(flowData: OnbFlowData, delegate: OnboardingDelegate) {
         interactor.trackEvent(event: Event.onFlowComplete(flowData: flowData, delegate: delegate))
+        router.showOnboardingCompletedView(delegate: OnboardingCompletedDelegate())
     }
 }
 
@@ -53,11 +54,11 @@ extension OnboardingPresenter {
                 return delegate.eventParameters
             case .onSlideComplete(slideData: let slideData, delegate: let delegate):
                 var params = delegate.eventParameters ?? [:]
-                params.merge(slideData.eventParameters) { (_, new) in new }
+                params.merge(slideData.eventParameters)
                 return params
             case .onFlowComplete(flowData: let flowData, delegate: let delegate):
                 var params = delegate.eventParameters ?? [:]
-                params["onbflow_total_slides"] = flowData.slides.count
+                params.merge(flowData.eventParameters)
                 return params
             }
         }

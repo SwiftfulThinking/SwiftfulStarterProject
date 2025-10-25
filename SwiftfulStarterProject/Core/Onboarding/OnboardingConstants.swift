@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftfulOnboarding
 
+@MainActor
 struct OnboardingConstants {
 
     static let headerConfiguration = OnbHeaderConfiguration(
@@ -36,21 +37,21 @@ struct OnboardingConstants {
                     id: "tech",
                     content: OnbButtonContentData(
                         text: "Technology",
-                        secondaryContent: .media(media: .systemIcon(named: "laptopcomputer"))
+                        secondaryContent: .media(media: .systemIcon(named: "laptopcomputer", size: .small))
                     )
                 ),
                 OnbChoiceOption(
                     id: "design",
                     content: OnbButtonContentData(
                         text: "Design",
-                        secondaryContent: .media(media: .systemIcon(named: "paintbrush"))
+                        secondaryContent: .media(media: .systemIcon(named: "paintbrush", size: .small))
                     )
                 ),
                 OnbChoiceOption(
                     id: "business",
                     content: OnbButtonContentData(
                         text: "Business",
-                        secondaryContent: .media(media: .systemIcon(named: "briefcase"))
+                        secondaryContent: .media(media: .systemIcon(named: "briefcase", size: .small))
                     )
                 )
             ],
