@@ -71,6 +71,105 @@ These are specific workflows that Claude Code MUST follow when triggered by user
 
 ---
 
+### ACTION 2: Create Reusable Component
+
+**Triggers:** "create component", "new component", "create reusable view", "add component", or similar requests
+
+**Steps:**
+
+1. **Determine component name:**
+   - Check if component name is provided in the request
+   - If NOT provided: Ask "What is the name of the new component?" (e.g., "CustomButton", "ProfileCard", "LoadingSpinner")
+   - Component names should be descriptive and end with appropriate suffix (Button, Card, View, etc.)
+
+2. **Determine component location:**
+   - Default location: `/SwiftfulStarterProject/Components/Views/`
+   - Ask user if they want it in a different Components subfolder:
+     - `/Components/Views/` - General reusable views (DEFAULT)
+     - `/Components/Modals/` - Modal/popup components
+     - `/Components/Images/` - Image-related components
+   - If unsure, use `/Components/Views/`
+
+3. **Create the component file:**
+   - Create single file: `ComponentNameView.swift` in chosen location
+   - Structure:
+     ```swift
+     import SwiftUI
+
+     struct ComponentNameView: View {
+
+         // All data is injected - no @State, no @Observable objects
+         let title: String
+         let isLoading: Bool
+
+         // All actions are injected as closures
+         let onTap: () -> Void
+
+         var body: some View {
+             // UI implementation here
+         }
+     }
+
+     #Preview {
+         ComponentNameView(
+             title: "Preview Title",
+             isLoading: false,
+             onTap: { }
+         )
+     }
+     ```
+
+4. **Component Rules (CRITICAL):**
+   - **NO business logic** - UI only
+   - **NO @State** for data (only for UI state like animations)
+   - **NO @Observable objects** or Presenters
+   - **NO @StateObject or @ObservedObject**
+   - **ALL data is injected** via init parameters
+   - **ALL loading states are injected** as Bool parameters
+   - **ALL actions are closures** (e.g., `onTap: () -> Void`, `onSubmit: (String) -> Void`)
+   - Include `#Preview` with sample data
+
+5. **Verify creation:**
+   - Confirm file location
+   - Inform user: "Created reusable component at /Components/Views/ComponentNameView.swift"
+
+**Example Component:**
+```swift
+struct CustomButtonView: View {
+    let title: String
+    let isLoading: Bool
+    let isEnabled: Bool
+    let onTap: () -> Void
+
+    var body: some View {
+        Button(action: onTap) {
+            if isLoading {
+                ProgressView()
+            } else {
+                Text(title)
+            }
+        }
+        .disabled(!isEnabled || isLoading)
+    }
+}
+
+#Preview {
+    CustomButtonView(
+        title: "Submit",
+        isLoading: false,
+        isEnabled: true,
+        onTap: { print("Tapped") }
+    )
+}
+```
+
+**Important:**
+- Components are DUMB UI - they display what they're told and call callbacks
+- All logic stays in Presenters, components just render
+- This keeps components reusable across different screens
+
+---
+
 ## Architecture Overview
 
 **Type**: iOS SwiftUI Application
