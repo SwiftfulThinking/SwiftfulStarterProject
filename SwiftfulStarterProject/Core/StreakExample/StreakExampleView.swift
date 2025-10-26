@@ -163,7 +163,7 @@ struct MonthCalendarView: View {
 
             // Day headers
             HStack(spacing: 0) {
-                ForEach(Array(["S", "M", "T", "W", "T", "F", "S"].enumerated()), id: \.offset) { index, day in
+                ForEach(Array(["S", "M", "T", "W", "T", "F", "S"].enumerated()), id: \.offset) { _, day in
                     Text(day)
                         .font(.caption)
                         .fontWeight(.semibold)
