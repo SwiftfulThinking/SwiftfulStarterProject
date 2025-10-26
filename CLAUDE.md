@@ -637,16 +637,19 @@ VStack(spacing: 8) {
      ```
 
    - **For Data Sync Managers with Sync support ONLY:**
-     - Update the `logIn()` method to include the new manager:
+     - Update the `logIn()` method to include the new manager using the document ID specified by the user:
        ```swift
        func logIn(user: UserAuthInfo, isNewUser: Bool) async throws {
            // Add to parallel login operations:
-           async let managerNameLogin: Void = managerNameManager.signIn(id: user.uid)
+           // Use the document ID that was specified when creating the manager
+           // Common options: user.uid, user.email, or other custom ID
+           async let managerNameLogin: Void = managerNameManager.signIn(id: [USER_SPECIFIED_DOCUMENT_ID])
 
            // Update the await statement to include it:
            let (_, _, _, _, _, _) = await (try userLogin, try purchaseLogin, try streakLogin, try xpLogin, try progressLogin, try managerNameLogin)
        }
        ```
+     - **NEVER ASSUME** the document ID is user.uid - use exactly what the user specified earlier
      - Update the `signOut()` method:
        ```swift
        func signOut() async throws {
