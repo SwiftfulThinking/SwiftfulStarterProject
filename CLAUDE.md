@@ -478,24 +478,52 @@ VStack(spacing: 8) {
        }
        ```
 
-       **For DYNAMIC paths** (e.g., "user_friends/{uid}/friends"):
+       **For DYNAMIC paths with SYNC managers** (e.g., "user_friends/{uid}/friends"):
        ```swift
        @MainActor
        public struct ProductionManagerNameServices: DMCollectionServices {
            public let remote: any RemoteCollectionService<ModelNameModel>
            public let local: any LocalCollectionPersistence<ModelNameModel>
 
-           public init(userId: String) {
-               self.remote = FirebaseRemoteCollectionService<ModelNameModel>(collectionPath: { uid in
-                   "user_friends/\(uid)/friends"
+           public init(getUserId: @escaping () -> String?, managerKey: String) {
+               self.remote = FirebaseRemoteCollectionService<ModelNameModel>(collectionPath: {
+                   guard let userId = getUserId() else {
+                       return nil
+                   }
+                   return "user_friends/\(userId)/friends"
                })
-               self.local = FileManagerCollectionPersistence<ModelNameModel>()
+               self.local = SwiftDataCollectionPersistence<ModelNameModel>(managerKey: managerKey)
            }
        }
        ```
-       - **For dynamic paths:** The init takes parameters (e.g., `userId: String`) that are used in the closure
-       - **For dynamic paths:** You must inject the parameter (e.g., userId) from authManager at the callsite in Dependencies.swift
-       - **For dynamic paths:** The manager init will also need to accept this parameter
+
+       **For ASYNC managers** (NO local persistence):
+       ```swift
+       @MainActor
+       public struct ProductionManagerNameService {
+           public let remote: any RemoteCollectionService<ModelNameModel>
+
+           public init(getUserId: @escaping () -> String?) {
+               self.remote = FirebaseRemoteCollectionService<ModelNameModel>(collectionPath: {
+                   guard let userId = getUserId() else {
+                       return nil
+                   }
+                   return "user_friends/\(userId)/friends"
+               })
+           }
+       }
+       ```
+       - **CRITICAL for Async managers:** They do NOT use local persistence - only remote service
+       - **For Async managers:** Don't conform to `DMCollectionServices` or `DMDocumentServices` - just a plain struct with `remote` property
+       - **For Async managers:** The manager init uses `service:` (singular) not `services:` (plural)
+       - **For Async managers:** No `managerKey` parameter needed (since there's no local persistence to configure)
+       - **For dynamic paths:** The init takes a closure `getUserId: @escaping () -> String?` that fetches the wildcard value at execution time
+       - **For dynamic paths:** The closure returns `nil` if the wildcard doesn't exist (DON'T return a fallback path)
+       - **For dynamic paths:** Pass a closure at the callsite that captures authManager: `getUserId: { authManager.auth?.uid }`
+       - **For dynamic paths:** This allows the path to use the CURRENT authenticated user at query time, not locked at initialization
+       - **For Sync managers with dynamic paths:** You must also inject the managerKey from the configuration for local persistence
+       - **For Sync collections:** Use `SwiftDataCollectionPersistence<Model>(managerKey:)` for local persistence
+       - **For Sync documents:** Use `FileManagerDocumentPersistence<Model>()` for local persistence (no managerKey needed)
      - **NEVER ASSUME** the collection path - use exactly what the user specified
    - Skip to Step 6 for verification
    - Note: Most managers do NOT use SwiftfulDataManagers. Only use for data that needs persistence/sync.
@@ -586,7 +614,7 @@ VStack(spacing: 8) {
        }
        ```
 
-       **For DYNAMIC collection paths** (that require userId or other parameters):
+       **For DYNAMIC collection paths with SYNC managers** (that require userId or other parameters):
        ```swift
        switch config {
        case .mock(isSignedIn: let isSignedIn):
@@ -596,20 +624,47 @@ VStack(spacing: 8) {
                logger: logManager
            )
        case .dev, .prod:
-           // Fetch userId from authManager - NEVER ASSUME it's available
-           guard let userId = authManager.auth?.uid else {
-               fatalError("UserId required for ManagerNameManager initialization")
-           }
+           // Pass a closure that captures authManager to fetch userId at execution time
            managerNameManager = ManagerNameManager(
-               services: ProductionManagerNameServices(userId: userId),
+               services: ProductionManagerNameServices(
+                   getUserId: { authManager.auth?.uid },
+                   managerKey: Dependencies.managerNameManagerConfiguration.managerKey
+               ),
                configuration: Dependencies.managerNameManagerConfiguration,
                logger: logManager
            )
        }
        ```
-       - **For dynamic paths:** Fetch required parameters (e.g., userId) from authManager
-       - **For dynamic paths:** Handle the case where userId might not be available
-       - **NEVER ASSUME** userId or other parameters are available - always guard/check first
+
+       **For DYNAMIC collection paths with ASYNC managers** (NO local persistence):
+       ```swift
+       switch config {
+       case .mock(isSignedIn: let isSignedIn):
+           managerNameManager = ManagerNameManager(
+               service: MockRemoteCollectionService(documents: isSignedIn ? ModelNameModel.mocks : []),
+               configuration: Dependencies.managerNameManagerConfiguration,
+               logger: logManager
+           )
+       case .dev, .prod:
+           // Pass a closure that captures authManager to fetch userId at execution time
+           managerNameManager = ManagerNameManager(
+               service: ProductionManagerNameService(
+                   getUserId: { authManager.auth?.uid }
+               ).remote,
+               configuration: Dependencies.managerNameManagerConfiguration,
+               logger: logManager
+           )
+       }
+       ```
+       - **For Async managers:** Use `service:` (singular) not `services:` (plural)
+       - **For Async managers:** Use `MockRemoteCollectionService` or `MockRemoteDocumentService` for mocks (not the full services wrapper)
+       - **For Async managers:** Access the `.remote` property from the production service struct
+       - **For Async managers:** No managerKey needed in the production service init (since there's no local persistence)
+       - **For dynamic paths:** Pass a closure that captures authManager to get the current userId at execution time
+       - **For dynamic paths:** The closure `{ authManager.auth?.uid }` is called each time the path is needed, not just at initialization
+       - **For dynamic paths:** This ensures the manager always uses the CURRENT authenticated user, even if they sign in/out
+       - **For Sync managers with dynamic paths:** Pass the managerKey from the configuration to the services init
+       - **For dynamic paths:** DON'T guard or check userId at initialization - let it be nil, the query will handle it
      - Register in DependencyContainer **with key** from configuration:
        ```swift
        container.register(
@@ -677,16 +732,23 @@ VStack(spacing: 8) {
      ```swift
      // MARK: ManagerNameManager
 
-     // For Data Sync Managers, expose the current data:
+     // For Sync Managers ONLY - expose the cached data:
      var currentData: ModelNameModel? {
          managerNameManager.currentData
      }
+
+     // For Async Managers - add methods to fetch as needed (no caching):
+     // func getData() async throws -> ModelNameModel {
+     //     try await managerNameManager.getDocument()
+     // }
 
      // Expose any public methods from the manager:
      func doSomething() async throws {
          try await managerNameManager.doSomething()
      }
      ```
+     - **For Sync managers:** Expose `currentData` or `currentDocuments` (data is cached in memory)
+     - **For Async managers:** DON'T expose current data - add async fetch methods instead (no caching)
 
    - **For Data Sync Managers with Sync support ONLY:**
      - Update the `logIn()` method to include the new manager using the document ID specified by the user:
