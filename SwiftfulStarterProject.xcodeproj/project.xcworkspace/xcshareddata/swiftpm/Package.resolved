@@ -258,8 +258,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulDataManagersFirebase.git",
       "state" : {
-        "revision" : "033a1fdea422d0ebe729ab4ae3ffa84dddbf9c33",
-        "version" : "1.0.1"
+        "branch" : "main",
+        "revision" : "7eab24010eeb64783cc3db394c4d12f8e25514fc"
       }
     },
     {

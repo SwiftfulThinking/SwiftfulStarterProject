@@ -18,7 +18,9 @@ public struct ProductionUserServices: DMDocumentServices {
     public let local: any LocalDocumentPersistence<UserModel>
 
     public init() {
-        self.remote = FirebaseRemoteDocumentService<UserModel>(collectionPath: "users")
+        self.remote = FirebaseRemoteDocumentService<UserModel>(collectionPath: {
+            "users"
+        })
         self.local = FileManagerDocumentPersistence<UserModel>()
     }
 }
