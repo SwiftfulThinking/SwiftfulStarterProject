@@ -323,7 +323,7 @@ struct CoreInteractor: GlobalInteractor {
 
     func logIn(user: UserAuthInfo, isNewUser: Bool) async throws {
         // Run all logins in parallel
-        async let userLogin: Void = userManager.logIn(auth: user, isNewUser: isNewUser)
+        async let userLogin: Void = userManager.signIn(auth: user, isNewUser: isNewUser)
         async let purchaseLogin: ([PurchasedEntitlement]) = purchaseManager.logIn(
             userId: user.uid,
             userAttributes: PurchaseProfileAttributes(

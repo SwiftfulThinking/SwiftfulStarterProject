@@ -34,7 +34,7 @@ class UserManager: DocumentManagerSync<UserModel> {
         }
     }
 
-    func logIn(auth: UserAuthInfo, isNewUser: Bool) async throws {
+    func signIn(auth: UserAuthInfo, isNewUser: Bool) async throws {
         let creationVersion = isNewUser ? Utilities.appVersion : nil
         let user = UserModel(auth: auth, creationVersion: creationVersion)
         logger?.trackEvent(event: Event.logInStart(user: user))
