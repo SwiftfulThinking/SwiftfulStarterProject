@@ -360,6 +360,10 @@ VStack(spacing: 8) {
 5a. **Create Data Sync Manager (SwiftfulDataManagers):**
    - Ask: "What is the data model type?" (e.g., "User", "Post", "Message")
    - Note: Don't include "Model" suffix - it will be added automatically
+   - Ask: "What is the Firestore collection path?" (e.g., "users", "chapters_completed", "user_data/progress")
+   - **NEVER ASSUME** the collection path - always ask the user
+   - Ask: "What document ID should be used for login?" (e.g., "user.uid", "user.email", "custom ID")
+   - **NEVER ASSUME** the document ID is user.uid - always ask the user
    - Check if model exists at `/Managers/ManagerName/Models/ModelNameModel.swift`
    - **If model does NOT exist:**
      - Trigger ACTION 4 to create the model
@@ -448,6 +452,26 @@ VStack(spacing: 8) {
          }
      }
      ```
+   - **CRITICAL: Update SwiftfulDataManagers+Alias.swift file:**
+     - Open `/Managers/DataManagers/SwiftfulDataManagers+Alias.swift`
+     - Add typealias for mock services:
+       ```swift
+       typealias MockManagerNameServices = SwiftfulDataManagers.MockDMDocumentServices
+       ```
+     - Add production services struct using the collection path provided by the user:
+       ```swift
+       @MainActor
+       public struct ProductionManagerNameServices: DMDocumentServices {
+           public let remote: any RemoteDocumentService<ModelNameModel>
+           public let local: any LocalDocumentPersistence<ModelNameModel>
+
+           public init() {
+               self.remote = FirebaseRemoteDocumentService<ModelNameModel>(collectionPath: "[USER_PROVIDED_COLLECTION_PATH]")
+               self.local = FileManagerDocumentPersistence<ModelNameModel>()
+           }
+       }
+       ```
+     - **NEVER ASSUME** the collection path - use exactly what the user specified
    - Skip to Step 6 for verification
    - Note: Most managers do NOT use SwiftfulDataManagers. Only use for data that needs persistence/sync.
    - Note: The model type (ModelNameModel) must match the model you specified/created
@@ -728,7 +752,7 @@ import SwiftUI
 import IdentifiableByString
 import SwiftfulDataManagers
 
-struct ModelNameModel: StringIdentifiable, Codable, Sendable, DMProtocol {
+public struct ModelNameModel: StringIdentifiable, Codable, Sendable, DMProtocol {
     let id: String
     let value: String?  // Replace with your custom properties
     let customProperty: Bool?  // Example custom property
@@ -771,6 +795,7 @@ struct ModelNameModel: StringIdentifiable, Codable, Sendable, DMProtocol {
 **Important:**
 - ALWAYS use the template when creating models
 - **ALL models must conform to: StringIdentifiable, Codable, Sendable, DMProtocol**
+- **ALL models used with DataManagers MUST be declared as `public struct`** (not just `struct`)
 - DMProtocol is required for SwiftfulDataManagers compatibility
 - The template provides: CodingKeys, eventParameters, mocks structure
 - Replace the default `value` property with your actual model properties
