@@ -454,11 +454,15 @@ VStack(spacing: 8) {
      ```
    - **CRITICAL: Update SwiftfulDataManagers+Alias.swift file:**
      - Open `/Managers/DataManagers/SwiftfulDataManagers+Alias.swift`
-     - Add typealias for mock services:
+     - Add typealias for mock services (Document or Collection):
        ```swift
        typealias MockManagerNameServices = SwiftfulDataManagers.MockDMDocumentServices
+       // OR for collections:
+       typealias MockManagerNameServices = SwiftfulDataManagers.MockDMCollectionServices
        ```
      - Add production services struct using the collection path provided by the user:
+
+       **For STATIC paths** (e.g., "users", "chapters_completed"):
        ```swift
        @MainActor
        public struct ProductionManagerNameServices: DMDocumentServices {
@@ -466,11 +470,32 @@ VStack(spacing: 8) {
            public let local: any LocalDocumentPersistence<ModelNameModel>
 
            public init() {
-               self.remote = FirebaseRemoteDocumentService<ModelNameModel>(collectionPath: "[USER_PROVIDED_COLLECTION_PATH]")
+               self.remote = FirebaseRemoteDocumentService<ModelNameModel>(collectionPath: {
+                   "users"
+               })
                self.local = FileManagerDocumentPersistence<ModelNameModel>()
            }
        }
        ```
+
+       **For DYNAMIC paths** (e.g., "user_friends/{uid}/friends"):
+       ```swift
+       @MainActor
+       public struct ProductionManagerNameServices: DMCollectionServices {
+           public let remote: any RemoteCollectionService<ModelNameModel>
+           public let local: any LocalCollectionPersistence<ModelNameModel>
+
+           public init(userId: String) {
+               self.remote = FirebaseRemoteCollectionService<ModelNameModel>(collectionPath: { uid in
+                   "user_friends/\(uid)/friends"
+               })
+               self.local = FileManagerCollectionPersistence<ModelNameModel>()
+           }
+       }
+       ```
+       - **For dynamic paths:** The init takes parameters (e.g., `userId: String`) that are used in the closure
+       - **For dynamic paths:** You must inject the parameter (e.g., userId) from authManager at the callsite in Dependencies.swift
+       - **For dynamic paths:** The manager init will also need to accept this parameter
      - **NEVER ASSUME** the collection path - use exactly what the user specified
    - Skip to Step 6 for verification
    - Note: Most managers do NOT use SwiftfulDataManagers. Only use for data that needs persistence/sync.
@@ -542,6 +567,8 @@ VStack(spacing: 8) {
        )
        ```
      - Initialize with different services for mock vs prod:
+
+       **For STATIC collection paths:**
        ```swift
        switch config {
        case .mock(isSignedIn: let isSignedIn):
@@ -558,6 +585,31 @@ VStack(spacing: 8) {
            )
        }
        ```
+
+       **For DYNAMIC collection paths** (that require userId or other parameters):
+       ```swift
+       switch config {
+       case .mock(isSignedIn: let isSignedIn):
+           managerNameManager = ManagerNameManager(
+               services: MockManagerNameServices(documents: isSignedIn ? ModelNameModel.mocks : []),
+               configuration: Dependencies.managerNameManagerConfiguration,
+               logger: logManager
+           )
+       case .dev, .prod:
+           // Fetch userId from authManager - NEVER ASSUME it's available
+           guard let userId = authManager.auth?.uid else {
+               fatalError("UserId required for ManagerNameManager initialization")
+           }
+           managerNameManager = ManagerNameManager(
+               services: ProductionManagerNameServices(userId: userId),
+               configuration: Dependencies.managerNameManagerConfiguration,
+               logger: logManager
+           )
+       }
+       ```
+       - **For dynamic paths:** Fetch required parameters (e.g., userId) from authManager
+       - **For dynamic paths:** Handle the case where userId might not be available
+       - **NEVER ASSUME** userId or other parameters are available - always guard/check first
      - Register in DependencyContainer **with key** from configuration:
        ```swift
        container.register(
