@@ -5,7 +5,17 @@
       "Read(//Users/nicksarno/Library/Developer/Xcode/Templates/MyTemplates/ModelTemplate.xctemplate/**)",
       "Bash(cat:*)",
       "Bash(xargs:*)",
-      "Read(//Users/nicksarno/Library/Developer/Xcode/Templates/MyTemplates/ManagerTemplate.xctemplate/**)"
+      "Read(//Users/nicksarno/Library/Developer/Xcode/Templates/MyTemplates/ManagerTemplate.xctemplate/**)",
+      "Bash(mkdir:*)",
+      "Bash(git add:*)",
+      "Bash(for dir in SwiftfulRouting SwiftfulDataManagers SwiftfulDataManagersFirebase SwiftfulAuthenticating SwiftfulAuthenticatingFirebase SwiftfulLogging SwiftfulLoggingFirebaseAnalytics SwiftfulLoggingFirebaseCrashlytics SwiftfulLoggingMixpanel SwiftfulPurchasing SwiftfulPurchasingRevenueCat SwiftfulGamification SwiftfulGamificationFirebase SwiftfulUI SwiftfulUtilities SwiftfulHaptics SwiftfulSoundEffects SwiftfulOnboarding SwiftfulFirestore)",
+      "Bash(do)",
+      "Bash(echo:*)",
+      "Bash(if [ -f \"/Users/nicksarno/Documents/documents/GITHUB/$dir/README.md\" ])",
+      "Bash(then)",
+      "Bash(else)",
+      "Bash(fi)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []
