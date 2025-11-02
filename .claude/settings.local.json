@@ -15,7 +15,8 @@
       "Bash(then)",
       "Bash(else)",
       "Bash(fi)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

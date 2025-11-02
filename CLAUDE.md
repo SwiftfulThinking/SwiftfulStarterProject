@@ -90,6 +90,15 @@ When the user triggers specific requests, follow these action workflows:
 
 ## ⚡ Critical Rules
 
+### File Creation (ALWAYS use Write/Edit tools)
+- ✅ This project uses Xcode 15+ File System Synchronization
+- ✅ Files created in `SwiftfulStarterProject/` folder automatically appear in Xcode
+- ✅ ALWAYS use Write/Edit tools to create .swift files (unless documentation)
+- ✅ Files automatically included in build - no manual Xcode steps needed
+- ❌ Exception: If file created outside main folder, provide path for manual add (rare)
+
+See @.claude/docs/project-structure.md for details on `PBXFileSystemSynchronizedRootGroup`
+
 ### VIPER Data Flow (NEVER skip layers)
 ```
 View → Presenter → Interactor → Manager

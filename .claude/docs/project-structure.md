@@ -21,6 +21,45 @@ When working in this codebase:
 
 ---
 
+## 🔧 File Creation Protocol (CRITICAL)
+
+**This project uses Xcode 15+ File System Synchronization** - files created in the `SwiftfulStarterProject/` folder are automatically added to Xcode.
+
+### Rules for Creating Files:
+
+1. **ALWAYS use Write/Edit tools for creating .swift files** (unless it's documentation)
+   - Files created in `SwiftfulStarterProject/` folder automatically appear in Xcode
+   - Automatically included in build
+   - Automatically added to correct target
+   - No manual Xcode intervention needed
+
+2. **Use Xcode templates when available** (VIPER screens, Managers, Models)
+   - Read template files from `~/Library/Developer/Xcode/Templates/MyTemplates/`
+   - Substitute placeholders programmatically
+   - Create files using Write tool
+   - Files automatically sync to Xcode
+
+3. **Documentation files** (.md, .txt, config files)
+   - Create anywhere as needed
+   - Don't need to be in Xcode project
+
+4. **Exception Handling** (rare cases)
+   - If a file is created outside `SwiftfulStarterProject/` folder and needs to be in Xcode:
+     - Provide full path to user
+     - Instruct user to manually add via Xcode: Right-click folder → Add Files to 'SwiftfulStarterProject...'
+   - This should almost never happen
+
+### Why This Works:
+
+The project uses `PBXFileSystemSynchronizedRootGroup` which automatically detects new files in:
+- `SwiftfulStarterProject/` (main app)
+- `SwiftfulStarterProjectUITests/` (UI tests)
+- `SwiftfulStarterProjectUnitTests/` (unit tests)
+
+**Bottom line:** Create files programmatically with confidence - they'll automatically appear in Xcode! ✅
+
+---
+
 ## 🎯 Core Concepts to Understand
 
 ### 1. VIPER per Screen (Most Important)
