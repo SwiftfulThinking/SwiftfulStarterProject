@@ -72,6 +72,7 @@
 - **PREFER maxWidth/maxHeight with alignment** over Spacer() - Use `.frame(maxWidth: .infinity, alignment: .leading)` instead of `Spacer()`
 - **AVOID fixed frames** when possible - let SwiftUI handle sizing naturally
 - **Create MULTIPLE #Previews** showing different data states (all data, partial data, no data, loading, etc.)
+- **Import SwiftfulUI when needed** - Only add `import SwiftfulUI` if using SwiftfulUI-specific modifiers like `.asButton()`, `.anyButton()`, or other SwiftfulUI extensions
 
 ### 5. Verify creation
 

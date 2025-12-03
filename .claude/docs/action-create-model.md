@@ -65,7 +65,7 @@ import IdentifiableByString
 import SwiftfulDataManagers
 
 public struct ModelNameModel: StringIdentifiable, Codable, Sendable, DMProtocol {
-    let id: String
+    public let id: String  // MUST be public for DMProtocol conformance
     let value: String?  // Replace with your custom properties
     let customProperty: Bool?  // Example custom property
 
@@ -111,6 +111,7 @@ public struct ModelNameModel: StringIdentifiable, Codable, Sendable, DMProtocol 
 - ALWAYS use the template when creating models
 - **ALL models must conform to: StringIdentifiable, Codable, Sendable, DMProtocol**
 - **ALL models used with DataManagers MUST be declared as `public struct`** (not just `struct`)
+- **The `id` property MUST be declared as `public let id: String`** (required by DMProtocol)
 - DMProtocol is required for SwiftfulDataManagers compatibility
 - The template provides: CodingKeys, eventParameters, mocks structure
 - Replace the default `value` property with your actual model properties

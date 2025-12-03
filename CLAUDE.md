@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+**IMPORTANT**: When the user asks you to "read claude.md" or "read CLAUDE.md", you MUST also read ALL documentation files listed in the "Documentation Structure" section below. This ensures you have complete context of the project architecture, patterns, and rules.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ---
