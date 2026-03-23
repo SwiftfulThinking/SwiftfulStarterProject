@@ -36,7 +36,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/scripts/sync-package-rules.sh"
+            "command": "bash -c 'cd \"$(git rev-parse --show-toplevel)\" && bash .claude/scripts/sync-package-rules.sh'"
           }
         ]
       }
