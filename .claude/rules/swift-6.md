@@ -38,6 +38,7 @@ Rules for Swift 6 concurrency, general Swift conventions, and project-specific p
 ### Naming Conventions
 
 - Avoid non-inclusive terms that trigger SwiftLint's `inclusive_language` rule — never use `master`, `slave`, `whitelist`, `blacklist` in declarations. Use alternatives like `primary`, `main`, `allowList`, `denyList`.
+- NEVER use variable, parameter, or property names shorter than 3 characters — SwiftLint enforces a minimum of 3. Use descriptive names: `index` not `i`, `error` not `e`, `key` not `k`, `value` not `v`.
 - **Views** — sections as computed properties: `headerSection`, `scrollViewSection`, `profileImageSection`
 - **Views** — actions delegate to Presenter: `onButtonPressed`, `onItemSelected`
 - **Presenters** — lifecycle: `onViewFirstAppear`, `onViewAppear`, `onFirstTask`
