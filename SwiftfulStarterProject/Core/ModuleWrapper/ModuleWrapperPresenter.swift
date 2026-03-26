@@ -12,6 +12,10 @@ class ModuleWrapperPresenter {
         self.router = router
     }
 
+    func onDevSettingsButtonPressed() {
+        router.showDevSettingsView()
+    }
+
     // WARNING: This view does NOT have a NavigationStack, so router.showScreen(.push) will NOT work here.
     // Supported: .fullScreenCover, .sheet, showModal, showAlert, update interactor, post notification.
     // If you need .push, post a notification and handle it in a child view that has a NavigationStack.

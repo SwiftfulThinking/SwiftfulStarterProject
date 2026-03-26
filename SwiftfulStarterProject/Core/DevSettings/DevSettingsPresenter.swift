@@ -14,6 +14,7 @@ class DevSettingsPresenter {
     private let interactor: DevSettingsInteractor
     private let router: DevSettingsRouter
 
+    var onboardingCompleted: Bool = UserDefaults.lastModuleId == Constants.tabbarModuleId
     var boolTest: Bool = false
     var enumTest: EnumTestOption = .default
     
@@ -82,6 +83,18 @@ class DevSettingsPresenter {
                 try interactor.override(updateTests: tests)
             } catch {
                 property = savedValue
+            }
+        }
+    }
+
+    func handleOnboardingCompletedChange(oldValue: Bool, newValue: Bool) {
+        Task {
+            router.dismissAllScreens()
+            try? await Task.sleep(for: .seconds(1))
+            if newValue {
+                router.switchToCoreModule()
+            } else {
+                router.switchToOnboardingModule()
             }
         }
     }
