@@ -6,28 +6,32 @@ struct CoreInteractor: GlobalInteractor {
     private let authManager: AuthManager
     private let userManager: UserManager
     private let logManager: LogManager
-    private let abTestManager: ABTestManager
+    private let abTestManager: ABTestManager // #feature: abtesting
     private let purchaseManager: PurchaseManager
     private let pushManager: PushManager
     private let hapticManager: HapticManager
     private let soundEffectManager: SoundEffectManager
+    // #feature-start: gamification
     private let streakManager: StreakManager
     private let xpManager: ExperiencePointsManager
     private let progressManager: ProgressManager
+    // #feature-end: gamification
 
     init(container: DependencyContainer) {
         self.appState = container.resolve(AppState.self)!
         self.authManager = container.resolve(AuthManager.self)!
         self.userManager = container.resolve(UserManager.self)!
         self.logManager = container.resolve(LogManager.self)!
-        self.abTestManager = container.resolve(ABTestManager.self)!
+        self.abTestManager = container.resolve(ABTestManager.self)! // #feature: abtesting
         self.purchaseManager = container.resolve(PurchaseManager.self)!
         self.pushManager = container.resolve(PushManager.self)!
         self.hapticManager = container.resolve(HapticManager.self)!
         self.soundEffectManager = container.resolve(SoundEffectManager.self)!
+        // #feature-start: gamification
         self.streakManager = container.resolve(StreakManager.self, key: Dependencies.streakConfiguration.streakKey)!
         self.xpManager = container.resolve(ExperiencePointsManager.self, key: Dependencies.xpConfiguration.experienceKey)!
         self.progressManager = container.resolve(ProgressManager.self, key: Dependencies.progressConfiguration.progressKey)!
+        // #feature-end: gamification
     }
     
     // MARK: APP STATE
@@ -131,16 +135,18 @@ struct CoreInteractor: GlobalInteractor {
         await pushManager.canRequestAuthorization()
     }
 
+    // #feature-start: abtesting
     // MARK: ABTestManager
-    
+
     var activeTests: ActiveABTests {
         abTestManager.activeTests
     }
-        
+
     func override(updateTests: ActiveABTests) throws {
         try abTestManager.override(updateTests: updateTests)
     }
-    
+    // #feature-end: abtesting
+
     // MARK: PurchaseManager
     
     var entitlements: [PurchasedEntitlement] {
@@ -211,6 +217,7 @@ struct CoreInteractor: GlobalInteractor {
         soundEffectManager.playSoundEffect(url: sound.url)
     }
 
+    // #feature-start: gamification
     // MARK: StreakManager
 
     var currentStreakData: CurrentStreakData {
@@ -312,6 +319,7 @@ struct CoreInteractor: GlobalInteractor {
     func deleteAllProgress() async throws {
         try await progressManager.deleteAllProgress()
     }
+    // #feature-end: gamification
 
     // MARK: SHARED
 
@@ -326,11 +334,16 @@ struct CoreInteractor: GlobalInteractor {
                 firebaseAppInstanceId: Constants.firebaseAnalyticsAppInstanceID
             )
         )
+        // #feature-start: gamification
         async let streakLogin: Void = streakManager.logIn(userId: user.uid)
         async let xpLogin: Void = xpManager.logIn(userId: user.uid)
         async let progressLogin: Void = progressManager.logIn(userId: user.uid)
+        // #feature-end: gamification
 
-        let (_, _, _, _, _) = await (try userLogin, try purchaseLogin, try streakLogin, try xpLogin, try progressLogin)
+        _ = await (try userLogin, try purchaseLogin)
+        // #feature-start: gamification
+        _ = await (try streakLogin, try xpLogin, try progressLogin)
+        // #feature-end: gamification
 
         // Add user properties
         logManager.addUserProperties(dict: Utilities.eventParameters, isHighPriority: false)
@@ -340,9 +353,11 @@ struct CoreInteractor: GlobalInteractor {
         try authManager.signOut()
         try await purchaseManager.logOut()
         userManager.signOut()
+        // #feature-start: gamification
         streakManager.logOut()
         xpManager.logOut()
         await progressManager.logOut()
+        // #feature-end: gamification
     }
     
     func deleteAccount() async throws {

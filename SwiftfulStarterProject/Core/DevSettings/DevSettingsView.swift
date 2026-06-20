@@ -13,7 +13,7 @@ struct DevSettingsView: View {
 
     var body: some View {
         List {
-            abTestSection
+            abTestSection // #feature: abtesting
             authSection
             userSection
             deviceSection
@@ -24,9 +24,11 @@ struct DevSettingsView: View {
                 backButtonView
             }
         }
+        // #feature-start: abtesting
         .onFirstAppear {
             presenter.loadABTests()
         }
+        // #feature-end: abtesting
         .onAppear {
             presenter.onViewAppear()
         }
@@ -44,6 +46,7 @@ struct DevSettingsView: View {
             }
     }
             
+    // #feature-start: abtesting
     private var abTestSection: some View {
         Section {
             Toggle("Bool Test", isOn: $presenter.boolTest)
@@ -61,7 +64,8 @@ struct DevSettingsView: View {
         }
         .font(.caption)
     }
-    
+    // #feature-end: abtesting
+
     private var authSection: some View {
         Section {
             ForEach(presenter.authData, id: \.key) { item in

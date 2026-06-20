@@ -6,11 +6,11 @@
 //
 @MainActor
 protocol DevSettingsInteractor: GlobalInteractor {
-    var activeTests: ActiveABTests { get }
+    var activeTests: ActiveABTests { get } // #feature: abtesting
     var auth: UserAuthInfo? { get }
     var currentUser: UserModel? { get }
-    
-    func override(updateTests: ActiveABTests) throws
+
+    func override(updateTests: ActiveABTests) throws // #feature: abtesting
 }
 
 extension CoreInteractor: DevSettingsInteractor { }

@@ -10,11 +10,11 @@ xcuserdata/
 *.xcscmblueprint
 
 # Swift Package Manager
+# NOTE: Do NOT ignore Package.resolved or the shared swiftpm folder —
+# they pin dependency versions and must be committed so clones/CI build deterministically.
 .swiftpm/
 Packages/
 Package.pins
-Package.resolved
-*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
 
 # CocoaPods
 Pods/

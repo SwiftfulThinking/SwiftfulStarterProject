@@ -14,9 +14,11 @@ class DevSettingsPresenter {
     private let interactor: DevSettingsInteractor
     private let router: DevSettingsRouter
 
+    // #feature-start: abtesting
     var boolTest: Bool = false
     var enumTest: EnumTestOption = .default
-    
+    // #feature-end: abtesting
+
     var authData: [(key: String, value: Any)] {
         interactor.auth?.eventParameters.asAlphabeticalArray ?? []
     }
@@ -42,6 +44,7 @@ class DevSettingsPresenter {
         interactor.trackEvent(event: Event.onDisappear)
     }
     
+    // #feature-start: abtesting
     func loadABTests() {
         boolTest = interactor.activeTests.boolTest
         enumTest = interactor.activeTests.enumTest
@@ -57,7 +60,7 @@ class DevSettingsPresenter {
             }
         )
     }
-    
+
     func handleEnumTestChange(oldValue: EnumTestOption, newValue: EnumTestOption) {
         updateTest(
             property: &enumTest,
@@ -68,7 +71,7 @@ class DevSettingsPresenter {
             }
         )
     }
-        
+
     private func updateTest<Value: Equatable>(
         property: inout Value,
         newValue: Value,
@@ -85,6 +88,7 @@ class DevSettingsPresenter {
             }
         }
     }
+    // #feature-end: abtesting
 
     func onBackButtonPressed() {
         router.dismissScreen()

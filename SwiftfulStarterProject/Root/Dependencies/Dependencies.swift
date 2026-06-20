@@ -17,16 +17,18 @@ struct Dependencies {
     init(config: BuildConfiguration) {
         let authManager: AuthManager
         let userManager: UserManager
-        let abTestManager: ABTestManager
+        let abTestManager: ABTestManager // #feature: abtesting
         let purchaseManager: PurchaseManager
         let appState: AppState
         let logManager: LogManager
         let pushManager: PushManager
         let hapticManager: HapticManager
         let soundEffectManager: SoundEffectManager
+        // #feature-start: gamification
         let streakManager: StreakManager
         let xpManager: ExperiencePointsManager
         let progressManager: ProgressManager
+        // #feature-end: gamification
         
         switch config {
         case .mock(isSignedIn: let isSignedIn, addLogging: let addLogging):
@@ -41,6 +43,7 @@ struct Dependencies {
                 logger: logManager
             ))
             
+            // #feature-start: abtesting
             // Note: configure AB tests for UI tests here
             //
             // let isInTest = ProcessInfo.processInfo.arguments.contains("SOMETEST")
@@ -49,25 +52,28 @@ struct Dependencies {
                 enumTest: nil
             )
             abTestManager = ABTestManager(service: abTestService, logManager: logManager)
+            // #feature-end: abtesting
             purchaseManager = PurchaseManager(service: MockPurchaseService(activeEntitlements: [], availableProducts: AnyProduct.mocks), logger: logManager)
             appState = AppState(startingModuleId: isSignedIn ? Constants.tabbarModuleId : Constants.onboardingModuleId)
             hapticManager = HapticManager(logger: logManager)
+            // #feature-start: gamification
             streakManager = StreakManager(services: MockStreakServices(), configuration: Dependencies.streakConfiguration, logger: logManager)
             xpManager = ExperiencePointsManager(services: MockExperiencePointsServices(), configuration: Dependencies.xpConfiguration, logger: logManager)
             progressManager = ProgressManager(services: MockProgressServices(), configuration: Dependencies.progressConfiguration, logger: logManager)
+            // #feature-end: gamification
         case .dev, .prod:
             if case .dev = config {
                 logManager = LogManager(services: [
-                    ConsoleService(printParameters: true),
-                    FirebaseAnalyticsService(),
-                    MixpanelService(token: Keys.mixpanelToken),
-                    FirebaseCrashlyticsService()
+                    FirebaseAnalyticsService(), // #feature: analytics
+                    MixpanelService(token: Keys.mixpanelToken), // #feature: analytics
+                    FirebaseCrashlyticsService(), // #feature: analytics
+                    ConsoleService(printParameters: true)
                 ])
             } else {
                 logManager = LogManager(services: [
-                    FirebaseAnalyticsService(),
-                    MixpanelService(token: Keys.mixpanelToken),
-                    FirebaseCrashlyticsService()
+                    FirebaseAnalyticsService(), // #feature: analytics
+                    MixpanelService(token: Keys.mixpanelToken), // #feature: analytics
+                    FirebaseCrashlyticsService() // #feature: analytics
                 ])
             }
             authManager = AuthManager(service: FirebaseAuthService(), logger: logManager)
@@ -77,20 +83,24 @@ struct Dependencies {
                 enableLocalPersistence: true,
                 logger: logManager
             ))
+            // #feature-start: abtesting
             if case .dev = config {
                 abTestManager = ABTestManager(service: LocalABTestService(), logManager: logManager)
             } else {
                 abTestManager = ABTestManager(service: FirebaseABTestService(), logManager: logManager)
             }
+            // #feature-end: abtesting
             purchaseManager = PurchaseManager(
                 service: RevenueCatPurchaseService(apiKey: Keys.revenueCatAPIKey),
                 logger: logManager
             )
             hapticManager = HapticManager(logger: logManager)
             appState = AppState()
+            // #feature-start: gamification
             streakManager = StreakManager(services: ProdStreakServices(), configuration: Dependencies.streakConfiguration, logger: logManager)
             xpManager = ExperiencePointsManager(services: ProdExperiencePointsServices(), configuration: Dependencies.xpConfiguration, logger: logManager)
             progressManager = ProgressManager(services: ProdProgressServices(), configuration: Dependencies.progressConfiguration, logger: logManager)
+            // #feature-end: gamification
         }
         pushManager = PushManager(logManager: logManager)
         soundEffectManager = SoundEffectManager(logger: logManager)
@@ -99,21 +109,24 @@ struct Dependencies {
         container.register(AuthManager.self, service: authManager)
         container.register(UserManager.self, service: userManager)
         container.register(LogManager.self, service: logManager)
-        container.register(ABTestManager.self, service: abTestManager)
+        container.register(ABTestManager.self, service: abTestManager) // #feature: abtesting
         container.register(PurchaseManager.self, service: purchaseManager)
         container.register(AppState.self, service: appState)
         container.register(PushManager.self, service: pushManager)
         container.register(HapticManager.self, service: hapticManager)
         container.register(SoundEffectManager.self, service: soundEffectManager)
+        // #feature-start: gamification
         container.register(StreakManager.self, key: Dependencies.streakConfiguration.streakKey, service: streakManager)
         container.register(ExperiencePointsManager.self, key: Dependencies.xpConfiguration.experienceKey, service: xpManager)
         container.register(ProgressManager.self, key: Dependencies.progressConfiguration.progressKey, service: progressManager)
+        // #feature-end: gamification
 
         self.container = container
         
         SwiftfulRoutingLogger.enableLogging(logger: logManager)
     }
     
+    // #feature-start: gamification
     static let streakConfiguration = StreakConfiguration(
         streakKey: Constants.streakKey,
         eventsRequiredPerDay: 1,
@@ -121,16 +134,17 @@ struct Dependencies {
         leewayHours: 0,
         freezeBehavior: .autoConsumeFreezes
     )
-    
+
     static let xpConfiguration = ExperiencePointsConfiguration(
         experienceKey: Constants.xpKey,
         useServerCalculation: false
     )
-    
+
     static let progressConfiguration = ProgressConfiguration(
         progressKey: Constants.progressKey
     )
-    
+    // #feature-end: gamification
+
 }
 
 @MainActor

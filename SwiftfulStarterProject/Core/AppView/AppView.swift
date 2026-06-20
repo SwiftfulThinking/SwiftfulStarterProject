@@ -112,9 +112,11 @@ extension CoreBuilder {
             TabBarTab(title: "Home", systemImage: "house.fill", destination: { router in
                 homeView(router: router, delegate: HomeDelegate())
             }),
+            // #feature-start: gamification
             TabBarTab(title: "Beta", systemImage: "heart.fill", destination: { router in
                 sampleGamificationViewForMock(router: router)
             }),
+            // #feature-end: gamification
             TabBarTab(title: "Profile", systemImage: "person.fill", destination: { router in
                 profileView(router: router, delegate: ProfileDelegate())
             })
@@ -128,6 +130,7 @@ extension CoreBuilder {
         )
     }
 
+    // #feature-start: gamification
     private func sampleGamificationViewForMock(router: AnyRouter) -> some View {
         List {
             Button("Streaks") {
@@ -148,6 +151,7 @@ extension CoreBuilder {
         }
         .navigationTitle("Gamification Examples")
     }
+    // #feature-end: gamification
 }
 
 extension CoreRouter {

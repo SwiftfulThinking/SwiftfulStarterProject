@@ -6,5 +6,7 @@
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app needs access to your calendar to add and manage events.</string>
 </dict>
 </plist>
