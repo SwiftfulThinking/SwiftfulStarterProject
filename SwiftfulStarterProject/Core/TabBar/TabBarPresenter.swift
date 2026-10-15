@@ -132,6 +132,7 @@ class TabBarPresenter {
         let delegate = CreateAccountDelegate(
             title: "Sign back in",
             subtitle: reauthenticationPromptSubtitle,
+            preferredProvider: interactor.lastSignInProvider,
             onDidSignIn: { [weak self] isNewUser in
                 self?.reauthSignInCreatedNewAccount = isNewUser
             }

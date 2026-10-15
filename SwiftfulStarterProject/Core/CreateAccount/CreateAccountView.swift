@@ -12,12 +12,26 @@ import SwiftfulRouting
 struct CreateAccountDelegate {
     var title: String = "Create Account?"
     var subtitle: String = "Don't lose your data! Connect to an SSO provider to save your account."
+    /// Shown first (session recovery: the provider the lost account used, from the keychain marker).
+    var preferredProvider: AuthProviderOption?
+    /// When set, the ONLY provider shown (switch-account: the user must use the owner account's exact method).
+    var restrictedProvider: AuthProviderOption?
     var onDidSignIn: ((_ isNewUser: Bool) -> Void)?
+
+    /// Providers to render, in order. Restricted wins; otherwise the preferred one moves to the front.
+    var providers: [AuthProviderOption] {
+        let all: [AuthProviderOption] = [.apple, .google]
+        if let restrictedProvider, all.contains(restrictedProvider) { return [restrictedProvider] }
+        guard let preferredProvider, all.contains(preferredProvider) else { return all }
+        return [preferredProvider] + all.filter { $0 != preferredProvider }
+    }
     
     var eventParameters: [String: Any]? {
         [
             "delegate_title": title,
-            "delegate_subtitle": subtitle
+            "delegate_subtitle": subtitle,
+            "delegate_preferred_provider": preferredProvider?.rawValue ?? "none",
+            "delegate_restricted_provider": restrictedProvider?.rawValue ?? "none"
         ]
     }
 }
@@ -43,29 +57,12 @@ struct CreateAccountView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             
             VStack(spacing: 12) {
-                SignInAppleButtonView(
-                    type: .signIn,
-                    style: .black,
-                    cornerRadius: 10
-                )
-                .frame(height: 55)
-                .frame(maxWidth: 400)
-                .asButton(.press) {
-                    presenter.onSignInApplePressed(delegate: delegate)
+                ForEach(delegate.providers, id: \.self) { provider in
+                    providerButton(provider)
+                        .frame(height: 55)
+                        .frame(maxWidth: 400)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                
-                SignInGoogleButtonView(
-                    type: .signIn,
-                    backgroundColor: .googleRed,
-                    cornerRadius: 10
-                )
-                .frame(height: 55)
-                .frame(maxWidth: 400)
-                .asButton(.press) {
-                    presenter.onSignInGooglePressed(delegate: delegate)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
             }
 
             Spacer()
@@ -77,6 +74,30 @@ struct CreateAccountView: View {
         }
         .onDisappear {
             presenter.onViewDisappear(delegate: delegate)
+        }
+    }
+
+    @ViewBuilder
+    private func providerButton(_ provider: AuthProviderOption) -> some View {
+        switch provider {
+        case .google:
+            SignInGoogleButtonView(
+                type: .signIn,
+                backgroundColor: .googleRed,
+                cornerRadius: 10
+            )
+            .asButton(.press) {
+                presenter.onSignInGooglePressed(delegate: delegate)
+            }
+        default:
+            SignInAppleButtonView(
+                type: .signIn,
+                style: .black,
+                cornerRadius: 10
+            )
+            .asButton(.press) {
+                presenter.onSignInApplePressed(delegate: delegate)
+            }
         }
     }
     
