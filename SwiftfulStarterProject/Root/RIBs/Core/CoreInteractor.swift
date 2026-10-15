@@ -45,6 +45,40 @@ struct CoreInteractor: GlobalInteractor {
     func getAuthId() throws -> String {
         try authManager.getAuthId()
     }
+
+    // MARK: Re-authentication (lost sessions)
+
+    var shouldBlockAnonMintForReauthentication: Bool {
+        authManager.shouldBlockAnonMintForReauthentication
+    }
+
+    var shouldPromptForReauthentication: Bool {
+        authManager.shouldPromptForReauthentication
+    }
+
+    var reauthPromptDeclineCount: Int {
+        authManager.reauthPromptDeclineCount
+    }
+
+    var reauthPromptMarkerSource: RealAccountMarkerSource? {
+        authManager.reauthPromptMarkerSource
+    }
+
+    var reauthPromptPolicy: ReauthPromptPolicy {
+        authManager.reauthPromptPolicy
+    }
+
+    var lastRealAccountUid: String? {
+        authManager.lastRealAccountUid
+    }
+
+    var lastSignInProvider: AuthProviderOption? {
+        authManager.lastSignInProvider
+    }
+
+    func recordReauthPromptDeclined() {
+        authManager.recordReauthPromptDeclined()
+    }
     
     func signInAnonymously() async throws -> (user: UserAuthInfo, isNewUser: Bool) {
         try await authManager.signInAnonymously()
@@ -318,14 +352,7 @@ struct CoreInteractor: GlobalInteractor {
     func logIn(user: UserAuthInfo, isNewUser: Bool) async throws {
         // Run all logins in parallel
         async let userLogin: Void = userManager.signIn(auth: user, isNewUser: isNewUser)
-        async let purchaseLogin: ([PurchasedEntitlement]) = purchaseManager.logIn(
-            userId: user.uid,
-            userAttributes: PurchaseProfileAttributes(
-                email: user.email,
-                mixpanelDistinctId: Constants.mixpanelDistinctId,
-                firebaseAppInstanceId: Constants.firebaseAnalyticsAppInstanceID
-            )
-        )
+        async let purchaseLogin: Void = logInToPurchasesIfNeeded(user: user)
         async let streakLogin: Void = streakManager.logIn(userId: user.uid)
         async let xpLogin: Void = xpManager.logIn(userId: user.uid)
         async let progressLogin: Void = progressManager.logIn(userId: user.uid)
@@ -334,6 +361,26 @@ struct CoreInteractor: GlobalInteractor {
 
         // Add user properties
         logManager.addUserProperties(dict: Utilities.eventParameters, isHighPriority: false)
+    }
+
+    /// Never move purchases off this device's real account onto an anonymous user. After a lost session the
+    /// replacement anonymous account (minted when the user declines to sign back in) must not inherit the
+    /// subscription still parked under the real uid — that is how subscriptions followed wrongful mints and
+    /// stranded the real account. Every other case logs in as usual, which also realigns purchases to a restored
+    /// session on every launch.
+    private func logInToPurchasesIfNeeded(user: UserAuthInfo) async throws {
+        if user.isAnonymous, let realUid = lastRealAccountUid, purchaseManager.currentUserId == realUid {
+            trackEvent(eventName: "CoreInteractor_PurchasesLogin_SkippedProtected", parameters: ["anon_uid": user.uid, "purchases_uid": realUid], type: .analytic)
+            return
+        }
+        try await purchaseManager.logIn(
+            userId: user.uid,
+            userAttributes: PurchaseProfileAttributes(
+                email: user.email,
+                mixpanelDistinctId: Constants.mixpanelDistinctId,
+                firebaseAppInstanceId: Constants.firebaseAnalyticsAppInstanceID
+            )
+        )
     }
 
     func signOut() async throws {

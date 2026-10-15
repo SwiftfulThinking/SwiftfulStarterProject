@@ -56,6 +56,14 @@ struct TabBarView: View {
         .onDisappear {
             presenter.onViewDisappear(delegate: delegate)
         }
+        .onChange(of: presenter.shouldPromptForReauthentication) { _, needsPrompt in
+            if needsPrompt {
+                presenter.onReauthenticationNeeded()
+            }
+        }
+        .onNotificationReceived(name: UIApplication.willEnterForegroundNotification) { _ in
+            presenter.onAppWillEnterForeground()
+        }
     }
 }
 
@@ -72,10 +80,11 @@ struct TabBarView: View {
 
 extension CoreBuilder {
 
-    func tabBarView(delegate: TabBarDelegate) -> some View {
+    func tabBarView(router: AnyRouter, delegate: TabBarDelegate) -> some View {
         TabBarView(
             presenter: TabBarPresenter(
                 interactor: interactor,
+                router: CoreRouter(router: router, builder: self),
                 delegate: delegate
             ),
             delegate: delegate

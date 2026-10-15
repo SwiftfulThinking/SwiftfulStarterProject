@@ -28,6 +28,10 @@ extension GlobalRouter {
     func dismissModal() {
         router.dismissModal()
     }
+
+    func dismissAllScreens() {
+        router.dismissAllScreens()
+    }
     
     func showNextScreen() throws {
         try router.tryShowNextScreen()
