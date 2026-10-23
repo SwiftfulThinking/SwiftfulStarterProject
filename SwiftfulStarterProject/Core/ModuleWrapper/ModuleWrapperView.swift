@@ -23,6 +23,19 @@ struct ModuleWrapperView<Content: View>: View {
             .onNotificationReceived(name: .pushNotification) { notification in
                 presenter.handlePushNotificationReceived(notification: notification, delegate: delegate)
             }
+            #if DEBUG
+            .overlay {
+                Image(systemName: "wrench.and.screwdriver")
+                    .font(.title2)
+                    .padding(16)
+                    .asButton(.press) {
+                        presenter.onDevSettingsButtonPressed()
+                    }
+                    .padding(.bottom, 24)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                    .ignoresSafeArea()
+            }
+            #endif
     }
 }
 

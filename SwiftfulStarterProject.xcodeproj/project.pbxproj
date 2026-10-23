@@ -1033,7 +1033,7 @@
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulPurchasing";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.6;
+				minimumVersion = 1.1.3;
 			};
 		};
 		028F9BD22CED1547009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulPurchasingRevenueCat" */ = {
@@ -1041,7 +1041,7 @@
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulPurchasingRevenueCat";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.2;
+				minimumVersion = 1.0.4;
 			};
 		};
 		028F9BD52CED155A009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulAuthenticating" */ = {
@@ -1049,7 +1049,7 @@
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulAuthenticating";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 1.0.16;
 			};
 		};
 		028F9BDD2CED1617009B9F48 /* XCRemoteSwiftPackageReference "SwiftfulUI" */ = {
