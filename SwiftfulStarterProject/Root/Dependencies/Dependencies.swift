@@ -33,7 +33,7 @@ struct Dependencies {
             logManager = LogManager(services: addLogging ? [
                 ConsoleService(printParameters: true, system: .stdout)
             ] : [])
-            authManager = AuthManager(service: MockAuthService(user: isSignedIn ? .mock() : nil), logger: logManager)
+            authManager = AuthManager(service: MockAuthService(user: isSignedIn ? .mock() : nil), logger: logManager, markerStore: InMemoryRealAccountMarkerStore())
             userManager = UserManager(userSyncEngine: DocumentSyncEngine<UserModel>(
                 remote: MockRemoteDocumentService(document: isSignedIn ? UserModel.mock : nil),
                 managerKey: "UserMan",
@@ -87,7 +87,7 @@ struct Dependencies {
                 logger: logManager
             )
             hapticManager = HapticManager(logger: logManager)
-            appState = AppState()
+            appState = AppState(startingModuleId: Dependencies.startingModuleId(authManager: authManager))
             streakManager = StreakManager(services: ProdStreakServices(), configuration: Dependencies.streakConfiguration, logger: logManager)
             xpManager = ExperiencePointsManager(services: ProdExperiencePointsServices(), configuration: Dependencies.xpConfiguration, logger: logManager)
             progressManager = ProgressManager(services: ProdProgressServices(), configuration: Dependencies.progressConfiguration, logger: logManager)
@@ -114,6 +114,19 @@ struct Dependencies {
         SwiftfulRoutingLogger.enableLogging(logger: logManager)
     }
     
+    /// REINSTALL FIX: a reinstall wipes UserDefaults (so `lastModuleId` is unset and the app would re-run
+    /// onboarding) but the keychain survives, so Firebase restores the previous session. A restored REAL account
+    /// already onboarded — start it in the core module. Restored anonymous sessions, fresh installs, and every
+    /// launch with a saved module id behave as before.
+    static func startingModuleId(authManager: AuthManager) -> String {
+        let savedModuleId = UserDefaults.lastModuleId
+        let hasSavedModuleId = savedModuleId == Constants.tabbarModuleId || savedModuleId == Constants.onboardingModuleId
+        if !hasSavedModuleId, let auth = authManager.auth, !auth.isAnonymous {
+            return Constants.tabbarModuleId
+        }
+        return savedModuleId
+    }
+
     static let streakConfiguration = StreakConfiguration(
         streakKey: Constants.streakKey,
         eventsRequiredPerDay: 1,

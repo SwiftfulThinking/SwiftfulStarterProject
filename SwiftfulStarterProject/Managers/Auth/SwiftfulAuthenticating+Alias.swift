@@ -12,6 +12,10 @@ typealias AuthManager = SwiftfulAuthenticating.AuthManager
 typealias MockAuthService = SwiftfulAuthenticating.MockAuthService
 typealias FirebaseAuthService = SwiftfulAuthenticatingFirebase.FirebaseAuthService
 typealias SignInOption = SwiftfulAuthenticating.SignInOption
+typealias AuthProviderOption = SwiftfulAuthenticating.AuthProviderOption
+typealias ReauthPromptPolicy = SwiftfulAuthenticating.ReauthPromptPolicy
+typealias RealAccountMarkerSource = SwiftfulAuthenticating.RealAccountMarkerSource
+typealias InMemoryRealAccountMarkerStore = SwiftfulAuthenticating.InMemoryRealAccountMarkerStore
 
 extension AuthLogType {
     

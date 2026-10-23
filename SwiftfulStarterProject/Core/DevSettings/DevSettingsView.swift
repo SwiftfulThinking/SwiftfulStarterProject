@@ -44,6 +44,7 @@ struct DevSettingsView: View {
             }
     }
             
+    @ViewBuilder
     private var abTestSection: some View {
         Section {
             Toggle("Onboarding Completed", isOn: $presenter.onboardingCompleted)
@@ -142,8 +143,7 @@ extension CoreBuilder {
 extension CoreRouter {
     
     func showDevSettingsView() {
-        let rootRouter = router.getRootRouter()
-        rootRouter.showScreen(.sheet) { router in
+        router.showScreen(.sheet, location: .append) { router in
             builder.devSettingsView(router: router)
         }
     }

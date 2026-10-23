@@ -222,8 +222,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulAuthenticating",
       "state" : {
-        "revision" : "51fe1d07dd309e2ca4598c0bb87f4cc9303e5652",
-        "version" : "1.0.15"
+        "revision" : "bae8bd67517a435535b89c7c1b7a70f5278b89c1",
+        "version" : "1.0.16"
       }
     },
     {
@@ -339,8 +339,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulPurchasing",
       "state" : {
-        "revision" : "e8326fdc299afef1ebf77ff2068481e1c04bec29",
-        "version" : "1.1.2"
+        "revision" : "30a89f528d5c64189436867c6e0fd061066ead04",
+        "version" : "1.1.3"
       }
     },
     {
@@ -348,8 +348,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulPurchasingRevenueCat",
       "state" : {
-        "revision" : "e5c9d2154ac3b653073a9e8d6cd51ff5678a723b",
-        "version" : "1.0.3"
+        "revision" : "1ee0aab1cf8ea37a8b5c43e5310957cb78a667a3",
+        "version" : "1.0.4"
       }
     },
     {
@@ -366,8 +366,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftfulThinking/SwiftfulRouting",
       "state" : {
-        "revision" : "4f3edfebf093f654fc2c2ac08cab628c18c14333",
-        "version" : "6.2.0"
+        "revision" : "6c2ec4ba512c6ee6f567ce4cb135f207dc7e283c",
+        "version" : "6.2.2"
       }
     },
     {

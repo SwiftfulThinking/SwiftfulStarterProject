@@ -8,6 +8,7 @@
 @MainActor
 protocol AppViewInteractor: GlobalInteractor {
     var auth: UserAuthInfo? { get }
+    var shouldBlockAnonMintForReauthentication: Bool { get }
     var startingModuleId: String { get }
     
     func logIn(user: UserAuthInfo, isNewUser: Bool) async throws

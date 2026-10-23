@@ -51,6 +51,14 @@ class AppPresenter {
                 try? await Task.sleep(for: .seconds(5))
                 await checkUserStatus()
             }
+        } else if interactor.shouldBlockAnonMintForReauthentication {
+            // MINT BLOCK (the re-auth cure): no session + a device-local marker of a real account = the session
+            // was revoked out from under the user (password reset, credential change, provider takeover). Minting
+            // here is what silently destroyed those accounts: the anonymous uid replaced the real one and purchases
+            // followed it. Skip the mint so the tab bar can prompt a sign-in BEFORE any junk account exists.
+            // Declining the prompt mints immediately (TabBarPresenter, purchases-protected); later launches
+            // re-prompt over that anonymous session up to the decline budget. Any real sign-in resets the budget.
+            interactor.trackEvent(event: Event.anonAuthBlockedForReauthentication)
         } else {
             // User is not authenticated
             interactor.trackEvent(event: Event.anonAuthStart)
@@ -115,6 +123,7 @@ extension AppPresenter {
         case anonAuthStart
         case anonAuthSuccess
         case anonAuthFail(error: Error)
+        case anonAuthBlockedForReauthentication
         case attStatus(dict: [String: Any])
         case fcmStart
         case fcmSuccess
@@ -129,6 +138,7 @@ extension AppPresenter {
             case .anonAuthStart:        return "AppView_AnonAuth_Start"
             case .anonAuthSuccess:      return "AppView_AnonAuth_Success"
             case .anonAuthFail:         return "AppView_AnonAuth_Fail"
+            case .anonAuthBlockedForReauthentication: return "AppView_AnonAuth_BlockedForReauth"
             case .attStatus:            return "AppView_ATTStatus"
             case .fcmStart:             return "AppView_FCM_Start"
             case .fcmSuccess:           return "AppView_FCM_Success"
