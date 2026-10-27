@@ -1065,7 +1065,7 @@
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 12.2.0;
+				minimumVersion = 13.0.0;
 			};
 		};
 		02B62BA32E662DD7008FB7FF /* XCRemoteSwiftPackageReference "SwiftfulAuthenticatingFirebase" */ = {
@@ -1081,7 +1081,7 @@
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulLoggingFirebaseAnalytics";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.4;
+				minimumVersion = 2.0.0;
 			};
 		};
 		02B62BA92E662DF3008FB7FF /* XCRemoteSwiftPackageReference "SwiftfulLoggingFirebaseCrashlytics" */ = {
@@ -1089,7 +1089,7 @@
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulLoggingFirebaseCrashlytics";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.1;
+				minimumVersion = 2.0.0;
 			};
 		};
 		02B62BAC2E662E14008FB7FF /* XCRemoteSwiftPackageReference "SwiftfulFirestore" */ = {
